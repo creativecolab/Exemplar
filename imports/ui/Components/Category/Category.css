@@ -1,0 +1,101 @@
+.MakeCategory {
+    padding-top: 0vh;
+}
+
+/* .MakeCategory input[type=text] {
+    width: 85%;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: black;
+    border-color: #00C39D;
+} */
+
+input[type=button] {
+    background-color: gray;
+    color: white;
+    border-radius: 3px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Noto Serif', serif;
+    font-size: 16px;
+}
+
+input[type=button]:hover {
+    transition-duration: 0.5s;
+    background-color: #4CAF50;
+    color: white;
+}
+
+input[type=button]:after {
+    background-color: gray;
+    color: white;
+}
+
+.Btn {
+    margin-left: 70%;
+}
+
+ul {
+    padding-left: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+.tag-box-pills {
+    padding-left: 1rem;
+}
+
+li {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    background-color: transparent;
+    border-color: #4CAF50;
+    border-radius: 1rem;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.remove {
+    margin-left: 0.5rem;
+}
+
+.tag-box-pill-text {
+    margin-left: 0.5rem;
+    color: #FFFFFF;
+}
+
+button {
+    padding: 0.1rem 0.3rem;
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
+
+ul .autocomplete {
+    color: #FFFFFF;
+    border-bottom: 1px solid #7e69c6;
+    padding: 1rem;
+}
+
+.tag-box {
+    color: #FFFFFF;
+    border-top: 1px solid #7e69c6;
+    border-left: 1px solid #7e69c6;
+    border-right: 1px solid #7e69c6;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.tag-box input {
+    color: #FFFFFF;
+    padding: 1rem;
+    border: 1px solid #7e69c6;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
