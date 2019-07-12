@@ -1,31 +1,195 @@
 import { Meteor } from 'meteor/meteor';
-import Links from '/imports/api/links';
+import Categories from '/imports/api/categories';
 
-function insertLink(title, url) {
-  Links.insert({ title, url, createdAt: new Date() });
+function insertCategory(label, condition, created_by, selected_count, created_at) {
+  Categories.insert({ label, condition, created_by, selected_count, created_at });
 }
 
 Meteor.startup(() => {
-  // If the Links collection is empty, add some data.
-  if (Links.find().count() === 0) {
-    insertLink(
-      'Do the Tutorial',
-      'https://www.meteor.com/tutorials/react/creating-an-app'
+
+  if (Categories.find().count() === 0) {
+    insertCategory(
+      'bike',
+      'surface',
+      'admin',
+      0,
+      new Date(),
     );
 
-    insertLink(
-      'Follow the Guide',
-      'http://guide.meteor.com'
+    insertCategory(
+      'app',
+      'surface',
+      'admin',
+      0,
+      new Date(),
     );
 
-    insertLink(
-      'Read the Docs',
-      'https://docs.meteor.com'
+    insertCategory(
+      'car',
+      'surface',
+      'admin',
+      0,
+      new Date(),
     );
 
-    insertLink(
-      'Discussions',
-      'https://forums.meteor.com'
+    insertCategory(
+      'scooter',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+
+    insertCategory(
+      'carpool',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'cab',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'rideshare',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'sharing/share',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bus',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'cost',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'vehicle',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'low-income',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'late night',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'safe/safety',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'membership',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'paid service',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+    insertCategory(
+      'eligibility/benefits',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'efficient',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'privileged riders',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
     );
   }
 });

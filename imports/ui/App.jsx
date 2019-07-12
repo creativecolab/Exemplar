@@ -3,17 +3,18 @@ import React, { Component } from 'react';
 import LeftPane from './Components/LeftPane.jsx';
 import './App.css';
 import $ from "jquery";
-import {Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import Example from './Components/Example/Example';
 
+import { withTracker } from 'meteor/react-meteor-data';
+
+
 class App extends Component {
   componentDidMount() {
-    // Here is a quick example if you (really want to) use jQuery
-    // with React :)
     setTimeout(() => {
       $(this.refs.intro).slideUp();
-    }, 200);
+    }, 200);    
   }
 
   displayExamples = () => {
@@ -30,6 +31,15 @@ class App extends Component {
   }
 
   render() {
+
+    const { links } = this.props;
+
+    if (!links) {
+      return "";
+    } 
+    console.log(links);
+
+
     return (
       <div className="App">
         <Container fluid="true">
@@ -51,4 +61,6 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withTracker(() => ({
+  links: Links.find().fetch()
+}))(App);
