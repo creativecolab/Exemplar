@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import LeftPane from './Components/LeftPane/LeftPane.jsx';
 import Example from './Components/Example/Example.jsx';
+import Category from './Components/Category/Category.jsx';
 import './App.css';
-import $ from "jquery"; 
+import $ from "jquery";
 
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
@@ -63,7 +63,12 @@ class App extends Component {
         <Container fluid="true">
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LeftPane categories={this.props.categories} />
+              <div className="LeftPane">
+                <div className="LeftPane-header">
+                  Categories
+                 </div>
+                <Category category={this.props.category} />
+              </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
