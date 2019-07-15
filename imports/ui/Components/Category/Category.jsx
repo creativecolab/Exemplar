@@ -1,7 +1,10 @@
 import { List } from 'immutable';
 import React, { Component } from 'react';
 import { TagBox, TAG_REJECTED } from 'react-tag-box';
+import { withTracker } from 'meteor/react-meteor-data';
+
 import './Category.css';
+import Categories from '../../../api/categories.js';
 
 const surfaceTags = List(
     ['bike', 'app', 'car', 'scooter', 'carpool', 'cab', 'rideshare', 'sharing/share',
@@ -11,10 +14,15 @@ const surfaceTags = List(
         }))
 )
 
-export default class Category extends Component {
+class Category extends Component {
     componentWillReceiveProps() {
         console.log(this.props.children);
+
+        // var tagArr = List(Categories.find({ condition: 'surface' }).fetch().map((elem) => {
+        //     console.log("LABEL" + elem.label);
+        // }));
     }
+
     state = {
         tags: surfaceTags,
         selected: surfaceTags.take(surfaceTags.size)
@@ -64,4 +72,9 @@ export default class Category extends Component {
     }
 }
 
-
+export default withTracker(() => {
+    return {
+    //   examples: Examples.find({}).fetch(),
+      categories: Categories.find({}).fetch(),
+    }
+})(Category);
