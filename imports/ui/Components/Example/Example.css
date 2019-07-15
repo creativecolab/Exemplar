@@ -10,12 +10,14 @@
   transform: translate(-50%, -50%);
   max-width: 400px;
   /* height: 25%; */
+  cursor: default;
 }
 
 .exampleContainer {
   position: relative;
   margin: 6px;
   height: 100%;
+  cursor: pointer;
 }
 
 .exampleGradient {
@@ -36,4 +38,5 @@
   background: #535353;
   overflow: hidden;
   text-align: left;
+  cursor: pointer;
 }

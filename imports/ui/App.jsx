@@ -60,7 +60,7 @@ class App extends Component {
         <Container fluid="true">
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LeftPane />
+              <LeftPane categories={this.props.categories}/>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
