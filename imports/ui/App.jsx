@@ -7,8 +7,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import './App.css';
 import LeftPane from './Components/LeftPane/LeftPane.jsx';
 import Example from './Components/Example/Example.jsx';
+
+import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
-import Categories from '../api/categories.js'
 
 class App extends Component {
   constructor(props) {
@@ -27,14 +28,14 @@ class App extends Component {
 
   exampleClicked = (event, id) => {
     event.preventDefault();
-    var ex = Examples.findOne({_id: id});
+    var ex = Examples.findOne({ _id: id });
     this.setState({ exampleClicked: ex });
   }
 
   exampleUnclicked = (event) => {
     console.log(event.target);
     event.preventDefault();
-    if(event.target.className === "exampleContainer") {
+    if (event.target.className === "exampleContainer") {
       this.setState({ exampleClicked: null });
     }
   }
@@ -45,7 +46,7 @@ class App extends Component {
 
     for (var i = 0; i < this.props.examples.length; i++) {
       currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} clickHandler={this.exampleClicked} />);
-      if(((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
+      if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
         allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
         currRow = [];
       }
@@ -55,23 +56,26 @@ class App extends Component {
   }
 
   render() {
+    // const propCategories = this.props.categories;
+    // console.log(propCategories);
+    // console.log(Categories.find());
     return (
       <div className="App">
         <Container fluid="true">
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LeftPane categories={this.props.categories}/>
+              <LeftPane categories={this.props.categories} />
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
-                <Container style={{position: "relative"}}>
+                <Container style={{ position: "relative" }}>
                   {this.displayExamples()}
-                  {this.state.exampleClicked ? 
+                  {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
-                      <Example example={this.state.exampleClicked} clicked={true} clickHandler={null}/>
+                      <Example example={this.state.exampleClicked} clicked={true} clickHandler={null} />
                     </div>
                     :
-                    null  
+                    null
                   }
                 </Container>
               </div>

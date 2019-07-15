@@ -1,16 +1,24 @@
 import { Meteor } from 'meteor/meteor';
 import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
+import Data from '/imports/Data/Data.json';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: null, created_at: null });
 }
 
-function insertCategory(label, condition, created_by, selected_count, created_at) {
-  Categories.insert({ label, condition, created_by, selected_count, created_at });
+function insertCategory(label, condition, created_by) {
+  Categories.insert({ label, condition, created_by, selected_count: 0, created_at: (new Date()) });
 }
 
 Meteor.startup(() => {
+  // const options = {
+  //   "projection": { "created_by": 1 },
+  // };
+  // console.log(Categories.find({},options));
+  console.log(Categories.find().count());
+  // TODO check if all the current items in DB are admin or not to be displayed.
+
   if (Examples.find().count() === 0) {
     insertExample(
       null,
@@ -25,7 +33,7 @@ Meteor.startup(() => {
       null,
       null
     );
-    
+
     insertExample(
       null,
       'Private individuals volunteer their vehicles as part of a carpool service from the subway station. A supporting mobile application finds and matches riders to carpools and the subway police verify the matchings by ensuring the right rider gets into the right carpool vehicle.',
@@ -133,188 +141,12 @@ Meteor.startup(() => {
   }
 
   if (Categories.find().count() === 0) {
-    insertCategory(
-      'bike',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'app',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'car',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'scooter',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-
-    insertCategory(
-      'carpool',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'cab',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'rideshare',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'sharing/share',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'bus',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'cost',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'vehicle',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'low-income',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'late night',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'safe/safety',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'membership',
-      'surface',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'paid service',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-    insertCategory(
-      'eligibility/benefits',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'efficient',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'privileged riders',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'bike',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'bike',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'bike',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
-
-    insertCategory(
-      'bike',
-      'deep',
-      'admin',
-      0,
-      new Date(),
-    );
+    console.log("adsasdasdas");
+    Data.tags.forEach(element => {
+      insertCategory(
+        element.label, element.condition, element.created_by
+      );
+    });
   }
+  console.log(Categories.find().count());
 });

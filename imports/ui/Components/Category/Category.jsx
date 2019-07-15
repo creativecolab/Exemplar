@@ -14,22 +14,40 @@ const surfaceTags = List(
         }))
 )
 
-class Category extends Component {
-    componentWillReceiveProps() {
-        console.log(this.props.children);
+// function displayCategories(CategoryObj) {
+//     var i;
+//     var allCategories = [];
+//     var CategoryArray = CategoryObj.Categories.Categories;
+//     console.log(CategoryArray);
+//     for (i = 0; i < CategoryArray.length; i++) {
+//         allCategories.push(CategoryArray[i].label);
+//     }
+//     console.log(allCategories);
+//     return List(allCategories.map(t => ({
+//         label: t,
+//         value: t,
+//     })));
+// }
 
-        // var tagArr = List(Categories.find({ condition: 'surface' }).fetch().map((elem) => {
-        //     console.log("LABEL" + elem.label);
-        // }));
-    }
+
+class Category extends Component {
 
     state = {
         tags: surfaceTags,
-        selected: surfaceTags.take(surfaceTags.size)
+        selected: surfaceTags.take(surfaceTags.size),
     }
 
     render() {
+        // const ss = displayCategories(this.props.category);
+        // console.log(ss);
+        // console.log(ss.take(ss.size));
+        // this.state = {
+        //     tags: ss,
+        //     selected: ss.take(ss.size),
+        // }
+
         const { tags, selected } = this.state;
+
         const onSelect = tag => {
             if (tag.label.includes('@')) {
                 return TAG_REJECTED;
@@ -74,7 +92,6 @@ class Category extends Component {
 
 export default withTracker(() => {
     return {
-    //   examples: Examples.find({}).fetch(),
-      categories: Categories.find({}).fetch(),
+        categories: Categories.find({}).fetch(),
     }
 })(Category);
