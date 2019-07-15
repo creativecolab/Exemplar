@@ -1,21 +1,21 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import LeftPane from './Components/LeftPane.jsx';
-import './App.css';
-import $ from "jquery";
 import { Container, Row, Col } from 'react-bootstrap';
+import LeftPane from './Components/LeftPane/LeftPane.jsx';
+import Example from './Components/Example/Example.jsx';
+import './App.css';
+// import $ from "jquery"; 
 
-import Example from './Components/Example/Example';
-
+import Categories from '../api/categories.js';
 import { withTracker } from 'meteor/react-meteor-data';
 
 
 class App extends Component {
-  componentDidMount() {
-    setTimeout(() => {
-      $(this.refs.intro).slideUp();
-    }, 200);    
-  }
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     $(this.refs.intro).slideUp();
+  //   }, 200);
+  // }
 
   displayExamples = () => {
     var i, j;
@@ -31,21 +31,16 @@ class App extends Component {
   }
 
   render() {
-
-    const { links } = this.props;
-
-    if (!links) {
-      return "";
-    } 
-    console.log(links);
-
+    const propCategories = this.props.categories;
+    console.log(propCategories);
+    console.log(Categories.find());
 
     return (
       <div className="App">
         <Container fluid="true">
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LeftPane />
+              <LeftPane category={propCategories} />
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
@@ -62,5 +57,5 @@ class App extends Component {
 }
 
 export default withTracker(() => ({
-  links: Links.find().fetch()
+  categories: Categories.find({}).fetch().collection._docs._map
 }))(App);

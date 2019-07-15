@@ -12,8 +12,6 @@ class Example extends Component {
     }
   }
 
-  
-
   clicked = () => {
     var oldVal = this.state.clicked;
     this.setState({ clicked: !oldVal });

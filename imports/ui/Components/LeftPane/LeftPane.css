@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+.LeftPane {
+  text-align: center;
+  background-color: #535353;
+  height: 100vh;
+}
+
+.LeftPane-header {
+  color: #ffffff;
+  font-size: 4em;
+  font-family: 'Noto Serif', serif;
+}
