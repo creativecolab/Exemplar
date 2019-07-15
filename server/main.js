@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-<<<<<<< HEAD
-import Categories from '../imports/api/categories.js';
+import Examples from '/imports/api/examples';
+import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
 
 function insertCategory(label, condition, created_by) {
@@ -14,19 +14,11 @@ Meteor.startup(() => {
   // console.log(Categories.find({},options));
   console.log(Categories.find().count());
   // TODO check if all the current items in DB are admin or not to be displayed.
-=======
-import Examples from '/imports/api/examples';
-import Categories from '/imports/api/categories';
 
-function insertExample(condition, description, image, url) {
-  Examples.insert({ condition, description, image, url, created_by: null, created_at: null });
-}
+  function insertExample(condition, description, image, url) {
+    Examples.insert({ condition, description, image, url, created_by: null, created_at: null });
+  }
 
-function insertCategory(label, condition, created_by, selected_count, created_at) {
-  Categories.insert({ label, condition, created_by, selected_count, created_at });
-}
-
-Meteor.startup(() => {
   if (Examples.find().count() === 0) {
     insertExample(
       null,
@@ -41,7 +33,7 @@ Meteor.startup(() => {
       null,
       null
     );
-    
+
     insertExample(
       null,
       'Private individuals volunteer their vehicles as part of a carpool service from the subway station. A supporting mobile application finds and matches riders to carpools and the subway police verify the matchings by ensuring the right rider gets into the right carpool vehicle.',
@@ -148,7 +140,6 @@ Meteor.startup(() => {
     );
   }
 
->>>>>>> 7a6ff443d544bbc3bc145c3c481dc25fdc92d6ff
   if (Categories.find().count() === 0) {
     console.log("adsasdasdas");
     Data.tags.forEach(element => {

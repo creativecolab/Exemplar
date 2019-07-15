@@ -6,45 +6,45 @@ import { withTracker } from 'meteor/react-meteor-data';
 import './Category.css';
 import Categories from '../../../api/categories.js';
 
-// const surfaceTags = List(
-//     ['bike', 'app', 'car', 'scooter', 'carpool', 'cab', 'rideshare', 'sharing/share',
-//         'bus', 'cost', 'vehicle', 'low-income', 'late-night', 'safe/safety', 'membership'].map(t => ({
-//             label: t,
-//             value: t
-//         }))
-// )
+const surfaceTags = List(
+    ['bike', 'app', 'car', 'scooter', 'carpool', 'cab', 'rideshare', 'sharing/share',
+        'bus', 'cost', 'vehicle', 'low-income', 'late-night', 'safe/safety', 'membership'].map(t => ({
+            label: t,
+            value: t
+        }))
+)
 
-function displayCategories(CategoryObj) {
-    var i;
-    var allCategories = [];
-    var CategoryArray = CategoryObj.Categories.Categories;
-    console.log(CategoryArray);
-    for (i = 0; i < CategoryArray.length; i++) {
-        allCategories.push(CategoryArray[i].label);
+// function displayCategories(CategoryObj) {
+//     var i;
+//     var allCategories = [];
+//     var CategoryArray = CategoryObj.Categories.Categories;
+//     console.log(CategoryArray);
+//     for (i = 0; i < CategoryArray.length; i++) {
+//         allCategories.push(CategoryArray[i].label);
+//     }
+//     console.log(allCategories);
+//     return List(allCategories.map(t => ({
+//         label: t,
+//         value: t,
+//     })));
+// }
+
+
+class Category extends Component {
+
+    state = {
+        tags: surfaceTags,
+        selected: surfaceTags.take(surfaceTags.size),
     }
-    console.log(allCategories);
-    return List(allCategories.map(t => ({
-        label: t,
-        value: t,
-    })));
-}
-
-
-export default class Category extends Component {
-
-    // state = {
-    //     tags: surfaceTags,
-    //     selected: surfaceTags.take(surfaceTags.size),
-    // }
 
     render() {
-        const ss = displayCategories(this.props.category);
-        console.log(ss);
-        console.log(ss.take(ss.size));
-        this.state = {
-            tags: ss,
-            selected: ss.take(ss.size),
-        }
+        // const ss = displayCategories(this.props.category);
+        // console.log(ss);
+        // console.log(ss.take(ss.size));
+        // this.state = {
+        //     tags: ss,
+        //     selected: ss.take(ss.size),
+        // }
 
         const { tags, selected } = this.state;
 
@@ -92,6 +92,6 @@ export default class Category extends Component {
 
 export default withTracker(() => {
     return {
-      categories: Categories.find({}).fetch(),
+        categories: Categories.find({}).fetch(),
     }
 })(Category);
