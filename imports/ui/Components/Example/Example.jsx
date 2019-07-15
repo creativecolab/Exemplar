@@ -6,32 +6,22 @@ import './Example.css'
 class Example extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      clicked: false,
-    }
-  }
-
-  clicked = () => {
-    var oldVal = this.state.clicked;
-    this.setState({ clicked: !oldVal });
-    console.log(this.state);
   }
 
   render() {
     return (
-      <div className="exampleContainer" onClick={this.clicked}>
-        <Card text="white" className={this.state.clicked ? "exampleCardClicked" : "exampleCard"}>
+      <div className="exampleContainer" onClick={this.props.clickHandler ? ((event) => this.props.clickHandler(event, this.props.example._id)) : null}>
+        <Card text="white" className={this.props.clicked ? "exampleCardClicked" : "exampleCard"}>
           <Card.Body>
             <Card.Text>
-              {this.props.description}
+              {this.props.example.description}
             </Card.Text>
           </Card.Body>
         </Card>
-        {this.state.clicked ? 
-          null
+        {!this.props.clicked ? 
+          <div className="exampleGradient"><span></span></div>
           :
-          <div id="gradient"><span></span></div>
+          null
         }
       </div>
     )

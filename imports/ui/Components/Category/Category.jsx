@@ -1,7 +1,10 @@
 import { List } from 'immutable';
 import React, { Component } from 'react';
 import { TagBox, TAG_REJECTED } from 'react-tag-box';
+import { withTracker } from 'meteor/react-meteor-data';
+
 import './Category.css';
+import Categories from '../../../api/categories.js';
 
 // const surfaceTags = List(
 //     ['bike', 'app', 'car', 'scooter', 'carpool', 'cab', 'rideshare', 'sharing/share',
@@ -86,3 +89,9 @@ export default class Category extends Component {
         )
     }
 }
+
+export default withTracker(() => {
+    return {
+      categories: Categories.find({}).fetch(),
+    }
+})(Category);
