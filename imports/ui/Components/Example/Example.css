@@ -1,27 +1,15 @@
-/* #container {
-  position: relative;
-  background-color: #535353;
-  height: 200px;
-  max-width: 200px;
-  border-radius: 20px;
-  margin: 5px;
-  padding-top: 5px;
-  padding-bottom: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-  text-align: left;
-  overflow: hidden;
-  color: white;
-} */
-
 .exampleCardClicked {
   border-radius: 20px;
   background: #535353;
-  overflow: hidden;
+  /* overflow: hidden; */
   text-align: left;
-  position: relative;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
   max-width: 400px;
-  height: 100%
+  height: 25%;
 }
 
 .exampleContainer {
@@ -30,7 +18,7 @@
   height: 100%;
 }
 
-#gradient {
+.exampleGradient {
   position: absolute;
   bottom: 0px;
   left: 0px;

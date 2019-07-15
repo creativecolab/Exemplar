@@ -1,8 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import Examples from '/imports/api/examples';
+import Categories from '/imports/api/categories';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: null, created_at: null });
+}
+
+function insertCategory(label, condition, created_by, selected_count, created_at) {
+  Categories.insert({ label, condition, created_by, selected_count, created_at });
 }
 
 Meteor.startup(() => {
@@ -30,7 +35,7 @@ Meteor.startup(() => {
 
     insertExample(
       null,
-      'A door-to-bus smartphone app (also available through call center) books and catches a ride on transportation hub. It&apos;s $1 to connect to a designated bus stop within the zone or $3 connect anywhere within the zone.',
+      "A door-to-bus smartphone app (also available through call center) books and catches a ride on transportation hub. It's $1 to connect to a designated bus stop within the zone or $3 connect anywhere within the zone.",
       null,
       null
     );
@@ -100,7 +105,7 @@ Meteor.startup(() => {
 
     insertExample(
       null,
-      'Electric car ridesharing program that brings 100 electric car sharing vehicles and 200 charging stations to the city&apos;s poorest neighborhoods.',
+      "Electric car ridesharing program that brings 100 electric car sharing vehicles and 200 charging stations to the city's poorest neighborhoods.",
       null,
       null
     );
@@ -124,6 +129,192 @@ Meteor.startup(() => {
       'For those who either want to bike longer or harder distances or have a medical condition, product company develops a bike powered by batteries, called e-bikes .',
       null,
       null
+    );
+  }
+
+  if (Categories.find().count() === 0) {
+    insertCategory(
+      'bike',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'app',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'car',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'scooter',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+
+    insertCategory(
+      'carpool',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'cab',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'rideshare',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'sharing/share',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bus',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'cost',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'vehicle',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'low-income',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'late night',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'safe/safety',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'membership',
+      'surface',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'paid service',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+    insertCategory(
+      'eligibility/benefits',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'efficient',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'privileged riders',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
+    );
+
+    insertCategory(
+      'bike',
+      'deep',
+      'admin',
+      0,
+      new Date(),
     );
   }
 });

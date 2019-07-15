@@ -1,38 +1,56 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import LeftPane from './Components/LeftPane.jsx';
-import './App.css';
-import $ from "jquery";
+import $ from 'jquery';
 import {Container, Row, Col } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import Example from './Components/Example/Example';
-import { Examples } from '../api/examples';
+import './App.css';
+import LeftPane from './Components/LeftPane.jsx';
+import Example from './Components/Example/Example.jsx';
+import Examples from '../api/examples.js';
+import Categories from '../api/categories.js'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      exampleClicked: null,
+    }
+  }
+
   componentDidMount() {
-    // Here is a quick example if you (really want to) use jQuery
-    // with React :)
     setTimeout(() => {
       $(this.refs.intro).slideUp();
     }, 200);
+  }
 
-    // this.state = {
-    //   exampleClicked: false,
-    // }
+  exampleClicked = (event, id) => {
+    event.preventDefault();
+    var ex = Examples.findOne({_id: id});
+    this.setState({ exampleClicked: ex });
+  }
+
+  exampleUnclicked = (event) => {
+    console.log(event.target);
+    event.preventDefault();
+    if(event.target.className === "exampleContainer") {
+      this.setState({ exampleClicked: null });
+    }
   }
 
   displayExamples = () => {
-    console.log(this.props.examples);
-    var i, j;
     var allExamples = [];
-    for (i = 0; i < 3; i++) {
-      var rowExamples = [];
-      for (j = 0; j < 4; j++) {
-        rowExamples.push(<Example key={"ex" + j} content="City public transit system partners with a private autonomous vehicle company to provide AV rides from people who get off the metro.City public transit system partners with a private autonomous vehicle company to provide AV rides from people who get off the metro.City public transit system partners with a private autonomous vehicle company to provide AV rides from people who get off the metro." />);
+    var currRow = [];
+
+    for (var i = 0; i < this.props.examples.length; i++) {
+      currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} clickHandler={this.exampleClicked} />);
+      if(((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
+        allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
+        currRow = [];
       }
-      allExamples.push(<Row key={"row" + i}>{rowExamples}</Row>);
     }
+
     return <div>{allExamples}</div>
   }
 
@@ -46,8 +64,15 @@ class App extends Component {
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
-                <Container>
+                <Container style={{position: "relative"}}>
                   {this.displayExamples()}
+                  {this.state.exampleClicked ? 
+                    <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
+                      <Example example={this.state.exampleClicked} clicked={true} clickHandler={null}/>
+                    </div>
+                    :
+                    null  
+                  }
                 </Container>
               </div>
             </Col>
@@ -61,5 +86,6 @@ class App extends Component {
 export default withTracker(() => {
   return {
     examples: Examples.find({}).fetch(),
-  };
+    categories: Categories.find({}).fetch(),
+  }
 })(App);
