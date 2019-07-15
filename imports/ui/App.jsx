@@ -5,7 +5,7 @@ import {Container, Row, Col } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import './App.css';
-import LeftPane from './Components/LeftPane.jsx';
+import LeftPane from './Components/LeftPane/LeftPane.jsx';
 import Example from './Components/Example/Example.jsx';
 import Examples from '../api/examples.js';
 import Categories from '../api/categories.js'

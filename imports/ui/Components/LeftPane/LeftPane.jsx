@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Category from './Category/Category.jsx';
+import Category from '../Category/Category.jsx';
 import './LeftPane.css';
 
 class LeftPane extends Component {
