@@ -5,7 +5,7 @@ import {Container, Row, Col } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import './App.css';
-import LeftPane from './Components/LeftPane/LeftPane.jsx';
+import Category from './Components/Category/Category.jsx';
 import Example from './Components/Example/Example.jsx';
 
 import Categories from '../api/categories.js';
@@ -17,6 +17,7 @@ class App extends Component {
 
     this.state = {
       exampleClicked: null,
+      categoriesSelected: [],
     }
   }
 
@@ -26,6 +27,19 @@ class App extends Component {
     }, 200);
   }
 
+  categoryClicked = (id) => {
+    var newArr = this.state.categoriesSelected;
+    var idx = newArr.indexOf(id);
+    if(idx !== -1) {
+      newArr.splice(idx, 1);
+    } else { 
+      newArr.push(id);
+    }
+    this.setState({ categoriesSelected: newArr });
+
+    console.log(this.state.categoriesSelected);
+  }
+
   exampleClicked = (event, id) => {
     event.preventDefault();
     var ex = Examples.findOne({ _id: id });
@@ -33,11 +47,22 @@ class App extends Component {
   }
 
   exampleUnclicked = (event) => {
-    console.log(event.target);
     event.preventDefault();
     if (event.target.className === "exampleContainer") {
       this.setState({ exampleClicked: null });
     }
+  }
+
+  displayCategories = () => {
+    // FILTER CATEGORIES HERE
+    // Category.find({ condition: 'surface' }).fetch();
+    var allCategories = [];
+
+    for(var i = 0; i < this.props.categories.length; i++) {
+      allCategories.push(<Category key={this.props.categories[i]._id} category={this.props.categories[i]} categoryClicked={this.categoryClicked} />);
+    }
+    
+    return <div style={{padding: '10px'}}>{allCategories}</div>
   }
 
   displayExamples = () => {
@@ -45,7 +70,7 @@ class App extends Component {
     var currRow = [];
 
     for (var i = 0; i < this.props.examples.length; i++) {
-      currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} clickHandler={this.exampleClicked} />);
+      currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
       if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
         allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
         currRow = [];
@@ -56,15 +81,17 @@ class App extends Component {
   }
 
   render() {
-    // const propCategories = this.props.categories;
-    // console.log(propCategories);
-    // console.log(Categories.find());
     return (
       <div className="App">
         <Container fluid="true">
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <LeftPane categories={this.props.categories} />
+              <div className="LeftPane">
+                <div className="LeftPane-header">
+                  Categories
+                </div>
+                {this.displayCategories()}
+              </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">

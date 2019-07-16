@@ -8,7 +8,7 @@
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  max-width: 400px;
+  max-width: 600px;
   /* height: 25%; */
   cursor: default;
 }
@@ -22,10 +22,10 @@
 
 .exampleGradient {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 2px;
+  left: 2px;
   height: 50px;
-  width: 200px; 
+  width: 196px; 
   background: linear-gradient(to bottom, #53535300, #535353 65%);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -39,4 +39,27 @@
   overflow: hidden;
   text-align: left;
   cursor: pointer;
+  border: 2px solid #00C39D;
+}
+
+#newCategory {
+  display: inline-block;
+  border: 2px solid #00C39D;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  color: white;
+  background: #00C39D;
+}
+
+input[type=text] {
+  background-color: #00C39D;
+  border: none;
+  color: white;
+}
+
+::placeholder {
+  color: white;
 }
