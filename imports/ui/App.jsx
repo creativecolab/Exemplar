@@ -10,6 +10,7 @@ import Example from './Components/Example/Example.jsx';
 
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
+import CategoryInstances from '../api/categoryInstances.js';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
     this.state = {
       exampleClicked: null,
       categoriesSelected: [],
+      examples: [],
     }
   }
 
@@ -25,6 +27,9 @@ class App extends Component {
     setTimeout(() => {
       $(this.refs.intro).slideUp();
     }, 200);
+
+    var allEx = Examples.find({}).fetch();
+    this.setState({ examples: allEx });
   }
 
   categoryClicked = (id) => {
@@ -35,9 +40,22 @@ class App extends Component {
     } else { 
       newArr.push(id);
     }
+
     this.setState({ categoriesSelected: newArr });
 
-    console.log(this.state.categoriesSelected);
+    var examplesAdded = [];
+    var exObjs = [];
+    for(var i = 0; i < this.state.categoriesSelected.length; i++) {
+      var instances = CategoryInstances.find({ category_id: this.state.categoriesSelected[i] }).fetch();
+      for(var j = 0; j < instances.length; j++) {
+        if(examplesAdded.indexOf(instances[j].example_id) === -1) {
+          var ex = Examples.findOne({ _id: instances[j].example_id });
+          exObjs.push(ex);
+          examplesAdded.push(ex._id);
+        }
+      }
+    }
+    this.setState({ examples: exObjs });
   }
 
   exampleClicked = (event, id) => {
@@ -66,14 +84,26 @@ class App extends Component {
   }
 
   displayExamples = () => {
+    var examplesAdded = [];
     var allExamples = [];
     var currRow = [];
 
-    for (var i = 0; i < this.props.examples.length; i++) {
-      currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
-      if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
-        allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
-        currRow = [];
+    if(this.state.examples.length === 0) {
+      for (var i = 0; i < this.props.examples.length; i++) {
+        currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
+        if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
+          allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
+          currRow = [];
+        }
+      }
+    } else {
+      for (var i = 0; i < this.state.examples.length; i++) {
+        currRow.push(<Example key={this.state.examples[i]._id} example={this.state.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
+        if (((i % 4) == 3) || (i == (this.state.examples.length - 1))) {
+          console.log("Adding row with index: " + i);
+          allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
+          currRow = [];
+        }
       }
     }
 
@@ -118,5 +148,6 @@ export default withTracker(() => {
   return {
     examples: Examples.find({}).fetch(),
     categories: Categories.find({}).fetch(),
+    categoryInstances: CategoryInstances.find({}).fetch(),
   }
 })(App);

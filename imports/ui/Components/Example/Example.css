@@ -48,7 +48,7 @@
   border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
   margin-bottom: 5px;
   color: white;
   background: #00C39D;
@@ -63,3 +63,7 @@ input[type=text] {
 ::placeholder {
   color: white;
 }
+
+/* #exampleCategoryContainer {
+  padding-left: -100px;
+} */

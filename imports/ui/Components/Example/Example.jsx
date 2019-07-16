@@ -22,8 +22,9 @@ class Example extends Component {
     var allCategories = [];
 
     var instances = CategoryInstances.find({ example_id: this.props.example._id }).fetch();
-    for(var i = 0; i < this.props.categories.length; i++) {
-      allCategories.push(<Category key={this.props.categories[i]._id} category={this.props.categories[i]} categoryClicked={this.categoryClicked} />);
+    for(var i = 0; i < instances.length; i++) {
+      var curr = Categories.findOne({ _id: instances[i].category_id });
+      allCategories.push(<Category key={curr._id} category={curr} categoryClicked={this.categoryClicked} />);
     }
     
     return <div>{allCategories}</div>
@@ -34,15 +35,31 @@ class Example extends Component {
     this.setState({ newCategoryVal: newVal });
   }
 
+  createInstance = (catID) => {
+    this.setState({ newCategoryVal: '' });
+    Meteor.call('categoryInstances.insert', {catID: catID, exampleID: this.props.example._id});
+  }
+
   addNew = (event) => {
     event.preventDefault();
-    if(Categories.find({ label: this.state.newCategoryVal })) {
-      Meteor.call('categories.increment', this.state.newCategoryVal);
-    } else {
-      // Meteor.call('categories.insert', this.state.newCategoryVal); // TODO Determine what else needs to be passed to create new Categories - condition -- should be null. user?
-    }
 
-    // Meteor.call('categoryInstances.insert', ) TODO Determine what needs to be passed to create new CategoryInstances - example_id, category_id (from above)
+    if(Categories.findOne({ label: this.state.newCategoryVal })) {
+      Meteor.call('categories.increment', this.state.newCategoryVal, (err, result) => {
+        if(err) {
+          throw new Meteor.Error('call to categories.increment produced an error');
+        } else {
+          this.createInstance(result);
+        }
+      });
+    } else {
+      Meteor.call('categories.insert', this.state.newCategoryVal, (err, result) => {
+        if(err) {
+          throw new Meteor.Error('call to categories.insert produced an error');
+        } else {
+          this.createInstance(result);
+        }
+      });
+    }
   }
 
   render() {
@@ -53,7 +70,7 @@ class Example extends Component {
             <Card.Text>
               {this.props.example.description}
             </Card.Text>
-            <div>
+            <div className="exampleCategoryContainer">
               {this.displayCategories()}
               <form id="newCategory" onSubmit={this.addNew}>
                 <input id="newCategoryInput" type="text" value={this.state.newCategoryVal} placeholder="add a new category..." onChange={this.handleNewCategoryChange} />

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
+import CategoryInstances from '/imports/api/categoryInstances.js';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
