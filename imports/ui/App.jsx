@@ -1,14 +1,15 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import Example from './Components/Example/Example.jsx';
-import Category from './Components/Category/Category.jsx';
-import './App.css';
 import $ from "jquery";
+import { Container, Row, Col } from 'react-bootstrap';
+import { withTracker } from 'meteor/react-meteor-data';
+
+import './App.css';
+import Category from './Components/Category/Category.jsx';
+import Example from './Components/Example/Example.jsx';
 
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
-import { withTracker } from 'meteor/react-meteor-data';
 
 class App extends Component {
   constructor(props) {
@@ -55,9 +56,6 @@ class App extends Component {
   }
 
   render() {
-    // const propCategories = this.props.categories;
-    // console.log(propCategories);
-    // console.log(Categories.find());
     return (
       <div className="App">
         <Container fluid="true">

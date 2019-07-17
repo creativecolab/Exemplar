@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+.Landing {
+    overflow-x: hidden;
+    background-color: #cacaca;
+    min-height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    margin: 0 0;
+    padding: 0 0;
+}
+
+.box {
+    background-color: #535353;
+    border-color: #adcffc;
+    border-radius: 20px;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    padding-right: 1.5vw;
+    padding-left: 1.5vw;
+}
+
+
+.text {
+    color: #FFFFFF;
+    font-family: 'Noto Serif', serif;
+    align-content: center;
+    text-align: left;
+}
+
+.next {
+    padding-left: 80%;
+    padding-top: 5vh;
+}
+
+.btn {
+    color: #FFFDFD;
+    font-family: 'Noto Serif', serif;
+    padding: .5rem 2.5rem;
+    background-color: #00C39D;
+}
+
+.btn-success {
+    border-color: none;
+}
+
+.problemInput {
+    text-align: left;
+    width: 70%;
+    background-color: transparent;
+    color: white;
+    border-color: transparent;
+}
+
+.placeholder {
+    text-align: center;
+}
