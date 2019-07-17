@@ -13,13 +13,6 @@ function insertCategory(label, condition, created_by) {
 }
 
 Meteor.startup(() => {
-  // const options = {
-  //   "projection": { "created_by": 1 },
-  // };
-  // console.log(Categories.find({},options));
-  // console.log(Categories.find().count());
-  // TODO check if all the current items in DB are admin or not to be displayed.
-
   if (Examples.find().count() === 0) {
     insertExample(
       null,

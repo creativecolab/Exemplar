@@ -11,7 +11,7 @@ class Category extends Component {
             selected: false,
         }
     }
-
+  
     clicked = (event, id) => {
         event.preventDefault();
         this.setState({ selected: !this.state.selected });
