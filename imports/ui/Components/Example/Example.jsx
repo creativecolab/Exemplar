@@ -14,26 +14,68 @@ class Example extends Component {
     super(props);
     
     this.state = {
-      newCategoryVal: ''
+      newCategoryVal: '',
+      labels: [],
+      suggestions: []
     }
+  }
+
+  componentDidMount = () => {
+    var catLabels = [];
+    this.props.categories.map((category) => {
+      catLabels.push(category.label);
+    });
+    this.setState({ labels: catLabels });
   }
 
   displayCategories = () => {
     var allCategories = [];
+    var categoriesAdded = [];
 
     var instances = CategoryInstances.find({ example_id: this.props.example._id }).fetch();
-    for(var i = 0; i < instances.length; i++) {
-      var curr = Categories.findOne({ _id: instances[i].category_id });
-      allCategories.push(<Category key={curr._id} category={curr} categoryClicked={this.categoryClicked} />);
-    }
+    instances.map((instance) => {
+      var category = Categories.findOne({ _id: instance.category_id });
+      if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+        categoriesAdded.push(category._id);
+        allCategories.push(<Category key={category._id} category={category} categoryClicked={null} />)
+      }
+    });
     
     return <div>{allCategories}</div>
   }
 
-  handleNewCategoryChange = (event) => {
-    const newVal = event.target.value;
-    this.setState({ newCategoryVal: newVal });
+  handleNewCategoryChange = (event, { newValue, method }) => {
+    this.setState({ newCategoryVal: newValue });
   }
+
+  getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+  
+    return inputLength === 0 ? [] : this.state.labels.filter((label) =>
+      label.toLowerCase().slice(0, inputLength) === inputValue
+    );
+  };
+
+  getSuggestionValue = (suggestion) => { return suggestion;}
+
+  renderSuggestion = (suggestion) => (
+    <div>
+      {suggestion}
+    </div>
+  );
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
 
   createInstance = (catID) => {
     this.setState({ newCategoryVal: '' });
@@ -63,6 +105,13 @@ class Example extends Component {
   }
 
   render() {
+    const value = this.state.newCategoryVal
+    const inputProps = {
+      placeholder: 'add a new category...',
+      value,
+      onChange: this.handleNewCategoryChange
+    };
+
     return (
       <div className="exampleContainer" onClick={this.props.exampleClicked ? ((event) => this.props.exampleClicked(event, this.props.example._id)) : null}>
         <Card text="white" className={this.props.clicked ? "exampleCardClicked" : "exampleCard"}>
@@ -73,7 +122,16 @@ class Example extends Component {
             <div className="exampleCategoryContainer">
               {this.displayCategories()}
               <form id="newCategory" onSubmit={this.addNew}>
-                <input id="newCategoryInput" type="text" value={this.state.newCategoryVal} placeholder="add a new category..." onChange={this.handleNewCategoryChange} />
+                {/* <input id="newCategoryInput" type="text" value={this.state.newCategoryVal} placeholder="add a new category..." onChange={this.handleNewCategoryChange} /> */}
+                <Autosuggest
+                  id="newCategoryInput"
+                  suggestions={this.state.suggestions}
+                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                  getSuggestionValue={this.getSuggestionValue}
+                  renderSuggestion={this.renderSuggestion}
+                  inputProps={inputProps}
+                />
               </form>
             </div>
           </Card.Body>
