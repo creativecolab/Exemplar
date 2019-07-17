@@ -39,7 +39,6 @@ class App extends Component {
     }
 
     this.setState({ categoriesSelected: newArr });
-s
     var exAddedOld = [];
     var exAddedNew = [];
     var exObjs = [];
@@ -48,17 +47,23 @@ s
       var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
       instances.map((instance) => {
         var ex = Examples.findOne({ _id: instance.example_id });
-        if((exAddedOld.indexOf(ex._id) !== -1) || (idx === 0)) {
+        if((idx === 0) && (exAddedNew.indexOf(ex._id) === -1)) {
           exAddedNew.push(ex._id);
-          if(idx === (this.state.categoriesSelected.length - 1)) {
-            exObjs.push(ex);
-          }
+        } else if((idx !== 0) && (exAddedOld.indexOf(ex._id) !== -1) && (exAddedNew.indexOf(ex._id) === -1)) {
+          exAddedNew.push(ex._id);
         }
-      }); 
+      });
       exAddedOld = exAddedNew;
       exAddedNew = [];
-    });
 
+      if(idx === (this.state.categoriesSelected.length - 1)) {
+        exAddedOld.map((exID) => {
+          var ex = Examples.findOne({ _id: exID });
+          exObjs.push(ex);
+        })
+      }
+    });
+    
     this.setState({ examples: exObjs });
   }
 
@@ -123,8 +128,9 @@ s
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <div className="Place">
-                <Container style={{ position: "relative" }}>
+              <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
+                <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
+                  <div id="searchBar">Search for keywords, categories, etc.</div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
