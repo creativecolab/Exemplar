@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import $ from "jquery";
-import { Container, Row, Col } from 'react-bootstrap';
+import $ from 'jquery';
+import {Container, Row, Col } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import './App.css';
@@ -10,6 +10,7 @@ import Example from './Components/Example/Example.jsx';
 
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
+import CategoryInstances from '../api/categoryInstances.js';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class App extends Component {
 
     this.state = {
       exampleClicked: null,
+      categoriesSelected: [],
+      examples: [],
     }
   }
 
@@ -26,6 +29,39 @@ class App extends Component {
     }, 200);
   }
 
+  categoryClicked = (id) => {
+    var newArr = this.state.categoriesSelected;
+    var idx = newArr.indexOf(id);
+    if(idx !== -1) {
+      newArr.splice(idx, 1);
+    } else { 
+      newArr.push(id);
+    }
+
+    this.setState({ categoriesSelected: newArr });
+s
+    var exAddedOld = [];
+    var exAddedNew = [];
+    var exObjs = [];
+
+    this.state.categoriesSelected.map((categoryID, idx) => {
+      var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
+      instances.map((instance) => {
+        var ex = Examples.findOne({ _id: instance.example_id });
+        if((exAddedOld.indexOf(ex._id) !== -1) || (idx === 0)) {
+          exAddedNew.push(ex._id);
+          if(idx === (this.state.categoriesSelected.length - 1)) {
+            exObjs.push(ex);
+          }
+        }
+      }); 
+      exAddedOld = exAddedNew;
+      exAddedNew = [];
+    });
+
+    this.setState({ examples: exObjs });
+  }
+
   exampleClicked = (event, id) => {
     event.preventDefault();
     var ex = Examples.findOne({ _id: id });
@@ -33,26 +69,44 @@ class App extends Component {
   }
 
   exampleUnclicked = (event) => {
-    console.log(event.target);
     event.preventDefault();
     if (event.target.className === "exampleContainer") {
       this.setState({ exampleClicked: null });
     }
   }
 
+  displayCategories = () => {
+    // FILTER CATEGORIES HERE
+    // Category.find({ condition: 'surface' }).fetch();
+    var allCategories = [];
+
+    this.props.categories.map((category) => {
+      allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+    })
+    
+    return <div style={{padding: '10px'}}>{allCategories}</div>
+  }
+
   displayExamples = () => {
-    var allExamples = [];
+    var examples = [];
+    var retVal = [];
     var currRow = [];
 
-    for (var i = 0; i < this.props.examples.length; i++) {
-      currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} clickHandler={this.exampleClicked} />);
-      if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
-        allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
+    if((this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0)) {
+      examples = this.props.examples;
+    } else {
+      examples = this.state.examples;
+    }
+    
+    examples.map((example, i) => {
+      currRow.push(<Example key={example._id} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
+      if (((i % 4) == 3) || (i == (examples.length - 1))) {
+        retVal.push(<Row key={"row " + i}>{currRow}</Row>);
         currRow = [];
       }
-    }
+    });
 
-    return <div>{allExamples}</div>
+    return <div>{retVal}</div>
   }
 
   render() {
@@ -64,8 +118,8 @@ class App extends Component {
               <div className="LeftPane">
                 <div className="LeftPane-header">
                   Categories
-                 </div>
-                <Category category={this.props.category} />
+                </div>
+                {this.displayCategories()}
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -93,5 +147,6 @@ export default withTracker(() => {
   return {
     examples: Examples.find({}).fetch(),
     categories: Categories.find({}).fetch(),
+    categoryInstances: CategoryInstances.find({}).fetch(),
   }
 })(App);

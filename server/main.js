@@ -2,18 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
+import CategoryInstances from '/imports/api/categoryInstances.js';
+
+function insertExample(condition, description, image, url) {
+  Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
+}
 
 function insertCategory(label, condition, created_by) {
-  Categories.insert({ label, condition, created_by, selected_count: 0, created_at: (new Date()) });
+  Categories.insert({ label, condition, created_by, selected_count: 0, created_at: null });
 }
 
 Meteor.startup(() => {
-  console.log(Categories.find().count());
-
-  function insertExample(condition, description, image, url) {
-    Examples.insert({ condition, description, image, url, created_by: null, created_at: null });
-  }
-
   if (Examples.find().count() === 0) {
     insertExample(
       null,
@@ -136,7 +135,6 @@ Meteor.startup(() => {
   }
 
   if (Categories.find().count() === 0) {
-    console.log("adsasdasdas");
     Data.tags.forEach(element => {
       insertCategory(
         element.label, element.condition, element.created_by
