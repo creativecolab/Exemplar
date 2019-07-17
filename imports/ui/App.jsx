@@ -81,14 +81,19 @@ class App extends Component {
   }
 
   displayCategories = () => {
-    // FILTER CATEGORIES HERE
+    // FILTER CATEGORIES HERE:
     // Category.find({ condition: 'surface' }).fetch();
+    var filteredCategories = Categories.find({ created_by: {$not: "admin"} }).fetch();
     var allCategories = [];
 
-    this.props.categories.map((category) => {
+    // this.props.categories.map((category) => {
+    //   allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+    // });
+
+    filteredCategories.map((category) => {
       allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
-    })
-    
+    });
+
     return <div style={{padding: '10px'}}>{allCategories}</div>
   }
 

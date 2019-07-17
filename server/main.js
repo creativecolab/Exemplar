@@ -3,6 +3,7 @@ import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
 import CategoryInstances from '/imports/api/categoryInstances.js';
+import Sessions from '/imports/api/sessions.js';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
