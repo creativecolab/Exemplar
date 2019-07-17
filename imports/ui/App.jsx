@@ -39,7 +39,6 @@ class App extends Component {
     }
 
     this.setState({ categoriesSelected: newArr });
-s
     var exAddedOld = [];
     var exAddedNew = [];
     var exObjs = [];
@@ -124,7 +123,7 @@ s
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
-                <Container style={{ position: "relative" }}>
+                <Container style={{ position: "relative", paddingLeft: "20px"}}>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>

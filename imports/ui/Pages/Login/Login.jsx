@@ -14,6 +14,7 @@ export default class Login extends Component {
         };
     }
 
+    // Validate Login
     validateForm() {
         return this.state.email.length > 0 && this.state.password.length > 0;
     }
@@ -22,7 +23,8 @@ export default class Login extends Component {
         this.setState({ [target.type]: target.value });
     }
 
-    handleSubmit = (e) => {
+    // Handle Login
+    handleLogin = (e) => {
         e.preventDefault();
         let email = this.state.email;
         let password = this.state.password;
@@ -32,15 +34,19 @@ export default class Login extends Component {
                     error: err.reason
                 });
             } else {
-                this.props.history.push('/');
+                this.props.history.push('/Start/0');
             }
         });
+        console.log(this.props.history);
     }
 
+    // Handle Account Creation
     handleCreate = (e) => {
         e.preventDefault();
+        var email = this.state.email;
         var registerData = {
-            email: this.state.email,
+            username: email.substring(0, email.lastIndexOf("@")),
+            email: email,
             password: this.state.password,
         }
         Accounts.createUser(registerData, (err) => {
@@ -51,18 +57,10 @@ export default class Login extends Component {
             }
         });
     }
-    // logout(e) {
-    //     e.preventDefault();
-    //     Meteor.logout((err) => {
-    //         if (err) {
-    //             console.log(err.reason);
-    //         } else {
-    //             this.props.history.push('/');
-    //         }
-    //     });
-    //     this.props.history.push('/');
-    //     return;
-    // }
+
+
+    // Modal
+
 
     render() {
         console.log(Meteor.users);
@@ -77,7 +75,7 @@ export default class Login extends Component {
                         <Col md={4} ></Col>
                         <Col md={4} className="box" >
                             <div className="Login">
-                                <form onSubmit={this.handleSubmit}>
+                                <form onSubmit={this.handleLogin}>
                                     <Form.Group controlId="email" bssize="large">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control

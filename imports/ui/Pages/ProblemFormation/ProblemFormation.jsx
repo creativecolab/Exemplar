@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Typed from 'typed.js';
-import '../Landing/Landing.css';
+import '../Start/Start.css';
 
 class ProblemFormation extends Component {
     constructor(props) {

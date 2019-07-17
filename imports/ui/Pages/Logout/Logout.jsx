@@ -1,15 +1,27 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import './Landing.css';
+import '../Start/Start.css';
 
-class Landing extends Component {
+class Logout extends Component {
     constructor(props) {
         super(props);
     }
+    handleLogout = (e) => {
+        e.preventDefault();
+        Meteor.logout((err) => {
+            if (err) {
+                console.log(err.reason);
+            } else {
+                this.props.history.push('/');
+            }
+        });
+        // console.log(this.props.history);
+        return;
+    }
+
     render() {
-        const currentText = this.props.text;
-        const nextPage = this.props.nextPage;
+        const textEnd = "You have completed all tasks. Thank you for participating!";
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -17,12 +29,10 @@ class Landing extends Component {
                         <Col md={4} ></Col>
                         <Col md={4} className="box" >
                             <div className="text">
-                                {currentText}
+                                {textEnd}
                             </div>
                             <div className="next">
-                                <a href={nextPage}>
-                                    <Button id="nextButton" variant="success">{this.props.buttonName}</Button>
-                                </a>
+                                <Button id="nextButton" variant="success" onClick={this.handleLogout}>Logout</Button>
                             </div>
                         </Col>
                         <Col md={4}></Col>
@@ -32,4 +42,4 @@ class Landing extends Component {
         );
     }
 }
-export default Landing;
+export default Logout;
