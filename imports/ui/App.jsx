@@ -82,7 +82,6 @@ class App extends Component {
 
   displayCategories = () => {
     // FILTER CATEGORIES HERE:
-    // Category.find({ condition: 'surface' }).fetch();
     var filteredCategories = Categories.find({ created_by: {$not: "admin"} }).fetch();
     var allCategories = [];
 

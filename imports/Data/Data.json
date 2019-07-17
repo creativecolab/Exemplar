@@ -29,6 +29,21 @@
         {"created_by": "admin", "condition": "deep", "label": "user feedback"},
         {"created_by": "admin", "condition": "deep", "label": "temporary"},
         {"created_by": "admin", "condition": "deep", "label": "access/rental/faster"},
-        {"created_by": "admin", "condition": "deep", "label": "dynamic routes"}
+        {"created_by": "admin", "condition": "deep", "label": "dynamic routes"},
+        {"created_by": "admin", "condition": "both", "label": "low-income"},
+        {"created_by": "admin", "condition": "both", "label": "eligibility/benefits"},
+        {"created_by": "admin", "condition": "both", "label": "efficient"},
+        {"created_by": "admin", "condition": "both", "label": "membership"},
+        {"created_by": "admin", "condition": "both", "label": "sharing/share"},
+        {"created_by": "admin", "condition": "both", "label": "scooter"},
+        {"created_by": "admin", "condition": "both", "label": "vehicle"},
+        {"created_by": "admin", "condition": "both", "label": "technology-driven"},
+        {"created_by": "admin", "condition": "both", "label": "late night"},
+        {"created_by": "admin", "condition": "both", "label": "environmentally friendly"},
+        {"created_by": "admin", "condition": "both", "label": "user feedback"},
+        {"created_by": "admin", "condition": "both", "label": "income-based subsidy"},
+        {"created_by": "admin", "condition": "both", "label": "cab"},
+        {"created_by": "admin", "condition": "both", "label": "access/rental/faster"},
+        {"created_by": "admin", "condition": "both", "label": "dynamic routes"}
     ]
 }
