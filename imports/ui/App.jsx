@@ -27,9 +27,6 @@ class App extends Component {
     setTimeout(() => {
       $(this.refs.intro).slideUp();
     }, 200);
-
-    var allEx = Examples.find({}).fetch();
-    this.setState({ examples: allEx });
   }
 
   categoryClicked = (id) => {
@@ -42,19 +39,26 @@ class App extends Component {
     }
 
     this.setState({ categoriesSelected: newArr });
-
-    var examplesAdded = [];
+s
+    var exAddedOld = [];
+    var exAddedNew = [];
     var exObjs = [];
-    for(var i = 0; i < this.state.categoriesSelected.length; i++) {
-      var instances = CategoryInstances.find({ category_id: this.state.categoriesSelected[i] }).fetch();
-      for(var j = 0; j < instances.length; j++) {
-        if(examplesAdded.indexOf(instances[j].example_id) === -1) {
-          var ex = Examples.findOne({ _id: instances[j].example_id });
-          exObjs.push(ex);
-          examplesAdded.push(ex._id);
+
+    this.state.categoriesSelected.map((categoryID, idx) => {
+      var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
+      instances.map((instance) => {
+        var ex = Examples.findOne({ _id: instance.example_id });
+        if((exAddedOld.indexOf(ex._id) !== -1) || (idx === 0)) {
+          exAddedNew.push(ex._id);
+          if(idx === (this.state.categoriesSelected.length - 1)) {
+            exObjs.push(ex);
+          }
         }
-      }
-    }
+      }); 
+      exAddedOld = exAddedNew;
+      exAddedNew = [];
+    });
+
     this.setState({ examples: exObjs });
   }
 
@@ -76,38 +80,33 @@ class App extends Component {
     // Category.find({ condition: 'surface' }).fetch();
     var allCategories = [];
 
-    for(var i = 0; i < this.props.categories.length; i++) {
-      allCategories.push(<Category key={this.props.categories[i]._id} category={this.props.categories[i]} categoryClicked={this.categoryClicked} />);
-    }
+    this.props.categories.map((category) => {
+      allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+    })
     
     return <div style={{padding: '10px'}}>{allCategories}</div>
   }
 
   displayExamples = () => {
-    var examplesAdded = [];
-    var allExamples = [];
+    var examples = [];
+    var retVal = [];
     var currRow = [];
 
-    if(this.state.examples.length === 0) {
-      for (var i = 0; i < this.props.examples.length; i++) {
-        currRow.push(<Example key={this.props.examples[i]._id} example={this.props.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
-        if (((i % 4) == 0) || (i == (this.props.examples.length - 1))) {
-          allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
-          currRow = [];
-        }
-      }
+    if((this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0)) {
+      examples = this.props.examples;
     } else {
-      for (var i = 0; i < this.state.examples.length; i++) {
-        currRow.push(<Example key={this.state.examples[i]._id} example={this.state.examples[i]} clicked={false} exampleClicked={this.exampleClicked} />);
-        if (((i % 4) == 3) || (i == (this.state.examples.length - 1))) {
-          console.log("Adding row with index: " + i);
-          allExamples.unshift(<Row key={"row " + i}>{currRow}</Row>);
-          currRow = [];
-        }
-      }
+      examples = this.state.examples;
     }
+    
+    examples.map((example, i) => {
+      currRow.push(<Example key={example._id} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
+      if (((i % 4) == 3) || (i == (examples.length - 1))) {
+        retVal.push(<Row key={"row " + i}>{currRow}</Row>);
+        currRow = [];
+      }
+    });
 
-    return <div>{allExamples}</div>
+    return <div>{retVal}</div>
   }
 
   render() {
