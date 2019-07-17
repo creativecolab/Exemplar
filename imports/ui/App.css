@@ -7,7 +7,7 @@
 
 .LeftPane-header {
   color: #ffffff;
-  font-size: 4em;
+  font-size: 3em;
   font-family: 'Noto Serif', serif;
 }
 
@@ -30,8 +30,6 @@
   background-color: gray;
   width: 100%;
   height: 100%;
-  /* padding-top: 5px;
-  padding-left: 10px; */
 }
 
 #exampleClickedDiv {
