@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Container, Button, Form, Row, Col } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { withTracker } from 'meteor/react-meteor-data';
 import './Login.css';
+import Sessions from '../../../api/sessions.js';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,6 +37,9 @@ export default class Login extends Component {
                 });
             } else {
                 this.props.history.push('/Start/0');
+                Meteor.call('sessions.insert', Meteor.userId(), (error, result) => {
+                    console.log("DONE");
+                });
             }
         });
         console.log(this.props.history);
@@ -106,6 +111,7 @@ export default class Login extends Component {
                                 </form>
                                 <br />
                                 <Button
+                                    id="createAccount"
                                     block
                                     bssize="large"
                                     onClick={this.handleCreate}
@@ -122,3 +128,9 @@ export default class Login extends Component {
         );
     }
 }
+
+export default withTracker(() => {
+    return {
+      sessions: Sessions.find({}).fetch()
+    }
+  })(Login);

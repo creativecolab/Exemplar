@@ -23,7 +23,9 @@ class Example extends Component {
   componentDidMount = () => {
     var catLabels = [];
     this.props.categories.map((category) => {
-      catLabels.push(category.label);
+      if(category.created_by !== 'admin') {
+        catLabels.push(category.label);
+      }
     });
     this.setState({ labels: catLabels });
   }
