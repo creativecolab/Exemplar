@@ -59,15 +59,13 @@ export default class Login extends Component {
     }
 
 
-    // Modal
+    // Modal TODO
 
 
     render() {
-        console.log(Meteor.users);
+        console.log(Meteor.user());
         console.log("Current User ID" + Meteor.userId());
-        //  + " finding vincent: " + Accounts.findUserByEmail("vincentchu5407@gmail.com"));
-        console.log(this.state.email);
-        console.log(this.state.password);
+        console.log(Meteor.users.find({ _id: this.userId }));
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -97,7 +95,7 @@ export default class Login extends Component {
                                     </Form.Group>
                                     <Button
                                         block
-                                        bssize="large"
+                                        size="sm"
                                         disabled={!this.validateForm}
                                         type="submit"
                                     >
@@ -107,7 +105,7 @@ export default class Login extends Component {
                                 <br />
                                 <Button
                                     block
-                                    bssize="large"
+                                    size="sm"
                                     onClick={this.handleCreate}
                                     type="submit"
                                 >

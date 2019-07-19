@@ -31,8 +31,9 @@
 }
 
 .next {
-    padding-left: 80%;
-    padding-top: 5vh;
+    float: right;
+    padding: auto auto;
+    padding-top: 2vh;
 }
 
 .btn {
@@ -44,16 +45,4 @@
 
 .btn-success {
     border-color: none;
-}
-
-.problemInput {
-    text-align: left;
-    width: 70%;
-    background-color: transparent;
-    color: white;
-    border-color: transparent;
-}
-
-.placeholder {
-    text-align: center;
 }

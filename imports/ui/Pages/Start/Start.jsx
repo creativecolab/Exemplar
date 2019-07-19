@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Start.css';
 
@@ -19,7 +20,7 @@ class Start extends Component {
             textInterm2: "You will now be asked to generate your own ideas/solutions for the issue of transportation. Particularly, you should generate solutions for the transportation problem that you previously described. The example solutions will be provided, so you may look through them again for inspiration.",
         };
 
-        const page = ["/Start/1", "/Start/2", "/Tag"];
+        const page = ["/Problem/Before", "/Start/2", "/Tag"];
         const id = this.props.match.params.id;
         let text = "";
         let nextPage = "";
@@ -46,6 +47,8 @@ class Start extends Component {
     }
 
     render() {
+        console.log(Meteor.user());
+        console.log("Current User ID" + Meteor.userId());
         var currentText = this.state.text;
         var nextPage = this.state.nextPage;
         return (

@@ -1,1 +1,45 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+.problemInput {
+    float: left;
+    text-align: left;
+    width: 50%;
+    background-color: transparent;
+    color: white;
+    border-color: transparent;
+}
+
+.wrapper {
+    padding: none !important;
+}
+
+.input-group-text {
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.form-control {
+    color: white;
+    background-color: transparent;
+    border: none !important;
+    border-color: transparent;
+}
+
+.form-control:focus {
+    color: white;
+    background-color: transparent;
+    border: none !important;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+    transition: none;
+}
+
+.input {
+    height: auto;
+}
+
+#nextButton {
+    
+}

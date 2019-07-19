@@ -22,7 +22,7 @@
     "react-redux": "^7.1.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "typed.js": "^2.0.10"
+    "react-typed": "^1.1.2"
   },
   "meteor": {
     "mainModule": {
