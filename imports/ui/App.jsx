@@ -11,7 +11,13 @@ import Example from './Components/Example/Example.jsx';
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
 import CategoryInstances from '../api/categoryInstances.js';
+<<<<<<< HEAD
 import { Meteor } from 'meteor/meteor';
+=======
+import Sessions from '../api/sessions.js';
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+>>>>>>> 91f2ff8e718928038207deb6b288137cbac00006
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +27,11 @@ class App extends Component {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
+<<<<<<< HEAD
       username: '',
+=======
+      session: [],
+>>>>>>> 91f2ff8e718928038207deb6b288137cbac00006
     }
   }
 
@@ -29,6 +39,12 @@ class App extends Component {
     setTimeout(() => {
       $(this.refs.intro).slideUp();
     }, 200);
+  }
+
+  componentDidUpdate() {
+    if(this.props.user) {
+      console.log(this.props.user);
+    }
   }
 
   categoryClicked = (id) => {
@@ -83,20 +99,27 @@ class App extends Component {
   }
 
   displayCategories = () => {
-    // FILTER CATEGORIES HERE:
-    // Category.find({ condition: 'surface' }).fetch();
-    var filteredCategories = Categories.find({ created_by: { $not: "admin" } }).fetch();
-    var allCategories = [];
+    var conditionCategories = [];
+    var retVal = [];
 
-    // this.props.categories.map((category) => {
-    //   allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
-    // });
+    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
+    if(sess[0]) { // NOTE: would not have to do this once logging out full implemented
+      if (sess[0].condition === 'surface') {
+        conditionCategories = Categories.find({ condition: 'surface' }).fetch();
+      } else if (sess[0].condition === 'deep') {
+        conditionCategories = Categories.find({ condition: 'deep' }).fetch();
+      } else if (sess[0].condition === 'both') {
+        conditionCategories = Categories.find({ condition: 'both' }).fetch();
+      } else if (sess[0].condition === 'neither') {
+        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+      }
+    }
 
-    filteredCategories.map((category) => {
-      allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+    conditionCategories.map((category) => {
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
     });
 
-    return <div style={{ padding: '10px' }}>{allCategories}</div>
+    return <div style={{ padding: '10px' }}>{retVal}</div>
   }
 
   displayExamples = () => {
@@ -170,6 +193,7 @@ export default withTracker(() => {
     examples: Examples.find({}).fetch(),
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
+    sessions: Sessions.find({}).fetch(),
     user: Meteor.user(),
   }
 })(App);

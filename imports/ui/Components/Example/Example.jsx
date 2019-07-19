@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import Autosuggest from 'react-autosuggest'; // TODO + search
+import Autosuggest from 'react-autosuggest';
 
 import './Example.css';
 import Category from '../Category/Category.jsx';
@@ -12,19 +12,27 @@ import CategoryInstances from '../../../api/categoryInstances.js';
 class Example extends Component {
   constructor(props) {
     super(props);
-    
+
+    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
+
     this.state = {
       newCategoryVal: '',
       labels: [],
-      suggestions: []
+      suggestions: [],
+      session: (sess[0] ? sess[0] : null),
     }
   }
 
   componentDidMount = () => {
     var catLabels = [];
-    this.props.categories.map((category) => {
-      catLabels.push(category.label);
-    });
+    if(this.state.session) {
+      this.props.categories.map((category) => {
+        if((this.state.session.condition === category.condition) || (category.created_by === Meteor.userId())) {
+          console.log("ADDING");
+          catLabels.push(category.label);
+        }
+      });
+    }
     this.setState({ labels: catLabels });
   }
 
@@ -32,15 +40,18 @@ class Example extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    var instances = CategoryInstances.find({ example_id: this.props.example._id }).fetch();
-    instances.map((instance) => {
-      var category = Categories.findOne({ _id: instance.category_id });
-      if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
-        categoriesAdded.push(category._id);
-        allCategories.push(<Category key={category._id} category={category} categoryClicked={null} />)
-      }
-    });
-    
+    // console.log(this.state.session); 
+    if(this.state.session) {
+      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId() }).fetch();
+      instances.map((instance) => {
+        var category = Categories.findOne({ _id: instance.category_id });
+        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+          categoriesAdded.push(category._id);
+          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} />)
+        }
+      });
+    }
+
     return <div>{allCategories}</div>
   }
 
@@ -52,6 +63,7 @@ class Example extends Component {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
   
+    console.log(this.state.labels);
     return inputLength === 0 ? [] : this.state.labels.filter((label) =>
       label.toLowerCase().slice(0, inputLength) === inputValue
     );
@@ -79,7 +91,7 @@ class Example extends Component {
 
   createInstance = (catID) => {
     this.setState({ newCategoryVal: '' });
-    Meteor.call('categoryInstances.insert', {catID: catID, exampleID: this.props.example._id});
+    Meteor.call('categoryInstances.insert', {catID: catID, exampleID: this.props.example._id, sessionID: this.state.session._id});
   }
 
   addNew = (event) => {

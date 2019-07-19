@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Container, Button, Form, Row, Col } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { withTracker } from 'meteor/react-meteor-data';
 import './Login.css';
+import Sessions from '../../../api/sessions.js';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +39,6 @@ export default class Login extends Component {
                 this.props.history.push('/Start/0');
             }
         });
-        console.log(this.props.history);
     }
 
     // Handle Account Creation
@@ -48,6 +49,7 @@ export default class Login extends Component {
             username: email.substring(0, email.lastIndexOf("@")),
             email: email,
             password: this.state.password,
+            profile: { curr_session_id: null },
         }
         Accounts.createUser(registerData, (err) => {
             if (Meteor.user()) {
@@ -63,9 +65,6 @@ export default class Login extends Component {
 
 
     render() {
-        console.log(Meteor.user());
-        console.log("Current User ID" + Meteor.userId());
-        console.log(Meteor.users.find({ _id: this.userId }));
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -104,6 +103,7 @@ export default class Login extends Component {
                                 </form>
                                 <br />
                                 <Button
+                                    id="createAccount"
                                     block
                                     size="sm"
                                     onClick={this.handleCreate}
@@ -120,3 +120,10 @@ export default class Login extends Component {
         );
     }
 }
+
+export default withTracker(() => {
+    return {
+      sessions: Sessions.find({}).fetch(),
+      user: Meteor.user()
+    }
+  })(Login);
