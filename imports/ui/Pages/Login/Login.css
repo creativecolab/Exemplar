@@ -25,7 +25,7 @@
 
 
 .text {
-    color: #FFFFFF;
+    color: black;
     font-family: 'Noto Serif', serif;
     align-content: center;
     text-align: left;
@@ -56,4 +56,13 @@
 
 .form-label {
     color: white;
+}
+
+.form-control {
+    background-color: white !important;
+}
+
+.form-control:focus{
+    color: black !important;
+    background-color: rgb(232, 240, 254) !important;
 }
