@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Typed from 'typed.js';
 import '../Start/Start.css';
+import { withTracker } from 'meteor/react-meteor-data';
 
 class ProblemFormation extends Component {
     constructor(props) {
@@ -51,4 +52,8 @@ class ProblemFormation extends Component {
     }
 }
 
-export default ProblemFormation;
+export default withTracker(() => {
+    return {
+      user: Meteor.user(),
+    }
+  })(ProblemFormation);

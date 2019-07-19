@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './Start.css';
 
 class Start extends Component {
@@ -61,6 +62,10 @@ class Start extends Component {
                                 <a href={nextPage}>
                                     <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
                                 </a>
+                                {/* {console.log(this.props)}
+                                <Link to={{ pathname: this.state.nextPage, state: {sessionID: this.props.location.state.sessionID},  }}>
+                                    <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
+                                </Link> */}
                             </div>
                         </Col>
                         <Col md={4}></Col>

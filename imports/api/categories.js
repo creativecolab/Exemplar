@@ -29,7 +29,7 @@ Meteor.methods({
     return Categories.insert({
       label: label,
       condition: null,
-      // created_by: this.userId(),
+      created_by: this.userId,
       selected_count: 1,
       created_at: new Date(),
     });

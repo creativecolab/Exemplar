@@ -36,9 +36,15 @@ class Login extends Component {
                     error: err.reason
                 });
             } else {
-                this.props.history.push('/Start/0');
                 Meteor.call('sessions.insert', Meteor.userId(), (error, result) => {
-                    console.log("DONE");
+                    if(error) {
+                        throw new Meteor.Error(error);
+                    } else {
+                        // Meteor.users.update({_id: Meteor.userId()}, {$set: {curr_session_id: result} });
+                        console.log(result);
+                        console.log(Meteor.users);
+                        // this.props.history.push('/Start/0');
+                    }
                 });
             }
         });
@@ -68,7 +74,7 @@ class Login extends Component {
 
 
     render() {
-        console.log(Meteor.users);
+        console.log(Meteor.user());
         console.log("Current User ID" + Meteor.userId());
         //  + " finding vincent: " + Accounts.findUserByEmail("vincentchu5407@gmail.com"));
         console.log(this.state.email);

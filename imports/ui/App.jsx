@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import $ from 'jquery';
-import {Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import './App.css';
@@ -11,6 +11,9 @@ import Example from './Components/Example/Example.jsx';
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
 import CategoryInstances from '../api/categoryInstances.js';
+import Sessions from '../api/sessions.js';
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +23,7 @@ class App extends Component {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
+      session: [],
     }
   }
 
@@ -29,12 +33,18 @@ class App extends Component {
     }, 200);
   }
 
+  componentDidUpdate() {
+    if(Meteor.user()) {
+      console.log(Meteor.user());
+    }
+  }
+
   categoryClicked = (id) => {
     var newArr = this.state.categoriesSelected;
     var idx = newArr.indexOf(id);
-    if(idx !== -1) {
+    if (idx !== -1) {
       newArr.splice(idx, 1);
-    } else { 
+    } else {
       newArr.push(id);
     }
 
@@ -47,23 +57,23 @@ class App extends Component {
       var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
       instances.map((instance) => {
         var ex = Examples.findOne({ _id: instance.example_id });
-        if((idx === 0) && (exAddedNew.indexOf(ex._id) === -1)) {
+        if ((idx === 0) && (exAddedNew.indexOf(ex._id) === -1)) {
           exAddedNew.push(ex._id);
-        } else if((idx !== 0) && (exAddedOld.indexOf(ex._id) !== -1) && (exAddedNew.indexOf(ex._id) === -1)) {
+        } else if ((idx !== 0) && (exAddedOld.indexOf(ex._id) !== -1) && (exAddedNew.indexOf(ex._id) === -1)) {
           exAddedNew.push(ex._id);
         }
       });
       exAddedOld = exAddedNew;
       exAddedNew = [];
 
-      if(idx === (this.state.categoriesSelected.length - 1)) {
+      if (idx === (this.state.categoriesSelected.length - 1)) {
         exAddedOld.map((exID) => {
           var ex = Examples.findOne({ _id: exID });
           exObjs.push(ex);
         })
       }
     });
-    
+
     this.setState({ examples: exObjs });
   }
 
@@ -81,19 +91,27 @@ class App extends Component {
   }
 
   displayCategories = () => {
-    // FILTER CATEGORIES HERE:
-    var filteredCategories = Categories.find({ created_by: {$not: "admin"} }).fetch();
-    var allCategories = [];
+    var conditionCategories = [];
+    var retVal = [];
 
-    // this.props.categories.map((category) => {
-    //   allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
-    // });
+    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
+    if(sess[0]) { // NOTE: would not have to do this once logging out full implemented
+      if (sess[0].condition === 'surface') {
+        conditionCategories = Categories.find({ condition: 'surface' }).fetch();
+      } else if (sess[0].condition === 'deep') {
+        conditionCategories = Categories.find({ condition: 'deep' }).fetch();
+      } else if (sess[0].condition === 'both') {
+        conditionCategories = Categories.find({ condition: 'both' }).fetch();
+      } else if (sess[0].condition === 'neither') {
+        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+      }
+    }
 
-    filteredCategories.map((category) => {
-      allCategories.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+    conditionCategories.map((category) => {
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
     });
 
-    return <div style={{padding: '10px'}}>{allCategories}</div>
+    return <div style={{ padding: '10px' }}>{retVal}</div>
   }
 
   displayExamples = () => {
@@ -101,12 +119,12 @@ class App extends Component {
     var retVal = [];
     var currRow = [];
 
-    if((this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0)) {
+    if ((this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0)) {
       examples = this.props.examples;
     } else {
       examples = this.state.examples;
     }
-    
+
     examples.map((example, i) => {
       currRow.push(<Example key={example._id} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
       if (((i % 4) == 3) || (i == (examples.length - 1))) {
@@ -158,5 +176,7 @@ export default withTracker(() => {
     examples: Examples.find({}).fetch(),
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
+    sessions: Sessions.find({}).fetch(),
+    user: Meteor.user(),
   }
 })(App);

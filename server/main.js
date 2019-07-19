@@ -14,6 +14,13 @@ function insertCategory(label, condition, created_by) {
 }
 
 Meteor.startup(() => {
+  Meteor.users.allow({
+    update: function (userId, doc, fields, modifier) {
+      console.log('UPDATE USER');
+      return true; 
+    }
+  });
+
   if (Examples.find().count() === 0) {
     insertExample(
       null,
