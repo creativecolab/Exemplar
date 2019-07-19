@@ -63,8 +63,6 @@ class ProblemFormation extends Component {
     }
 
     render() {
-        console.log(Meteor.user());
-        console.log("Current User ID" + Meteor.userId());
         const placeholderText = "transportation problem";
         return (
             <div className="Landing">

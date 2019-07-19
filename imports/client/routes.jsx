@@ -19,7 +19,7 @@ export const renderRoutes = () => (
            <Route path='/Start/:id' component={Start} />
            <Route path='/Tag' component={App} />
            <Route path='/Problem/:name' component={Problem} />
-           <Route path='/Solution' component={Solution} />
+           {/* <Route path='/Solution' component={Solution} /> */}
            <Route path='/End' component={Logout} />
        </Switch>
    </Router>
