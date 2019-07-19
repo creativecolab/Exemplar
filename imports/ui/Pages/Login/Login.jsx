@@ -1,9 +1,9 @@
+import './Login.css';
 import React, { Component } from 'react';
 import { Container, Button, Form, Row, Col } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { withTracker } from 'meteor/react-meteor-data';
-import './Login.css';
 import Sessions from '../../../api/sessions.js';
 
 class Login extends Component {
@@ -78,6 +78,7 @@ class Login extends Component {
                                         <Form.Control
                                             autoFocus
                                             required
+                                            autoComplete={"username"}
                                             type="email"
                                             onChange={this.handleChange}
                                             value={this.state.email}
@@ -87,6 +88,7 @@ class Login extends Component {
                                         <Form.Label>Password</Form.Label>
                                         <Form.Control
                                             required
+                                            autoComplete={"current-password"}
                                             type="password"
                                             onChange={this.handleChange}
                                             value={this.state.password}
@@ -123,7 +125,7 @@ class Login extends Component {
 
 export default withTracker(() => {
     return {
-      sessions: Sessions.find({}).fetch(),
-      user: Meteor.user()
+        sessions: Sessions.find({}).fetch(),
+        user: Meteor.user()
     }
-  })(Login);
+})(Login);

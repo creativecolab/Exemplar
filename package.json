@@ -22,7 +22,9 @@
     "react-redux": "^7.1.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-typed": "^1.1.2"
+    "react-textarea-autosize": "^7.1.0",
+    "react-typed": "^1.1.2",
+    "react-typing-animation": "^1.6.2"
   },
   "meteor": {
     "mainModule": {
