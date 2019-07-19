@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 // React and JS imports
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
@@ -38,7 +38,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if(this.props.user) {
+    if (this.props.user) {
       console.log(this.props.user);
     }
   }
@@ -99,7 +99,7 @@ class App extends Component {
     var retVal = [];
 
     var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
-    if(sess[0]) { // NOTE: would not have to do this once logging out full implemented
+    if (sess[0]) { // NOTE: would not have to do this once logging out full implemented
       if (sess[0].condition === 'surface') {
         conditionCategories = Categories.find({ condition: 'surface' }).fetch();
       } else if (sess[0].condition === 'deep') {
@@ -156,7 +156,13 @@ class App extends Component {
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
-                  <div id="searchBar">Search for keywords, categories, etc.</div>
+                  <div id="searchBar">Search for keywords, categories, etc.></div>
+                  <a href="/Problem/After">
+                    <Button id="nextButton" variant="success" >Done</Button>
+                  </a>
+                  <a href="/End">
+                    <Button id="nextButton" variant="success" >Logout Page</Button>
+                  </a>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
