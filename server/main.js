@@ -6,8 +6,6 @@ import CategoryInstances from '/imports/api/categoryInstances.js';
 import Sessions from '/imports/api/sessions.js';
 import { Accounts } from 'meteor/accounts-base';
 
-import { Accounts } from 'meteor/accounts-base';
-
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
 }

@@ -11,13 +11,8 @@ import Example from './Components/Example/Example.jsx';
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
 import CategoryInstances from '../api/categoryInstances.js';
-<<<<<<< HEAD
-import { Meteor } from 'meteor/meteor';
-=======
 import Sessions from '../api/sessions.js';
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
->>>>>>> 91f2ff8e718928038207deb6b288137cbac00006
 
 class App extends Component {
   constructor(props) {
@@ -27,11 +22,7 @@ class App extends Component {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
-<<<<<<< HEAD
-      username: '',
-=======
       session: [],
->>>>>>> 91f2ff8e718928038207deb6b288137cbac00006
     }
   }
 
@@ -144,16 +135,7 @@ class App extends Component {
     return <div>{retVal}</div>
   }
 
-  componentDidUpdate() {
-    if (Meteor.user() && !this.state.username) {
-      console.log(Meteor.user().username);
-      this.setState({username: Meteor.user().username});
-    }
-  }
-
   render() {
-    console.log(this.state.username);
-    // console.log(Meteor.user());
     return (
       <div className="App">
         <Container fluid="true">
