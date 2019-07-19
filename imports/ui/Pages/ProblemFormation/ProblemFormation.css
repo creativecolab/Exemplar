@@ -8,11 +8,13 @@
     border-color: transparent;
 }
 
-.wrapper {
-    padding: none !important;
+.wrapper .input-group-text {
+    padding: 0 0;
+    padding-right: 10px;
 }
 
 .input-group-text {
+    font-family: 'Noto Serif', serif;
     color: white;
     background-color: transparent;
     border: none;
@@ -20,16 +22,15 @@
 }
 
 .form-control {
-    color: white;
+    color: black;
     background-color: transparent;
-    border: none !important;
     border-color: transparent;
+    border-radius: none !important;
 }
 
 .form-control:focus {
     color: white;
     background-color: transparent;
-    border: none !important;
     border-color: transparent;
     outline: none;
     box-shadow: none;
@@ -40,6 +41,4 @@
     height: auto;
 }
 
-#nextButton {
-    
-}
+#nextButton {}

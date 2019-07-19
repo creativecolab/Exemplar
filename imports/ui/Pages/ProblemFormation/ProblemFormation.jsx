@@ -10,10 +10,9 @@ class ProblemFormation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
-            name: '',
-            nextLink: '',
+            nextPage: '',
             currentText: '',
+            value: '',
             isDisabled: true,
         };
         this.handleChange = this.handleChange.bind(this);
@@ -33,32 +32,36 @@ class ProblemFormation extends Component {
     // </Typed>
 
     componentDidMount() {
-        const name = this.props.match.params.name;
-        let nextLink = "";
+        const pageId = this.props.match.params.pageId;
+        const text = {
+            After: "After reading through the example solutions, would you like to refine your inital problem?",
+            Before: "The transportation domain contains many problems that need to be addressed. Pick one transportation problem you feel is important and fill in the blank."
+        };
+        const page = ["/Solution", "/Start/1"];
+        let nextPage = "";
         let currentText = "";
-        console.log(name);
-        switch (name) {
+        
+        switch (pageId) {
             case "After": {
-                nextLink = "Problem/After";
-                currentText = "After reading through the example solutions, would you like to refine your inital problem?";
+                nextPage = page[0];
+                currentText = text.After;
             }
                 break;
             case "Before": {
-                nextLink = "Start/1";
-                currentText = "The transportation domain contains many problems that need to be addressed. Pick one transportation problem you feel is important and fill in the blank.";
+                nextPage = page[1];
+                currentText = text.Before;
             }
                 break;
         }
         this.setState({
-            name: name,
-            nextLink: nextLink,
+            nextPage: nextPage,
             currentText: currentText,
         });
     }
 
     handleChange(event) {
-        console.log(this.state.value);
-        var isDisabled = !(this.state.value.length >= 0);
+        const value = event.target.value.trim();
+        var isDisabled = value ? false : true;
         this.setState({ value: event.target.value, isDisabled: isDisabled });
     }
 
@@ -89,7 +92,7 @@ class ProblemFormation extends Component {
                                         </Form.Control>
                                     </InputGroup>
                                     <div className="next">
-                                        <a href={this.state.nextLink}>
+                                        <a href={this.state.nextPage}>
                                             <Button
                                                 id="nextButton"
                                                 variant="success"

@@ -1,9 +1,7 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import './Start.css';
+import React, { Component } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 class Start extends Component {
     constructor(props) {
@@ -22,11 +20,11 @@ class Start extends Component {
         };
 
         const page = ["/Problem/Before", "/Start/2", "/Tag"];
-        const id = this.props.match.params.id;
+        const pageId = this.props.match.params.pageId;
         let text = "";
         let nextPage = "";
         let buttonName = "Next";
-        switch (id) {
+        switch (pageId) {
             case "0": {
                 text = data.textIntro;
                 nextPage = page[0];
@@ -45,11 +43,10 @@ class Start extends Component {
             } break;
         }
         this.setState({ text: text, nextPage: nextPage, buttonName: buttonName });
+        // TODO ADD IN PREVIOUS BUTTON FOR START 2 and START 4
     }
 
     render() {
-        console.log(Meteor.user());
-        console.log("Current User ID" + Meteor.userId());
         var currentText = this.state.text;
         var nextPage = this.state.nextPage;
         return (
@@ -65,10 +62,6 @@ class Start extends Component {
                                 <a href={nextPage}>
                                     <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
                                 </a>
-                                {/* {console.log(this.props)}
-                                <Link to={{ pathname: this.state.nextPage, state: {sessionID: this.props.location.state.sessionID},  }}>
-                                    <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
-                                </Link> */}
                             </div>
                         </Col>
                         <Col md={4}></Col>

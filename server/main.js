@@ -38,7 +38,7 @@ Meteor.startup(() => {
       customizedUser.profile = options.profile;
     }
 
-    customizedUser.curr_session_id = sessionID;
+    customizedUser.profile.curr_session_id = sessionID;
   
     return customizedUser; 
   })
