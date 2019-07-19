@@ -61,7 +61,7 @@ class Login extends Component {
     }
 
 
-    // Modal
+    // Modal TODO
 
 
     render() {
@@ -94,7 +94,7 @@ class Login extends Component {
                                     </Form.Group>
                                     <Button
                                         block
-                                        bssize="large"
+                                        size="sm"
                                         disabled={!this.validateForm}
                                         type="submit"
                                     >
@@ -105,7 +105,7 @@ class Login extends Component {
                                 <Button
                                     id="createAccount"
                                     block
-                                    bssize="large"
+                                    size="sm"
                                     onClick={this.handleCreate}
                                     type="submit"
                                 >
