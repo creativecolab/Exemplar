@@ -1,23 +1,30 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+
 import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
+
 import CategoryInstances from '/imports/api/categoryInstances.js';
 import Sessions from '/imports/api/sessions.js';
-import { Accounts } from 'meteor/accounts-base';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
 }
 
 function insertCategory(label, condition, created_by) {
-  Categories.insert({ label, condition, created_by, selected_count: 0, created_at: null });
+  var createdByArr = []
+  createdByArr.push(created_by);
+
+  var createdAtArr = [];
+  createdAtArr.push(null);
+  Categories.insert({ label, condition, created_by: createdByArr, created_at: createdAtArr });
 }
 
 Meteor.startup(() => {
   Accounts.onCreateUser((options, user) => {
     var sessionID = Sessions.insert({
-      condition: 'neither',   // UPDATE LATER
+      condition: 'surface',   // UPDATE LATER
       user_id: user._id,
       created_at: new Date(),
       finished_at: null,
@@ -36,7 +43,7 @@ Meteor.startup(() => {
       customizedUser.profile = options.profile;
     }
 
-    customizedUser.curr_session_id = sessionID;
+    customizedUser.profile.curr_session_id = sessionID;
   
     return customizedUser; 
   })

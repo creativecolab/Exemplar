@@ -11,9 +11,14 @@ Meteor.methods({
     // if(!this.userId) {
     //   throw new Meteor.Error('not-authorized');
     // }
+    var category = Categories.findOne({ label: label }, { fields: {created_by: 1 } });
+    var createdByArr = category.created_by;
+    var createdAtArr = category.created_at;
+    createdByArr.push(Meteor.userId());
+    createdAtArr.push(new Date());
 
     Categories.update({ label: label }, {
-      $inc: { selected_count: 1},
+      $set: { created_by: createdByArr, created_at: createdAtArr },
     });
 
     return Categories.findOne({ label: label })._id;
@@ -26,11 +31,13 @@ Meteor.methods({
     //   throw new Meteor.Error('not-authorized');
     // }
 
+    var created_by_arr = [];
+    created_by_arr.push(Meteor.userId());
+
     return Categories.insert({
       label: label,
       condition: null,
-      created_by: this.userId,
-      selected_count: 1,
+      created_by: created_by_arr,
       created_at: new Date(),
     });
   },

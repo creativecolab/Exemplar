@@ -1,18 +1,23 @@
 /* eslint-disable */
+// Meteor Imports
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+
+// React and JS imports
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { Container, Row, Col } from 'react-bootstrap';
-import { withTracker } from 'meteor/react-meteor-data';
 
-import './App.css';
+// Components Import
 import Category from './Components/Category/Category.jsx';
 import Example from './Components/Example/Example.jsx';
+import './App.css';
 
+// Collections Import
 import Categories from '../api/categories.js';
 import Examples from '../api/examples.js';
 import CategoryInstances from '../api/categoryInstances.js';
 import Sessions from '../api/sessions.js';
-import { Meteor } from 'meteor/meteor';
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +27,7 @@ class App extends Component {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
-      session: [],
+      session: null,
     }
   }
 
@@ -33,8 +38,9 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if(this.props.user) {
-      console.log(this.props.user);
+    if(this.props.user && !this.state.session) {
+      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
+      this.setState({ session: sess });
     }
   }
 
@@ -93,16 +99,16 @@ class App extends Component {
     var conditionCategories = [];
     var retVal = [];
 
-    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
-    if(sess[0]) { // NOTE: would not have to do this once logging out full implemented
-      if (sess[0].condition === 'surface') {
-        conditionCategories = Categories.find({ condition: 'surface' }).fetch();
-      } else if (sess[0].condition === 'deep') {
-        conditionCategories = Categories.find({ condition: 'deep' }).fetch();
-      } else if (sess[0].condition === 'both') {
-        conditionCategories = Categories.find({ condition: 'both' }).fetch();
-      } else if (sess[0].condition === 'neither') {
-        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+    if(this.state.session) {
+      if (this.state.session.condition === 'neither') {
+        var temp = Categories.find({}).fetch();
+        temp.map((category) => {
+          if(category.created_by.indexOf(Meteor.userId()) !== -1) {
+            conditionCategories.push(category);
+          } 
+        })
+      } else {
+        conditionCategories = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}]}).fetch();
       }
     }
 

@@ -57,3 +57,13 @@
 .form-label {
     color: white;
 }
+
+.form-control {
+    color: black !important;
+    background: white !important;
+}
+
+.form-control:focus {
+    color: black !important;
+    background: rgb(232, 240, 254) !important;
+}
