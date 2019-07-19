@@ -23,7 +23,7 @@ export default class ExemplarRouter extends Component {
                     <Route path='/Start/:id' component={Start} />
                     <Route path='/End' component={Logout} />
                     {/* <Route exact path='/' render={() => <Login updateSessionID={this.updateSessionID} history={this.state.browserHistory}/> } /> */}
-                    {/* <Route path='/Tag' render={(props) => <App {...props} sessionID={this.state.sessionID} />} /> */}
+                    {/* <Route path='/Tag' render={(props) => <App {...props}/>} /> */}
                 </Switch>
             </Router>
         )

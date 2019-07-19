@@ -34,8 +34,8 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if(Meteor.user()) {
-      console.log(Meteor.user());
+    if(this.props.user) {
+      console.log(this.props.user);
     }
   }
 

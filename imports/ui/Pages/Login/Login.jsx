@@ -36,19 +36,9 @@ class Login extends Component {
                     error: err.reason
                 });
             } else {
-                Meteor.call('sessions.insert', Meteor.userId(), (error, result) => {
-                    if(error) {
-                        throw new Meteor.Error(error);
-                    } else {
-                        // Meteor.users.update({_id: Meteor.userId()}, {$set: {curr_session_id: result} });
-                        console.log(result);
-                        console.log(Meteor.users);
-                        // this.props.history.push('/Start/0');
-                    }
-                });
+                this.props.history.push('/Start/0');
             }
         });
-        console.log(this.props.history);
     }
 
     // Handle Account Creation
@@ -59,6 +49,7 @@ class Login extends Component {
             username: email.substring(0, email.lastIndexOf("@")),
             email: email,
             password: this.state.password,
+            profile: { curr_session_id: null },
         }
         Accounts.createUser(registerData, (err) => {
             if (Meteor.user()) {
@@ -74,11 +65,6 @@ class Login extends Component {
 
 
     render() {
-        console.log(Meteor.user());
-        console.log("Current User ID" + Meteor.userId());
-        //  + " finding vincent: " + Accounts.findUserByEmail("vincentchu5407@gmail.com"));
-        console.log(this.state.email);
-        console.log(this.state.password);
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -137,6 +123,7 @@ class Login extends Component {
 
 export default withTracker(() => {
     return {
-      sessions: Sessions.find({}).fetch()
+      sessions: Sessions.find({}).fetch(),
+      user: Meteor.user()
     }
   })(Login);

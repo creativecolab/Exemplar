@@ -4,6 +4,7 @@ import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
 import CategoryInstances from '/imports/api/categoryInstances.js';
 import Sessions from '/imports/api/sessions.js';
+import { Accounts } from 'meteor/accounts-base';
 
 function insertExample(condition, description, image, url) {
   Examples.insert({ condition, description, image, url, created_by: 'admin', created_at: null });
@@ -14,12 +15,31 @@ function insertCategory(label, condition, created_by) {
 }
 
 Meteor.startup(() => {
-  Meteor.users.allow({
-    update: function (userId, doc, fields, modifier) {
-      console.log('UPDATE USER');
-      return true; 
+  Accounts.onCreateUser((options, user) => {
+    var sessionID = Sessions.insert({
+      condition: 'neither',   // UPDATE LATER
+      user_id: user._id,
+      created_at: new Date(),
+      finished_at: null,
+      user_response_before: null,
+      user_response_after: null,
+      response_before_time: null,
+      response_after_time: null,
+      tagging_time: null,
+      generation_time: null,
+      tagging_own_time: null
+    });
+
+    const customizedUser = user;
+  
+    if (options.profile) {
+      customizedUser.profile = options.profile;
     }
-  });
+
+    customizedUser.curr_session_id = sessionID;
+  
+    return customizedUser; 
+  })
 
   if (Examples.find().count() === 0) {
     insertExample(
