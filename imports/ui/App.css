@@ -60,3 +60,7 @@
   padding-left: 10px;
   color: lightgray;
 }
+
+#Nav {
+  float: left;
+}

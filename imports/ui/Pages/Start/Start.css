@@ -43,6 +43,13 @@
     background-color: #00C39D;
 }
 
+.btn:hover {
+    background-color: #3e8e41 
+}
+
 .btn-success {
     border-color: none;
+    background-color: #00C39D;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
