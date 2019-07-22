@@ -5,26 +5,26 @@ import { check } from 'meteor/check';
 export default Categories = new Mongo.Collection('categories');
 
 Meteor.methods({
-  'categories.increment'(label) {
-    check(label, String);
+  'categories.increment'(id) {
+    check(id, String);
 
-    // if(!this.userId) {
-    //   throw new Meteor.Error('not-authorized');
-    // }
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
 
-    Categories.update({ label: label }, {
+    Categories.update({ _id: id }, {
       $inc: { selected_count: 1},
     });
 
-    return Categories.findOne({ label: label })._id;
+    return id;
   },
 
   'categories.insert'(label) {
     check(label, String);
 
-    // if(!this.userId) {
-    //   throw new Meteor.Error('not-authorized');
-    // }
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
 
     return Categories.insert({
       label: label,

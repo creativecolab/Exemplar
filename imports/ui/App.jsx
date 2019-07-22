@@ -27,7 +27,7 @@ class App extends Component {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
-      session: [],
+      session: null,
     }
   }
 
@@ -38,8 +38,9 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user) {
-      console.log(this.props.user);
+    if(this.props.user && !this.state.session) {
+      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
+      this.setState({ session: sess });
     }
   }
 
@@ -98,16 +99,11 @@ class App extends Component {
     var conditionCategories = [];
     var retVal = [];
 
-    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
-    if (sess[0]) { // NOTE: would not have to do this once logging out full implemented
-      if (sess[0].condition === 'surface') {
-        conditionCategories = Categories.find({ condition: 'surface' }).fetch();
-      } else if (sess[0].condition === 'deep') {
-        conditionCategories = Categories.find({ condition: 'deep' }).fetch();
-      } else if (sess[0].condition === 'both') {
-        conditionCategories = Categories.find({ condition: 'both' }).fetch();
-      } else if (sess[0].condition === 'neither') {
+    if(this.state.session) {
+      if (this.state.session.condition === 'neither') {
         conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+      } else {
+        conditionCategories = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       }
     }
 

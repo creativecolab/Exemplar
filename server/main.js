@@ -13,7 +13,12 @@ function insertExample(condition, description, image, url) {
 }
 
 function insertCategory(label, condition, created_by) {
-  Categories.insert({ label, condition, created_by, selected_count: 0, created_at: null });
+  var createdByArr = []
+  createdByArr.push(created_by);
+
+  var createdAtArr = [];
+  createdAtArr.push(null);
+  Categories.insert({ label, condition, created_by: createdByArr, created_at: createdAtArr });
 }
 
 Meteor.startup(() => {
@@ -23,12 +28,12 @@ Meteor.startup(() => {
       user_id: user._id,
       created_at: new Date(),
       finished_at: null,
-      user_response_before: null,
-      user_response_after: null,
-      response_before_time: null,
-      response_after_time: null,
+      user_problem_before: null,
+      user_problem_after: null,
+      problem_before_time: null,
+      problem_after_time: null,
       tagging_time: null,
-      generation_time: null,
+      ideation_time: null,
       tagging_own_time: null
     });
 
