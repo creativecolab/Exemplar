@@ -1,29 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
-.Landing {
-    overflow-x: hidden;
-    background-color: #cacaca;
-    min-height: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-}
-
-.container {
-    margin: 0 0;
-    padding: 0 0;
-}
-
-.box {
-    background-color: #535353;
-    border-color: #adcffc;
-    border-radius: 20px;
-    padding-top: 1.5vh;
-    padding-bottom: 1.5vh;
-    padding-right: 1.5vw;
-    padding-left: 1.5vw;
-}
-
-
 .text {
     color: black;
     font-family: 'Noto Serif', serif;
@@ -32,14 +7,17 @@
 }
 
 .btn {
+    float: right;
     color: #FFFDFD;
     font-family: 'Noto Serif', serif;
     padding: .5rem 2.5rem;
     background-color: #00C39D;
+    border-color: none;
+    cursor: pointer;
 }
 
-.btn-success {
-    border-color: none;
+.btn:hover {
+    background-color: rgb(0, 136, 109);
 }
 
 .problemInput {
@@ -62,7 +40,12 @@
     background-color: white !important;
 }
 
-.form-control:focus{
+.form-control:focus {
     color: black !important;
     background-color: rgb(232, 240, 254) !important;
+}
+
+/* TODO create account modal */
+#create-account {
+    float: middle;
 }

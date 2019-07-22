@@ -17,9 +17,11 @@ class Start extends Component {
             textIntro: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
             textInterm1: "You will now have 10 minutes to carefully look through the example solutions for the general issue of transportation. Your task is to tag the examples using the existing categories. You may also make your own categories to use as tags.",
             textInterm2: "You will now be asked to generate your own ideas/solutions for the issue of transportation. Particularly, you should generate solutions for the transportation problem that you previously described. The example solutions will be provided, so you may look through them again for inspiration.",
+            textInterm3: "You will once again be presented with the example solutions, as well as your own solution. Your next task requires you to organize your solution in relation to the provided example solutions.",
+            textInterm4: "Again, use the existing categories or create your own to tag your idea/solution. Feel free to add tags to the provided examples if you feel they somehow relate to your own idea/solution."
         };
 
-        const page = ["/Problem/Before", "/Start/2", "/Tag"];
+        const page = ["/Problem/Before", "/Start/2", "/Tag", "/Start/4"];
         const pageId = this.props.match.params.pageId;
         let text = "";
         let nextPage = "";
@@ -36,6 +38,14 @@ class Start extends Component {
             } break;
             case "2": {
                 text = data.textInterm2;
+                nextPage = page[2];
+            } break;
+            case "3": {
+                text = data.textInterm3;
+                nextPage = page[3];
+            } break;
+            case "4": {
+                text = data.textInterm4;
                 nextPage = page[2];
             } break;
             default: {

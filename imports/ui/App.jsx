@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 // React and JS imports
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
@@ -147,12 +147,22 @@ class App extends Component {
                   Categories
                 </div>
                 {this.displayCategories()}
+                <div id="Nav">
+                  <a href="/Problem/After">
+                    <Button id="nextButton" variant="success" >Done</Button>
+                  </a>
+                  <a href="/End">
+                    <Button id="nextButton" variant="success" >Logout Page</Button>
+                  </a>
+                </div>
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
-                  <div id="searchBar">Search for keywords, categories, etc.</div>
+                  <div id="searchBar">
+                    Search for keywords, categories, etc.>
+                    </div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
