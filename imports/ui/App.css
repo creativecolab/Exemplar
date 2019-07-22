@@ -10,6 +10,7 @@
   color: #ffffff;
   font-size: 3em;
   font-family: 'Noto Serif', serif;
+  margin-top: 20px;
 }
 
 .App {
@@ -63,4 +64,13 @@
 
 #Nav {
   float: left;
+}
+
+#clear {
+  font-size: .25em;
+  margin-left: 50px;
+  color: #00C39D;
+  text-decoration: underline;
+  text-decoration-color: #00C39D;
+  cursor: pointer;
 }

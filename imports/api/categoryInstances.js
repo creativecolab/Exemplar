@@ -9,11 +9,11 @@ Meteor.methods({
     check(catID, String);
     check(exampleID, String);
     check(sessionID, String);
-    // if(!this.userId) {
-    //   throw new Meteor.Error('not-authorized');
-    // }
 
-
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+    
     return CategoryInstances.insert({
       user_id: this.userId,
       category_id: catID,

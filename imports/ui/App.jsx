@@ -11,6 +11,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 // Components Import
 import Category from './Components/Category/Category.jsx';
 import Example from './Components/Example/Example.jsx';
+import TaskBubble from './Components/TaskBubble/TaskBubble.jsx';
 import './App.css';
 
 // Collections Import
@@ -95,6 +96,12 @@ class App extends Component {
     }
   }
 
+  clearFilters = (event) => {
+    event.preventDefault();
+    this.setState({ categoriesSelected: [] });
+    this.setState({ examples: [] });
+  }
+
   displayCategories = () => {
     var conditionCategories = [];
     var retVal = [];
@@ -108,7 +115,13 @@ class App extends Component {
     }
 
     conditionCategories.map((category) => {
-      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} />);
+      var selected;
+      if(this.state.categoriesSelected.indexOf(category._id) === -1) {
+        selected = false;
+      } else {
+        selected = true;
+      }
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} />);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
@@ -143,25 +156,27 @@ class App extends Component {
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="LeftPane">
+                <TaskBubble />
                 <div className="LeftPane-header">
-                  Categories
+                  <span>Categories</span>
+                  <span id='clear' onClick={this.clearFilters}>Clear all</span>
                 </div>
                 {this.displayCategories()}
-                <div id="Nav">
+                {/* <div id="Nav">
                   <a href="/Problem/After">
                     <Button id="nextButton" variant="success" >Done</Button>
                   </a>
                   <a href="/End">
                     <Button id="nextButton" variant="success" >Logout Page</Button>
                   </a>
-                </div>
+                </div> */}
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
                   <div id="searchBar">
-                    Search for keywords, categories, etc.>
+                    Search for keywords, categories, etc.
                     </div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
