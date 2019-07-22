@@ -25,7 +25,7 @@
 
 
 .text {
-    color: #FFFFFF;
+    color: black;
     font-family: 'Noto Serif', serif;
     align-content: center;
     text-align: left;
@@ -59,11 +59,10 @@
 }
 
 .form-control {
-    color: black !important;
-    background: white !important;
+    background-color: white !important;
 }
 
-.form-control:focus {
+.form-control:focus{
     color: black !important;
-    background: rgb(232, 240, 254) !important;
+    background-color: rgb(232, 240, 254) !important;
 }

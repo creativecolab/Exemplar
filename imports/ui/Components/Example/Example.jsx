@@ -30,6 +30,13 @@ class Example extends Component {
     }
   }
 
+  componentDidUpdate = (prevProps) => {
+    if(this.props.categories !== prevProps.categories) {
+      var catLabels = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+      this.setState({ labels: catLabels });
+    }
+  }
+
   displayCategories = () => {
     var allCategories = [];
     var categoriesAdded = [];
@@ -89,8 +96,10 @@ class Example extends Component {
   addNew = (event) => {
     event.preventDefault();
 
-    if(Categories.findOne({ label: this.state.newCategoryVal })) {
-      Meteor.call('categories.increment', this.state.newCategoryVal, (err, result) => {
+    // both label exists and created by admin and that category is in the user's condition
+    var existingCategory = Categories.findOne({ label: this.state.newCategoryVal, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] });
+    if(existingCategory) {
+      Meteor.call('categories.increment', existingCategory._id, (err, result) => {
         if(err) {
           throw new Meteor.Error(err);
         } else {

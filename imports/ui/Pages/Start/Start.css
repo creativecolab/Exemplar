@@ -24,7 +24,7 @@
 }
 
 .text {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-family: 'Noto Serif', serif;
     align-content: center;
     text-align: left;

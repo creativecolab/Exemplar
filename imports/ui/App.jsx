@@ -101,14 +101,9 @@ class App extends Component {
 
     if(this.state.session) {
       if (this.state.session.condition === 'neither') {
-        var temp = Categories.find({}).fetch();
-        temp.map((category) => {
-          if(category.created_by.indexOf(Meteor.userId()) !== -1) {
-            conditionCategories.push(category);
-          } 
-        })
+        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
       } else {
-        conditionCategories = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}]}).fetch();
+        conditionCategories = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       }
     }
 
