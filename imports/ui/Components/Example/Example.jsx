@@ -11,36 +11,36 @@ import CategoryInstances from '../../../api/categoryInstances.js';
 
 class Example extends Component {
   constructor(props) {
-    super(props);
-
-    var sess = Sessions.find({ user_id: Meteor.userId(), finished_at: null }).fetch();
+    super(props);  
 
     this.state = {
       newCategoryVal: '',
       labels: [],
       suggestions: [],
-      session: (sess[0] ? sess[0] : null),
+      session: null,
     }
   }
 
   componentDidMount = () => {
-    var catLabels = [];
-    if(this.state.session) {
-      this.props.categories.map((category) => {
-        if((this.state.session.condition === category.condition) || (category.created_by === Meteor.userId())) {
-          console.log("ADDING");
-          catLabels.push(category.label);
-        }
-      });
+    if(this.props.user && !this.state.session) {
+      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
+      this.setState({ session: sess });
+      var catLabels = Categories.find({ $or: [{condition: sess.condition}, {created_by: Meteor.userId()}] }).fetch();
+      this.setState({ labels: catLabels });
     }
-    this.setState({ labels: catLabels });
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if(this.props.categories !== prevProps.categories) {
+      var catLabels = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+      this.setState({ labels: catLabels });
+    }
   }
 
   displayCategories = () => {
     var allCategories = [];
     var categoriesAdded = [];
 
-    // console.log(this.state.session); 
     if(this.state.session) {
       var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId() }).fetch();
       instances.map((instance) => {
@@ -63,17 +63,16 @@ class Example extends Component {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
   
-    console.log(this.state.labels);
-    return inputLength === 0 ? [] : this.state.labels.filter((label) =>
-      label.toLowerCase().slice(0, inputLength) === inputValue
-    );
+    return inputLength === 0 ? [] : this.state.labels.filter((l) => {
+      return l.label.toLowerCase().slice(0, inputLength) === inputValue
+    });
   };
 
-  getSuggestionValue = (suggestion) => { return suggestion;}
+  getSuggestionValue = (suggestion) => { return suggestion.label;}
 
   renderSuggestion = (suggestion) => (
     <div>
-      {suggestion}
+      {suggestion.label}
     </div>
   );
 
@@ -97,10 +96,12 @@ class Example extends Component {
   addNew = (event) => {
     event.preventDefault();
 
-    if(Categories.findOne({ label: this.state.newCategoryVal })) {
-      Meteor.call('categories.increment', this.state.newCategoryVal, (err, result) => {
+    // both label exists and created by admin and that category is in the user's condition
+    var existingCategory = Categories.findOne({ label: this.state.newCategoryVal, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] });
+    if(existingCategory) {
+      Meteor.call('categories.increment', existingCategory._id, (err, result) => {
         if(err) {
-          throw new Meteor.Error('call to categories.increment produced an error');
+          throw new Meteor.Error(err);
         } else {
           this.createInstance(result);
         }
@@ -108,7 +109,7 @@ class Example extends Component {
     } else {
       Meteor.call('categories.insert', this.state.newCategoryVal, (err, result) => {
         if(err) {
-          throw new Meteor.Error('call to categories.insert produced an error');
+          throw new Meteor.Error(err);
         } else {
           this.createInstance(result);
         }
@@ -134,7 +135,6 @@ class Example extends Component {
             <div className="exampleCategoryContainer">
               {this.displayCategories()}
               <form id="newCategory" onSubmit={this.addNew}>
-                {/* <input id="newCategoryInput" type="text" value={this.state.newCategoryVal} placeholder="add a new category..." onChange={this.handleNewCategoryChange} /> */}
                 <Autosuggest
                   id="newCategoryInput"
                   suggestions={this.state.suggestions}
@@ -162,5 +162,6 @@ export default withTracker(() => {
   return {
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
+    user: Meteor.user(),
   }
 })(Example);
