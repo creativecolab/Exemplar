@@ -14,13 +14,12 @@ class Category extends Component {
   
     clicked = (event, id) => {
         event.preventDefault();
-        this.setState({ selected: !this.state.selected });
         this.props.categoryClicked(id);
     }
 
     render() {
         return (
-            <div className={this.state.selected ? "categoryContainerClicked" : "categoryContainer"} onClick={this.props.categoryClicked ? ((event) => this.clicked(event, this.props.category._id)) : null}>
+            <div className={this.props.selected ? "categoryContainerClicked" : "categoryContainer"} onClick={this.props.categoryClicked ? ((event) => this.clicked(event, this.props.category._id)) : null}>
                 {this.props.category.label}
             </div>
         )
