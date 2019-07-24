@@ -30,9 +30,9 @@ class Example extends Component {
     }
   }
 
-  componentDidUpdate = (prevProps) => {
-    if(this.props.categories !== prevProps.categories) {
-      var catLabels = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.props.categories !== prevProps.categories && prevState.session) {
+      var catLabels = Categories.find({ $or: [{condition: prevState.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       this.setState({ labels: catLabels });
     }
   }
