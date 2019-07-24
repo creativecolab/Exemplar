@@ -43,6 +43,7 @@ class App extends Component {
       var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
       this.setState({ session: sess });
     }
+
   }
 
   categoryClicked = (id) => {
@@ -121,7 +122,7 @@ class App extends Component {
       } else {
         selected = true;
       }
-      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} />);
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} clickable={true} />);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
@@ -147,6 +148,20 @@ class App extends Component {
     });
 
     return <div>{retVal}</div>
+  }
+
+  calcUntaggedExamples = () => {
+    var exTagged = [];
+    if(this.state.session) {
+      var allInstances = CategoryInstances.find({}).fetch();
+      allInstances.map((instance) => {
+        if((instance.user_id === Meteor.userId()) && (exTagged.indexOf(instance.example_id) === -1) && (instance.session_id === this.state.session._id)) {
+          exTagged.push(instance.example_id);
+        }
+      });
+    }
+
+    return this.props.examples.length - exTagged.length;
   }
 
   render() {
@@ -175,9 +190,15 @@ class App extends Component {
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
-                  <div id="searchBar">
-                    Search for keywords, categories, etc.
-                    </div>
+                  <div id="rightHeader">
+                    <span id="searchBar">Search for keywords, categories, etc.</span>
+                    <span id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</span>
+                    <span id="catTagged">{this.calcUntaggedExamples()} examples have not been tagged.</span>
+                    {/* <span id="numContainer">
+                      <div id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</div>
+                      <div id="catTagged">{this.calcTaggedExamples()} examples have been tagged.</div>
+                    </span> */}
+                  </div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
