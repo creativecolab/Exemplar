@@ -11,6 +11,7 @@
   color: #ffffff;
   font-size: 3em;
   font-family: 'Noto Serif', serif;
+  margin-top: 20px;
 }
 
 .App {
@@ -51,6 +52,11 @@
   height: 100vh;
 }
 
+#rightHeader {
+  display: flex;
+  justify-content: left;
+}
+
 #searchBar {
   background: white;
   border: 2px solid #00C39D;
@@ -64,4 +70,25 @@
 
 #Nav {
   padding: 0px 100px;
+  float: left;
+}
+
+#clear {
+  font-size: .25em;
+  margin-left: 50px;
+  color: #00C39D;
+  text-decoration: underline;
+  text-decoration-color: #00C39D;
+  cursor: pointer;
+}
+
+#numContainer {
+  margin-left: 10px;
+  text-align: left;
+}
+
+#catShown, #catTagged {
+  color: white;
+  font-size: 12px;
+  margin-left: 10px;
 }
