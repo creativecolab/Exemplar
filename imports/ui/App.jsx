@@ -11,6 +11,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 // Components Import
 import Category from './Components/Category/Category.jsx';
 import Example from './Components/Example/Example.jsx';
+import Information from './Components/Information/Information.jsx';
 import TaskBubble from './Components/TaskBubble/TaskBubble.jsx';
 import './App.css';
 
@@ -39,7 +40,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if(this.props.user && !this.state.session) {
+    if (this.props.user && !this.state.session) {
       var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
       this.setState({ session: sess });
     }
@@ -107,11 +108,11 @@ class App extends Component {
     var conditionCategories = [];
     var retVal = [];
 
-    if(this.state.session) {
+    if (this.state.session) {
       if (this.state.session.condition === 'neither') {
         conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
       } else {
-        conditionCategories = Categories.find({ $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+        conditionCategories = Categories.find({ $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
       }
     }
 
@@ -177,14 +178,22 @@ class App extends Component {
                   <span id='clear' onClick={this.clearFilters}>Clear all</span>
                 </div>
                 {this.displayCategories()}
-                {/* <div id="Nav">
-                  <a href="/Problem/After">
-                    <Button id="nextButton" variant="success" >Done</Button>
-                  </a>
-                  <a href="/End">
-                    <Button id="nextButton" variant="success" >Logout Page</Button>
-                  </a>
-                </div> */}
+                <Container fluid="true">
+                  <Row>
+                    <Col>
+                      <div id="Nav">
+                        <a href="/Problem/After">
+                          <Button block id="nextButton" variant="success" >Done</Button>
+                        </a>
+                        <br /> <br />
+                        <a href="/End">
+                          <Button block id="nextButton" variant="success" >Logout Page</Button>
+                        </a>
+                      </div>
+                    </Col>
+                  </Row>
+                </Container>
+                <Information />
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>

@@ -4,6 +4,7 @@
   background-color: #535353;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: none;
 }
 
 .LeftPane-header {
@@ -68,6 +69,7 @@
 }
 
 #Nav {
+  padding: 0px 100px;
   float: left;
 }
 

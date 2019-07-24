@@ -95,6 +95,7 @@ class Login extends Component {
                                         />
                                     </Form.Group>
                                     <Button
+                                        block
                                         varient="success"
                                         size="sm"
                                         disabled={!this.validateForm}
@@ -103,17 +104,17 @@ class Login extends Component {
                                         Login
                                     </Button>
                                 </form>
-                                {/* <div>
-Modal HERE? FOr create
-                                </div>
+                                <br />
+                                <br />
                                 <Button
+                                    block
                                     id="createAccount"
                                     size="sm"
                                     onClick={this.handleCreate}
                                     type="submit"
                                 >
                                     Create Account
-                                </Button> */}
+                                </Button>
                             </div>
                         </Col>
                         <Col md={4}></Col>
