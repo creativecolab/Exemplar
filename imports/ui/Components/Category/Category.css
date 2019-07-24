@@ -20,3 +20,26 @@
     color: white;
     background: #00C39D;
 }
+
+.categoryContainerPreview {
+    display: inline-block;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+.categoryContainerNoClick {
+    display: inline-block;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    color: white;
+}
