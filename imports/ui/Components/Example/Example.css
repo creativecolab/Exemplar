@@ -22,16 +22,18 @@
 
 .exampleGradient {
   position: absolute;
-  bottom: 1px;
+  bottom: 10px;
   left: 1px;
   height: 40px;
   width: 198px; 
   /* background: linear-gradient(to bottom, #53535300, #535353 30%); */
-  background: #00C39D;
+  /* background: #00C39D; */
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   overflow: hidden;
   padding-top: 7px;
+  display: flex;
+  padding-left: 10px;
 }
 
 .exampleCard {
@@ -78,7 +80,7 @@ input[type=text] {
   position: absolute;
   top: 25px;
   width: 280px;
-  height: 225px;
+  max-height: 245px;
   border: 1px solid #aaa;
   background-color: #fff;
   font-family: Helvetica, sans-serif;
@@ -121,11 +123,11 @@ input[type=text] {
 }
 
 .card-body {
-  padding-top: .15rem;
+  padding-top: .35rem;
   padding-left: .75rem;
   padding-right: .75rem;
 }
 
 #preview {
-  width: 10px;
+  padding-left: 10px;
 }

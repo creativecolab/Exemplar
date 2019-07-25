@@ -19,6 +19,18 @@ Meteor.methods({
     return id;
   },
 
+  'categories.delete'(id) {
+    check(id, String);
+
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Categories.update({ _id: id }, {
+      $set: { deleted: true },
+    });
+  },
+
   'categories.insert'(label) {
     check(label, String);
 
@@ -32,6 +44,7 @@ Meteor.methods({
       created_by: this.userId,
       selected_count: 1,
       created_at: new Date(),
+      deleted: false,
     });
   },
 })

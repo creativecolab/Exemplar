@@ -13,18 +13,13 @@ function insertExample(condition, description, image, url) {
 }
 
 function insertCategory(label, condition, created_by) {
-  var createdByArr = []
-  createdByArr.push(created_by);
-
-  var createdAtArr = [];
-  createdAtArr.push(null);
-  Categories.insert({ label, condition, created_by: createdByArr, created_at: createdAtArr });
+  Categories.insert({ label, condition, created_by: created_by, created_at: null, deleted: false });
 }
 
 Meteor.startup(() => {
   Accounts.onCreateUser((options, user) => {
     var sessionID = Sessions.insert({
-      condition: 'neither',   // UPDATE LATER
+      condition: 'deep',   // UPDATE LATER
       user_id: user._id,
       created_at: new Date(),
       finished_at: null,

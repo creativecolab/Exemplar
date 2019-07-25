@@ -8,14 +8,12 @@ class Category extends Component {
         super(props);
 
         var className;
-        if(props.selected && props.clickable) {
+        if(props.selected) {
             className = "categoryContainerClicked";
-        } else if(!props.selected && props.clickable) {
-            className = "categoryContainer";
-        } else if(!props.clickable && props.preview) {
+        } else if(props.preview) {
             className = "categoryContainerPreview";
-        } else if(!props.clickable && !props.preview) {
-            className = "categoryContainerNoClick";
+        } else {
+            className = "categoryContainer";
         }
         
         this.state = {
@@ -26,20 +24,20 @@ class Category extends Component {
   
     clicked = (event, id) => {
         event.preventDefault();
-        this.props.categoryClicked(id);
+        if((event.target.className === 'categoryContainer') || (event.target.className === 'categoryContainerClicked')) {
+            this.props.categoryClicked(id);
+        }
     }
 
     componentDidUpdate = (prevProps) => {
         if(prevProps !== this.props) {
             var className;
-            if(this.props.selected && this.props.clickable) {
+            if(this.props.selected) {
                 className = "categoryContainerClicked";
-            } else if(!this.props.selected && this.props.clickable) {
-                className = "categoryContainer";
-            } else if(!this.props.clickable && this.props.preview) {
+            } else if(this.props.preview) {
                 className = "categoryContainerPreview";
-            } else if(!this.props.clickable && !this.props.preview) {
-                className = "categoryContainerNoClick";
+            } else {
+                className = "categoryContainer";
             }
             this.setState({ style: className });
         }
@@ -49,6 +47,7 @@ class Category extends Component {
         return (
             <div className={this.state.style} onClick={this.props.categoryClicked ? ((event) => this.clicked(event, this.props.category._id)) : null}>
                 {this.props.category.label}
+                {this.props.own ? <span className="delete" onClick={(event) => {this.props.deleteHandler(event, this.props.category._id)}}>X</span> : null}
             </div>
         )
     }

@@ -104,15 +104,22 @@ class App extends Component {
     this.setState({ examples: [] });
   }
 
+  deleteHandler = (event, id) => {
+    event.preventDefault();
+    if(event.target.className === "delete") {
+      Meteor.call('categories.delete', id);
+    }
+  }
+
   displayCategories = () => {
     var conditionCategories = [];
     var retVal = [];
 
     if (this.state.session) {
       if (this.state.session.condition === 'neither') {
-        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+        conditionCategories = Categories.find({ created_by: Meteor.userId(), deleted: false }).fetch();
       } else {
-        conditionCategories = Categories.find({ $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
+        conditionCategories = Categories.find({ deleted: false, $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
       }
     }
 
@@ -123,7 +130,7 @@ class App extends Component {
       } else {
         selected = true;
       }
-      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} clickable={true} />);
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler}/>);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
