@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router';
 import History from 'history';
+import { Provider } from 'react-redux';
 
 // route components
 import App from '../ui/App.jsx';

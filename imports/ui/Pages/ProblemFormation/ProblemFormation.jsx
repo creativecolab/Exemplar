@@ -40,7 +40,7 @@ class ProblemFormation extends Component {
         const page = ["/Solution", "/Start/1"];
         let nextPage = "";
         let currentText = "";
-        
+
         switch (pageId) {
             case "After": {
                 nextPage = page[0];
@@ -99,7 +99,7 @@ class ProblemFormation extends Component {
                                                 disabled={this.state.isDisabled}
                                             >
                                                 Submit
-                                             </Button>
+                                            </Button>
                                         </a>
                                     </div>
                                 </Form>
