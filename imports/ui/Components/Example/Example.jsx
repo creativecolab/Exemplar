@@ -8,6 +8,7 @@ import './Example.css';
 import Category from '../Category/Category.jsx';
 import Categories from '../../../api/categories.js';
 import CategoryInstances from '../../../api/categoryInstances.js';
+import Interactions from '../../../api/interactions.js';
 
 class Example extends Component {
   constructor(props) {
@@ -128,6 +129,7 @@ class Example extends Component {
 
   createInstance = (catID) => {
     this.setState({ newCategoryVal: '' });
+    // Meteor.call('interactions.insert', {sessionID: this.state.session._id, type: "tagAdded"});
     Meteor.call('categoryInstances.insert', {catID: catID, exampleID: this.props.example._id, sessionID: this.state.session._id});
   }
 
@@ -206,6 +208,7 @@ export default withTracker(() => {
   return {
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
+    interactions: Interactions.find({}).fetch(),
     user: Meteor.user(),
   }
 })(Example);
