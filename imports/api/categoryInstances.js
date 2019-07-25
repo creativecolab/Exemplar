@@ -5,6 +5,18 @@ import { check } from 'meteor/check';
 export default CategoryInstances = new Mongo.Collection('categoryInstances');
 
 Meteor.methods({
+  'categoryInstances.delete'(catID) {
+    check(catID, String);
+
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    CategoryInstances.update({ category_id: catID }, {
+      $set: {deleted: true},
+    });
+  },
+
   'categoryInstances.insert'({catID, exampleID, sessionID}) {
     check(catID, String);
     check(exampleID, String);
@@ -20,6 +32,7 @@ Meteor.methods({
       example_id: exampleID,
       session_id: sessionID,
       created_at: new Date(),
+      deleted: false,
     });
   },
 })

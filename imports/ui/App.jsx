@@ -7,6 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 // import $ from 'jquery';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
@@ -106,15 +107,22 @@ class App extends Component {
     this.setState({ examples: [] });
   }
 
+  deleteHandler = (event, id) => {
+    event.preventDefault();
+    if(event.target.className === "delete") {
+      Meteor.call('categories.delete', id);
+    }
+  }
+
   displayCategories = () => {
     var conditionCategories = [];
     var retVal = [];
 
     if (this.state.session) {
       if (this.state.session.condition === 'neither') {
-        conditionCategories = Categories.find({ created_by: Meteor.userId() }).fetch();
+        conditionCategories = Categories.find({ created_by: Meteor.userId(), deleted: false }).fetch();
       } else {
-        conditionCategories = Categories.find({ $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
+        conditionCategories = Categories.find({ deleted: false, $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
       }
     }
 
@@ -125,7 +133,7 @@ class App extends Component {
       } else {
         selected = true;
       }
-      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} clickable={true} />);
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler}/>);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
@@ -182,13 +190,13 @@ class App extends Component {
                         <span id="catTagged">{this.calcUntaggedExamples()} examples have not been tagged.</span>
                         {this.state.session ? <Information session={this.state.session} /> : null}
                         {/* <br /> <br /> */}
-                        <a href="/Problem/After">
+                        <Link to="/Problem/After">
                           <Button block id="nextButton" variant="success" >Done</Button>
-                        </a>
+                        </Link>
                         <br /> <br />
-                        <a href="/End">
-                          <Button block id="nextButton" variant="success">Logout Page</Button>
-                        </a>
+                        <Link to="/End">
+                          <Button block id="nextButton" variant="success" >Logout Page</Button>
+                        </Link>
                       </div>
                     </Col>
                   </Row>

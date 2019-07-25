@@ -2,9 +2,17 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
+import {Link} from 'react-router-dom';
 // import Typed from 'react-typed';
 import '../Start/Start.css';
 import './ProblemFormation.css';
+
+const text = {
+    After: "After reading through the example solutions, would you like to refine your inital problem?",
+    Before: "The transportation domain contains many problems that need to be addressed. What are some issues that come to mind when you think about transportation?"
+};
+
+const page = ["/Solution", "/Start/1"];
 
 class ProblemFormation extends Component {
     constructor(props) {
@@ -31,13 +39,8 @@ class ProblemFormation extends Component {
     //     <input type="text" />
     // </Typed>
 
-    componentDidMount() {
+    getText = () => {
         const pageId = this.props.match.params.pageId;
-        const text = {
-            After: "After reading through the example solutions, would you like to refine your inital problem?",
-            Before: "The transportation domain contains many problems that need to be addressed. Pick one transportation problem you feel is important and fill in the blank."
-        };
-        const page = ["/Solution", "/Start/1"];
         let nextPage = "";
         let currentText = "";
 
@@ -59,14 +62,29 @@ class ProblemFormation extends Component {
         });
     }
 
+    componentDidUpdate = (prevProps) => {
+        if(this.props !== prevProps) {    
+            this.getText();
+        }
+    }   
+
+    componentDidMount() {
+        this.getText();
+    }
+
     handleChange(event) {
         const value = event.target.value.trim();
         var isDisabled = value ? false : true;
         this.setState({ value: event.target.value, isDisabled: isDisabled });
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+        Meteor.call('sessions.updateProblemBefore', this.state.value);
+    }
+
     render() {
-        const placeholderText = "transportation problem";
+        const placeholderText = "List transportation issues here";
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -77,11 +95,11 @@ class ProblemFormation extends Component {
                                 <Form onSubmit={this.handleSubmit}>
                                     {this.state.currentText} <br /><br />
                                     <InputGroup className="mb-3">
-                                        <InputGroup.Prepend>
+                                        {/* <InputGroup.Prepend>
                                             <div className="wrapper">
                                                 <InputGroup.Text id="inputGroup" style={{ "alignItems": "none", padding: "none !important" }}>How might we solve:</InputGroup.Text>
                                             </div>
-                                        </InputGroup.Prepend>
+                                        </InputGroup.Prepend> */}
                                         <Form.Control
                                             as='textarea'
                                             placeholder={placeholderText}
@@ -92,15 +110,15 @@ class ProblemFormation extends Component {
                                         </Form.Control>
                                     </InputGroup>
                                     <div className="next">
-                                        <a href={this.state.nextPage}>
+                                        <Link to={this.state.nextPage}>
                                             <Button
                                                 id="nextButton"
                                                 variant="success"
                                                 disabled={this.state.isDisabled}
                                             >
                                                 Submit
-                                            </Button>
-                                        </a>
+                                             </Button>
+                                        </Link>
                                     </div>
                                 </Form>
                             </div>

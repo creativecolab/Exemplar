@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, InputGroup, Form, FormControl } from 'reac
 import { withTracker } from 'meteor/react-meteor-data';
 import Typed from 'react-typed';
 import Textarea from 'react-textarea-autosize';
+import {Link} from 'react-router-dom';
 
 import Typing from 'react-typing-animation';
 
@@ -54,7 +55,7 @@ class Solution extends Component {
                                         </Form.Control>
                                     </InputGroup>   
                                     <div className="next">
-                                        <a href={this.state.nextPage}>
+                                        <Link to={this.state.nextPage}>
                                             <Button
                                                 id="nextButton"
                                                 variant="success"
@@ -62,7 +63,7 @@ class Solution extends Component {
                                             >
                                                 Submit
                                              </Button>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </Form>
                             </div>

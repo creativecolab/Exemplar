@@ -31,6 +31,7 @@
     margin-bottom: 5px;
     color: white;
     font-size: 12px;
+    max-width: 175px;
 }
 
 .categoryContainerNoClick {
@@ -42,4 +43,10 @@
     margin-right: 10px;
     margin-bottom: 5px;
     color: white;
+}
+
+.delete {
+    margin-left: 15px;
+    color: #00C39D;
+    font-weight: bold;
 }

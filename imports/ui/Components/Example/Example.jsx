@@ -8,6 +8,7 @@ import './Example.css';
 import Category from '../Category/Category.jsx';
 import Categories from '../../../api/categories.js';
 import CategoryInstances from '../../../api/categoryInstances.js';
+import Interactions from '../../../api/interactions.js';
 
 class Example extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Example extends Component {
     if(this.props.user && !this.state.session && this.props.example) {
       var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
       this.setState({ session: sess });
-      var catLabels = Categories.find({ $or: [{condition: sess.condition}, {created_by: Meteor.userId()}] }).fetch();
+      var catLabels = Categories.find({ deleted: false, $or: [{condition: sess.condition}, {created_by: Meteor.userId()}] }).fetch();
       this.setState({ labels: catLabels });
     }
   }
@@ -37,9 +38,18 @@ class Example extends Component {
       this.setState({ session: sess });
     }
     if((this.props.categories !== prevProps.categories) && prevState.session) {
-      var catLabels = Categories.find({ $or: [{condition: prevState.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+      var catLabels = Categories.find({ delted: false, $or: [{condition: prevState.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       this.setState({ labels: catLabels });
     }
+  }
+
+  shortenDescription = () => {
+    return this.props.example.description.slice(0, 115) + "...";
+  }
+
+  deleteHandler = (event, catID) => {
+    event.preventDefault();
+    Meteor.call('categoryInstances.delete', catID);
   }
 
   displayAllCategories = () => {
@@ -47,12 +57,14 @@ class Example extends Component {
     var categoriesAdded = [];
 
     if(this.state.session) {
-      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId() }).fetch();
+      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
       instances.map((instance) => {
         var category = Categories.findOne({ _id: instance.category_id });
-        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
-          categoriesAdded.push(category._id);
-          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} clickable={false}/>)
+        if(!category.deleted) { 
+          if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+            categoriesAdded.push(category._id);
+            allCategories.push(<Category key={category._id} category={category} categoryClicked={null} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />)
+          }
         }
       });
     }
@@ -65,21 +77,25 @@ class Example extends Component {
     var categoriesAdded = [];
 
     if(this.state.session) {
-      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId() }).fetch();
+      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
       instances.map((instance) => {
         var category = Categories.findOne({ _id: instance.category_id });
-        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
-          categoriesAdded.push(category._id);
-          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} clickable={false} preview={true}/>)
+        if(!category.deleted) {
+          if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+            categoriesAdded.push(category._id);
+            allCategories.push(<Category key={category._id} category={category} categoryClicked={null} preview={true} deleteHandler={this.deleteHandler} />)
+          }
         }
       });
     }
 
-    return allCategories.length === 0 ? <div style={{ color: 'white', fontSize: '14px' }}>No tags</div> : <div>{allCategories}</div>
+    return allCategories.length === 0 ? <div style={{ color: 'darkgray', fontSize: '14px' }}>No tags</div> : <div>{allCategories}</div>
   }
 
   handleNewCategoryChange = (event, { newValue, method }) => {
-    this.setState({ newCategoryVal: newValue });
+    if((newValue.length < 25)) {
+      this.setState({ newCategoryVal: newValue });
+    }
   }
 
   getSuggestions = (value) => {
@@ -113,13 +129,15 @@ class Example extends Component {
 
   createInstance = (catID) => {
     this.setState({ newCategoryVal: '' });
+    // Meteor.call('interactions.insert', {sessionID: this.state.session._id, type: "tagAdded"});
     Meteor.call('categoryInstances.insert', {catID: catID, exampleID: this.props.example._id, sessionID: this.state.session._id});
   }
 
   addNew = (event) => {
     event.preventDefault();
 
-    var existingCategory = Categories.findOne({ label: this.state.newCategoryVal, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] });
+    if(this.state.newCategoryVal === "") return;
+    var existingCategory = Categories.findOne({ label: this.state.newCategoryVal, deleted: false, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] });
     if(existingCategory) {
       Meteor.call('categories.increment', existingCategory._id, (err, result) => {
         if(err) {
@@ -152,28 +170,31 @@ class Example extends Component {
         <Card text="white" className={this.props.clicked ? "exampleCardClicked" : "exampleCard"}>
           <Card.Body>
             <Card.Text>
-              {this.props.example.description}
+              {this.props.clicked ? this.props.example.description : this.shortenDescription()}
             </Card.Text>
-            <div className="exampleCategoryContainer">
-              {this.displayAllCategories()}
-              <form id="newCategory" onSubmit={this.addNew}>
-                <Autosuggest
-                  id="newCategoryInput"
-                  suggestions={this.state.suggestions}
-                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                  onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                  getSuggestionValue={this.getSuggestionValue}
-                  renderSuggestion={this.renderSuggestion}
-                  inputProps={inputProps}
-                />
-              </form>
-            </div>
+            {this.props.clicked ? 
+              <div className="exampleCategoryContainer">
+                {this.displayAllCategories()}
+                <form id="newCategory" onSubmit={this.addNew}>
+                  <Autosuggest
+                    id="newCategoryInput"
+                    suggestions={this.state.suggestions}
+                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                    getSuggestionValue={this.getSuggestionValue}
+                    renderSuggestion={this.renderSuggestion}
+                    inputProps={inputProps}
+                  />
+                </form>
+              </div>
+              :
+              null
+            }
           </Card.Body>
         </Card>
         {!this.props.clicked ? 
           <div className="exampleGradient">
-            <span className="preview">{this.displayPreviewCategories()}</span>
-            <span>more...</span>
+            <div className="preview">{this.displayPreviewCategories()}</div>
           </div>
           :
           null
@@ -187,6 +208,7 @@ export default withTracker(() => {
   return {
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
+    interactions: Interactions.find({}).fetch(),
     user: Meteor.user(),
   }
 })(Example);
