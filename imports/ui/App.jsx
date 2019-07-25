@@ -5,7 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 // React and JS imports
 import React, { Component } from 'react';
-import $ from 'jquery';
+// import $ from 'jquery';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +25,6 @@ import Sessions from '../api/sessions.js';
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       exampleClicked: null,
       categoriesSelected: [],
@@ -35,17 +34,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      $(this.refs.intro).slideUp();
-    }, 200);
+    // setTimeout(() => {
+    //   $(this.refs.intro).slideUp();
+    // }, 200);
   }
 
   componentDidUpdate() {
+    // Timing here records the time the user got on the page
     if (this.props.user && !this.state.session) {
       var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
       this.setState({ session: sess });
+      var startTime = new Date().getTime()
+      Meteor.call('sessions.updateTagTime', { time: startTime, id: sess._id });
+      console.log("Session update and time!");
     }
-
   }
 
   categoryClicked = (id) => {
@@ -126,7 +128,7 @@ class App extends Component {
 
     conditionCategories.map((category) => {
       var selected;
-      if(this.state.categoriesSelected.indexOf(category._id) === -1) {
+      if (this.state.categoriesSelected.indexOf(category._id) === -1) {
         selected = false;
       } else {
         selected = true;
@@ -161,10 +163,10 @@ class App extends Component {
 
   calcUntaggedExamples = () => {
     var exTagged = [];
-    if(this.state.session) {
+    if (this.state.session) {
       var allInstances = CategoryInstances.find({}).fetch();
       allInstances.map((instance) => {
-        if((instance.user_id === Meteor.userId()) && (exTagged.indexOf(instance.example_id) === -1) && (instance.session_id === this.state.session._id)) {
+        if ((instance.user_id === Meteor.userId()) && (exTagged.indexOf(instance.example_id) === -1) && (instance.session_id === this.state.session._id)) {
           exTagged.push(instance.example_id);
         }
       });
@@ -180,16 +182,14 @@ class App extends Component {
           <Row>
             <Col xs={4} sm={4} md={4} lg={4} xl={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="LeftPane">
-                <TaskBubble />
-                <div className="LeftPane-header">
-                  <span>Categories</span>
-                  <span id='clear' onClick={this.clearFilters}>Clear all</span>
-                </div>
-                {this.displayCategories()}
                 <Container fluid="true">
                   <Row>
                     <Col>
                       <div id="Nav">
+                        <TaskBubble />
+                        <span id="catTagged">{this.calcUntaggedExamples()} examples have not been tagged.</span>
+                        {this.state.session ? <Information session={this.state.session} /> : null}
+                        {/* <br /> <br /> */}
                         <Link to="/Problem/After">
                           <Button block id="nextButton" variant="success" >Done</Button>
                         </Link>
@@ -201,7 +201,11 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-                <Information />
+                <div className="LeftPane-header">
+                  <span>Categories</span>
+                  <span id='clear' onClick={this.clearFilters}>Clear all</span>
+                </div>
+                {this.displayCategories()}
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -210,7 +214,6 @@ class App extends Component {
                   <div id="rightHeader">
                     <span id="searchBar">Search for keywords, categories, etc.</span>
                     <span id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</span>
-                    <span id="catTagged">{this.calcUntaggedExamples()} examples have not been tagged.</span>
                     {/* <span id="numContainer">
                       <div id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</div>
                       <div id="catTagged">{this.calcTaggedExamples()} examples have been tagged.</div>
@@ -242,4 +245,4 @@ export default withTracker(() => {
     sessions: Sessions.find({}).fetch(),
     user: Meteor.user(),
   }
-})(App);
+})(App); 

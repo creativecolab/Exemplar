@@ -43,7 +43,7 @@ class ProblemFormation extends Component {
         const pageId = this.props.match.params.pageId;
         let nextPage = "";
         let currentText = "";
-        
+
         switch (pageId) {
             case "After": {
                 nextPage = page[0];

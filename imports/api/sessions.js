@@ -15,4 +15,17 @@ Meteor.methods({
     console.log(this.user.profile.curr_session_id);
     console.log("HERE");
   },
+    'sessions.updateTagTime'({time, id}) {
+        // console.log(time + "LOL");
+        // console.log(id);
+        if (!this.userId) {
+            throw new Meteor.Error('not-authorized');
+        }
+        
+        Sessions.update({ _id: id }, {
+            $set: { tagging_time: time },
+        });
+
+        return id;
+    },
 })

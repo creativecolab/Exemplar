@@ -39,6 +39,7 @@ class Start extends Component {
                 text = data.textInterm1;
                 nextPage = page[1];
             } break;
+            // Start timing interaction
             case "2": {
                 text = data.textInterm2;
                 nextPage = page[2];
@@ -47,6 +48,7 @@ class Start extends Component {
                 text = data.textInterm3;
                 nextPage = page[3];
             } break;
+            // Start timing interaction
             case "4": {
                 text = data.textInterm4;
                 nextPage = page[2];
