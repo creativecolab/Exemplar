@@ -2,9 +2,17 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
+import {Link} from 'react-router-dom';
 // import Typed from 'react-typed';
 import '../Start/Start.css';
 import './ProblemFormation.css';
+
+const text = {
+    After: "After reading through the example solutions, would you like to refine your inital problem?",
+    Before: "The transportation domain contains many problems that need to be addressed. What are some issues that come to mind when you think about transportation?"
+};
+
+const page = ["/Solution", "/Start/1"];
 
 class ProblemFormation extends Component {
     constructor(props) {
@@ -31,13 +39,8 @@ class ProblemFormation extends Component {
     //     <input type="text" />
     // </Typed>
 
-    componentDidMount() {
+    getText = () => {
         const pageId = this.props.match.params.pageId;
-        const text = {
-            After: "After reading through the example solutions, would you like to refine your inital problem?",
-            Before: "The transportation domain contains many problems that need to be addressed. What are some issues that come to mind when you think about transportation?"
-        };
-        const page = ["/Solution", "/Start/1"];
         let nextPage = "";
         let currentText = "";
         
@@ -57,6 +60,16 @@ class ProblemFormation extends Component {
             nextPage: nextPage,
             currentText: currentText,
         });
+    }
+
+    componentDidUpdate = (prevProps) => {
+        if(this.props !== prevProps) {    
+            this.getText();
+        }
+    }   
+
+    componentDidMount() {
+        this.getText();
     }
 
     handleChange(event) {
@@ -97,7 +110,7 @@ class ProblemFormation extends Component {
                                         </Form.Control>
                                     </InputGroup>
                                     <div className="next">
-                                        <a href={this.state.nextPage}>
+                                        <Link to={this.state.nextPage}>
                                             <Button
                                                 id="nextButton"
                                                 variant="success"
@@ -105,7 +118,7 @@ class ProblemFormation extends Component {
                                             >
                                                 Submit
                                              </Button>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </Form>
                             </div>

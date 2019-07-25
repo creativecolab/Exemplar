@@ -7,6 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
@@ -189,13 +190,13 @@ class App extends Component {
                   <Row>
                     <Col>
                       <div id="Nav">
-                        <a href="/Problem/After">
+                        <Link to="/Problem/After">
                           <Button block id="nextButton" variant="success" >Done</Button>
-                        </a>
+                        </Link>
                         <br /> <br />
-                        <a href="/End">
+                        <Link to="/End">
                           <Button block id="nextButton" variant="success" >Logout Page</Button>
-                        </a>
+                        </Link>
                       </div>
                     </Col>
                   </Row>

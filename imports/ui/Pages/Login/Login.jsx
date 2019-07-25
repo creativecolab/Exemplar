@@ -36,7 +36,21 @@ class Login extends Component {
                     error: err.reason
                 });
             } else {
-                this.props.history.push('/Start/0');
+                var sessionID = Sessions.insert({
+                    condition: 'deep',   // UPDATE LATER
+                    user_id: Meteor.userId(),
+                    created_at: new Date(),
+                    finished_at: null,
+                    user_problem_before: null,
+                    user_problem_after: null,
+                    problem_before_time: null,
+                    problem_after_time: null,
+                    tagging_time: null,
+                    ideation_time: null,
+                    tagging_own_time: null
+                  });
+                this.props.login(sessionID);
+                // this.props.history.push('/Start/0');
             }
         });
     }
