@@ -1,7 +1,5 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import History from 'history';
-import { Provider } from 'react-redux';
 
 // route components
 import App from '../ui/App.jsx';
@@ -13,7 +11,6 @@ import Logout from '../ui/Pages/Logout/Logout.jsx';
 import Problem from '../ui/Pages/ProblemFormation/ProblemFormation.jsx';
 import Solution from '../ui/Pages/Solution/Solution.jsx';
 
-// const browserHistory = History.createBrowserHistory();
 
 export default class Routes extends React.Component {
     constructor(props) {
