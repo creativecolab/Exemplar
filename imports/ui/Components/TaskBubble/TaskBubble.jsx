@@ -9,7 +9,7 @@ class TaskBubble extends Component {
     }
 
     componentDidMount() {
-        console.log("Render Task mount first");
+        // console.log("Render Task mount first");
     }
     render() {
         if (this.props.session === null) {
