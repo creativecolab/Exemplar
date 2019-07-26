@@ -13,32 +13,22 @@ import Interactions from '../../../api/interactions.js';
 class Example extends Component {
   constructor(props) {
     super(props);  
+    
+    var sess = Sessions.findOne({ _id: props.sessionID });
+    var catLabels = Categories.find({ deleted: false, $or: [{condition: sess.condition}, {created_by: Meteor.userId()}] }).fetch();
 
     this.state = {
       newCategoryVal: '',
-      labels: [],
+      labels: catLabels,
       suggestions: [],
-      session: null,
+      session: sess,
       categories: [],
     }
   }
 
-  componentDidMount = () => {
-    if(this.props.user && !this.state.session && this.props.example) {
-      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
-      this.setState({ session: sess });
-      var catLabels = Categories.find({ deleted: false, $or: [{condition: sess.condition}, {created_by: Meteor.userId()}] }).fetch();
-      this.setState({ labels: catLabels });
-    }
-  }
-
   componentDidUpdate = (prevProps, prevState) => {
-    if(this.props.user && !this.state.session) {
-      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
-      this.setState({ session: sess });
-    }
-    if((this.props.categories !== prevProps.categories) && prevState.session) {
-      var catLabels = Categories.find({ delted: false, $or: [{condition: prevState.session.condition}, {created_by: Meteor.userId()}] }).fetch();
+  if((this.props.categories !== prevProps.categories)) {
+      var catLabels = Categories.find({ deleted: false, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       this.setState({ labels: catLabels });
     }
   }
@@ -56,18 +46,16 @@ class Example extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    if(this.state.session) {
-      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
-      instances.map((instance) => {
-        var category = Categories.findOne({ _id: instance.category_id });
-        if(!category.deleted) { 
-          if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
-            categoriesAdded.push(category._id);
-            allCategories.push(<Category key={category._id} category={category} categoryClicked={null} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />)
-          }
+    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
+    instances.map((instance) => {
+      var category = Categories.findOne({ _id: instance.category_id });
+      if(!category.deleted) { 
+        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+          categoriesAdded.push(category._id);
+          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />)
         }
-      });
-    }
+      }
+    });
 
     return <div>{allCategories}</div>
   }
@@ -76,18 +64,16 @@ class Example extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    if(this.state.session) {
-      var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
-      instances.map((instance) => {
-        var category = Categories.findOne({ _id: instance.category_id });
-        if(!category.deleted) {
-          if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
-            categoriesAdded.push(category._id);
-            allCategories.push(<Category key={category._id} category={category} categoryClicked={null} preview={true} deleteHandler={this.deleteHandler} />)
-          }
+    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
+    instances.map((instance) => {
+      var category = Categories.findOne({ _id: instance.category_id });
+      if(!category.deleted) {
+        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+          categoriesAdded.push(category._id);
+          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} preview={true} deleteHandler={this.deleteHandler} />)
         }
-      });
-    }
+      }
+    });
 
     return allCategories.length === 0 ? <div style={{ color: 'darkgray', fontSize: '14px' }}>No tags</div> : <div>{allCategories}</div>
   }
