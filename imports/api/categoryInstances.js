@@ -5,15 +5,16 @@ import { check } from 'meteor/check';
 export default CategoryInstances = new Mongo.Collection('categoryInstances');
 
 Meteor.methods({
-  'categoryInstances.delete'(catID) {
+  'categoryInstances.delete'({catID, exID}) {
     check(catID, String);
+    check(exID, String);
 
     if(!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
-    CategoryInstances.update({ category_id: catID }, {
-      $set: {deleted: true},
+    CategoryInstances.update({ category_id: catID, example_id: exID }, {
+      $set: { deleted: true },
     });
   },
 
