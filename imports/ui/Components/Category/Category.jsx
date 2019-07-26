@@ -47,7 +47,7 @@ class Category extends Component {
         return (
             <div className={this.state.style} onClick={this.props.categoryClicked ? ((event) => this.clicked(event, this.props.category._id)) : null}>
                 {this.props.category.label}
-                {this.props.own ? <span className="delete" onClick={(event) => {this.props.deleteHandler(event, this.props.category._id)}}>X</span> : null}
+                {this.props.own ? <span className={this.props.selected ? "deleteWhite" : "deleteGreen"} onClick={(event) => {this.props.deleteHandler(event, this.props.category._id)}}>X</span> : null}
             </div>
         )
     }
