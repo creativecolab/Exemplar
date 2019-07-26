@@ -5,14 +5,11 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 // React and JS imports
 import React, { Component } from 'react';
-// import $ from 'jquery';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
 import Example from './Components/Example/Example.jsx';
-import Information from './Components/Information/Information.jsx';
 import TaskBubble from './Components/TaskBubble/TaskBubble.jsx';
 import './App.css';
 
@@ -186,17 +183,7 @@ class App extends Component {
                   <Row>
                     <Col>
                       <div id="Nav">
-                        <TaskBubble />
-                        <span id="catTagged">{this.calcUntaggedExamples()} examples have not been tagged.</span>
-                        {this.state.session ? <Information session={this.state.session} /> : null}
-                        {/* <br /> <br /> */}
-                        <Link to="/Problem/After">
-                          <Button block id="nextButton" variant="success" >Done</Button>
-                        </Link>
-                        <br /> <br />
-                        <Link to="/End">
-                          <Button block id="nextButton" variant="success" >Logout Page</Button>
-                        </Link>
+                        {this.state.session ? <TaskBubble session={this.state.session} pageId={this.props.match.params.pageId} numNotTag={this.calcUntaggedExamples()} /> : null}
                       </div>
                     </Col>
                   </Row>

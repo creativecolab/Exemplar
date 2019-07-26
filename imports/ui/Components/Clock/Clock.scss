@@ -1,3 +1,18 @@
+.clock {
+    font-family: 'Noto Serif', serif;
+    color: #535353;
+    font-size: 3vh;
+    line-height: 5vh;
+    font-weight: 400;
+}
+
+.warn-clock {
+    color: red;
+    font-size: 3vh;
+    line-height: 5vh;
+    font-weight: 400;
+}
+
 #mobile-timer {
     position: absolute;
     top: 0;

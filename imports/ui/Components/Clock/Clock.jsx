@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 // import CircularProgressbar from 'react-circular-progressbar';
 
 import './Clock.scss';
@@ -37,19 +39,40 @@ export default class Clock extends Component {
     });
   }
 
+  pageSelect() {
+    if (this.props.pageId === "Before") {
+      return (
+        <Link to="/Problem/After">
+          <Button block id="nextButton" variant="success" >Done</Button>
+        </Link>);
+    } else if (this.props.pageId === "After") {
+      return (
+        <Link to="/End">
+          <Button block id="nextButton" variant="success" >Logout Page</Button>
+        </Link>)
+    }
+  }
+
   render() {
     const { timeLeft } = this.state;
 
     // console.log(timeLeft);
     // console.log(this.props.startTime);
     if (timeLeft < 0) {
-      return '';
+      return (
+        <div>
+          {this.pageSelect()}
+        </div>
+      );
     }
     const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);
     // console.log(clock.getTime());
     const clockString =
       "Time Left: " + clock.getMinutes() + ':' + (clock.getSeconds() < 10 ? '0' + clock.getSeconds() : clock.getSeconds());
-
-    return <>{clockString}</>;
+    const warning = (timeLeft < 30) ? true : false;
+    return (
+      <div className={warning ? "warn-clock" : "clock"}>
+        {clockString}
+      </div >);
   }
 }

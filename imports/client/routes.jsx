@@ -40,7 +40,7 @@ export default class Routes extends React.Component {
                         <Route exact path="/" render={(props) => <Login {...props} login={this.login} />} />
                     }
                     <Route path='/Start/:pageId' render={(props) => <Start {...props} sessionID={this.state.sessionID} />} />
-                    <Route path='/Tag' render={(props) => <App {...props} sessionID={this.state.sessionID} />} />
+                    <Route path='/Tag/:pageId' render={(props) => <App {...props} sessionID={this.state.sessionID} />} />
                     <Route path='/Problem/:pageId' render={(props) => <Problem {...props} sessionID={this.state.sessionID} />} />
                     <Route path='/Solution' render={(props) => <Solution {...props} sessionID={this.state.sessionID} />} />
                     <Route path='/End' render={(props) => <Logout {...props} sessionID={this.state.sessionID} />} />

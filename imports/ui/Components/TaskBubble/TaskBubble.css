@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+
 #taskbubble {
+  font-family: 'Noto Serif', serif;
   background-color: white;
-  color: #535353; 
+  color: #535353;
+  font-size: 2.5vh;
   padding: 10px;
   border-radius: 15px;
   width: 85%;
@@ -8,4 +12,10 @@
   margin-right: auto;
   margin-top: 10px;
   text-align: left;
+}
+
+#catTagged {
+  font-family: 'Noto Serif', serif;
+  color: #535353;
+  font-size: 2.5vh;
 }
