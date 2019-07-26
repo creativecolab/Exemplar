@@ -12,6 +12,7 @@
   margin-right: auto;
   margin-top: 10px;
   text-align: left;
+  overflow: hidden;
 }
 
 #catTagged {
