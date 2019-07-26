@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Button } from 'react-bootstrap';
-// import CircularProgressbar from 'react-circular-progressbar';
+import { Container, Button, MyVerticallyCenteredModal} from 'react-bootstrap';
 
 import './Clock.scss';
 
@@ -40,6 +39,7 @@ export default class Clock extends Component {
     });
   }
 
+  // controls what page is next
   pageSelect() {
     if (this.props.pageId === "Before") {
       return (
@@ -55,11 +55,13 @@ export default class Clock extends Component {
   }
 
   render() {
-    // console.log("Render Clock");
     const { timeLeft } = this.state;
+    const warning = timeLeft < 30 ? true : false;
+    const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);
+    const clockString =
+      "Time Left: " + clock.getMinutes() + ':' + (clock.getSeconds() < 10 ? '0' + clock.getSeconds() : clock.getSeconds());
 
-    // console.log(timeLeft);
-    // console.log(this.props.startTime);
+    // Timer runs out and changes time.
     if (timeLeft < 0) {
       return (
         <Container>
@@ -68,13 +70,13 @@ export default class Clock extends Component {
         </Container >
       );
     }
-    const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);
-    // console.log(clock.getTime());
-    const clockString =
-      "Time Left: " + clock.getMinutes() + ':' + (clock.getSeconds() < 10 ? '0' + clock.getSeconds() : clock.getSeconds());
-    const warning = (timeLeft < 30) ? true : false;
+
     return (
       <div className={warning ? "warn-clock" : "clock"}>
+        {/* <MyVerticallyCenteredModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        /> */}
         {clockString}
       </div >);
   }
