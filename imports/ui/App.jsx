@@ -5,7 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 // React and JS imports
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 // Components Import
 import Category from './Components/Category/Category.jsx';
@@ -23,6 +23,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    
+    var startTime = new Date().getTime();
+    Meteor.call('sessions.updateTagTime', { time: startTime, id: props.sessionID });
     var sess = Sessions.findOne({ _id: props.sessionID });
 
     this.state = {
@@ -31,11 +34,6 @@ class App extends Component {
       examples: [],
       session: sess,
     }
-  }
-
-  componentDidMount() {
-    var startTime = new Date().getTime();
-    Meteor.call('sessions.updateTagTime', { time: startTime, id: this.state.session._id });
   }
 
   categoryClicked = (id) => {

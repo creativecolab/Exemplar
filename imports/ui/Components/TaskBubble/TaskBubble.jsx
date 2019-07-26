@@ -8,14 +8,17 @@ class TaskBubble extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        console.log("Render Task mount first");
+    }
     render() {
         if (this.props.session === null) {
             return ''
         }
         else {
             // Set Time for Clock here
-            var totalTime = 2;
-            var time = new Date().getTime();
+            var totalTime = 600;
+            var time = this.props.session.tagging_time;
 
             return (
                 <div id='taskbubble'>
@@ -30,4 +33,4 @@ class TaskBubble extends Component {
 }
 
 // export default TaskBubble;
-export default TaskBubble;
+export default TaskBubble; 

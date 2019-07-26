@@ -19,12 +19,11 @@ Meteor.methods({
         if (!this.userId) {
             throw new Meteor.Error('not-authorized');
         }
-        
         Sessions.update({ _id: id }, {
-            $set: { tagging_time: time },
+          $set: { tagging_time: time },
         });
 
-        return id;
+        // return id;
     },
 
     'sessions.insert'() {

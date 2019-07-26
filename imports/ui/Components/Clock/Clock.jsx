@@ -33,6 +33,7 @@ export default class Clock extends Component {
 
   // decrease every second
   tick() {
+    // console.log("Tick");
     const { totalTime, startTime } = this.props;
     this.setState({
       timeLeft: totalTime - parseInt(Math.abs(startTime - new Date().getTime()) / 1000)
@@ -40,7 +41,6 @@ export default class Clock extends Component {
   }
 
   pageSelect() {
-    console.log(this.props.pageId);
     if (this.props.pageId === "Before") {
       return (
         <Link to="/Problem/After">
@@ -55,6 +55,7 @@ export default class Clock extends Component {
   }
 
   render() {
+    // console.log("Render Clock");
     const { timeLeft } = this.state;
 
     // console.log(timeLeft);
