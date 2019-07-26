@@ -97,7 +97,7 @@ class App extends Component {
 
   deleteHandler = (event, id) => {
     event.preventDefault();
-    if (event.target.className === "delete") {
+    if (event.target.className === "deleteGreen" || event.target.className === "deleteWhite") {
       Meteor.call('categories.delete', id);
     }
   }
