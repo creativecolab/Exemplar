@@ -16,8 +16,6 @@ Meteor.methods({
     console.log("HERE");
   },
     'sessions.updateTagTime'({time, id}) {
-        // console.log(time + "LOL");
-        // console.log(id);
         if (!this.userId) {
             throw new Meteor.Error('not-authorized');
         }
@@ -28,4 +26,20 @@ Meteor.methods({
 
         return id;
     },
+
+    'sessions.insert'() {
+      return Sessions.insert({
+        condition: 'deep',   // UPDATE LATER
+        user_id: Meteor.userId(),
+        created_at: new Date(),
+        finished_at: null,
+        user_problem_before: null,
+        user_problem_after: null,
+        problem_before_time: null,
+        problem_after_time: null,
+        tagging_time: null,
+        ideation_time: null,
+        tagging_own_time: null
+      });
+    }
 })

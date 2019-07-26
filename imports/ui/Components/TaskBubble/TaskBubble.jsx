@@ -13,13 +13,14 @@ class TaskBubble extends Component {
             return ''
         }
         else {
-            var totalTime = 60;
+            // Set Time for Clock here
+            var totalTime = 2;
             var time = new Date().getTime();
 
             return (
                 <div id='taskbubble'>
                     Your task is to look through the examples to the right, and tag them with existing or new categories.
-                    <br />
+                    <br /> <br />
                     <span id="catTagged">{this.props.numNotTag} examples have not been tagged.</span>
                     {<Clock startTime={time} pageId={this.props.pageId} totalTime={totalTime} />}
                 </div>

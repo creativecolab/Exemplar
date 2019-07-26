@@ -13,7 +13,7 @@ class Logout extends Component {
             if (err) {
                 console.log(err.reason);
             } else {
-                this.props.history.push('/');
+                this.props.logout();
             }
         });
         // console.log(this.props.history);

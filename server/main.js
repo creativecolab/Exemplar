@@ -18,31 +18,31 @@ function insertCategory(label, condition, created_by) {
 }
 
 Meteor.startup(() => {
-  Accounts.onCreateUser((options, user) => {
-    var sessionID = Sessions.insert({
-      condition: 'deep',   // UPDATE LATER
-      user_id: user._id,
-      created_at: new Date(),
-      finished_at: null,
-      user_problem_before: null,
-      user_problem_after: null,
-      problem_before_time: null,
-      problem_after_time: null,
-      tagging_time: null,
-      ideation_time: null,
-      tagging_own_time: null
-    });
+  // Accounts.onCreateUser((options, user) => {
+  //   var sessionID = Sessions.insert({
+  //     condition: 'deep',   // UPDATE LATER
+  //     user_id: user._id,
+  //     created_at: new Date(),
+  //     finished_at: null,
+  //     user_problem_before: null,
+  //     user_problem_after: null,
+  //     problem_before_time: null,
+  //     problem_after_time: null,
+  //     tagging_time: null,
+  //     ideation_time: null,
+  //     tagging_own_time: null
+  //   });
 
-    const customizedUser = user;
+  //   const customizedUser = user;
   
-    if (options.profile) {
-      customizedUser.profile = options.profile;
-    }
+  //   if (options.profile) {
+  //     customizedUser.profile = options.profile;
+  //   }
 
-    customizedUser.profile.curr_session_id = sessionID;
+  //   customizedUser.profile.curr_session_id = sessionID;
   
-    return customizedUser; 
-  })
+  //   return customizedUser; 
+  // })
 
   if (Examples.find().count() === 0) {
     insertExample(

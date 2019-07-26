@@ -22,29 +22,20 @@ import Sessions from '../api/sessions.js';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    var sess = Sessions.findOne({ _id: props.sessionID });
+
     this.state = {
       exampleClicked: null,
       categoriesSelected: [],
       examples: [],
-      session: null,
+      session: sess,
     }
   }
 
   componentDidMount() {
-    // setTimeout(() => {
-    //   $(this.refs.intro).slideUp();
-    // }, 200);
-  }
-
-  componentDidUpdate() {
-    // Timing here records the time the user got on the page
-    if (this.props.user && !this.state.session) {
-      var sess = Sessions.findOne({ _id: this.props.user.profile.curr_session_id });
-      this.setState({ session: sess });
-      var startTime = new Date().getTime()
-      Meteor.call('sessions.updateTagTime', { time: startTime, id: sess._id });
-      console.log("Session update and time!");
-    }
+    var startTime = new Date().getTime();
+    Meteor.call('sessions.updateTagTime', { time: startTime, id: this.state.session._id });
   }
 
   categoryClicked = (id) => {
@@ -106,7 +97,7 @@ class App extends Component {
 
   deleteHandler = (event, id) => {
     event.preventDefault();
-    if(event.target.className === "delete") {
+    if (event.target.className === "delete") {
       Meteor.call('categories.delete', id);
     }
   }
@@ -115,12 +106,10 @@ class App extends Component {
     var conditionCategories = [];
     var retVal = [];
 
-    if (this.state.session) {
-      if (this.state.session.condition === 'neither') {
-        conditionCategories = Categories.find({ created_by: Meteor.userId(), deleted: false }).fetch();
-      } else {
-        conditionCategories = Categories.find({ deleted: false, $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
-      }
+    if (this.state.session.condition === 'neither') {
+      conditionCategories = Categories.find({ created_by: Meteor.userId(), deleted: false }).fetch();
+    } else {
+      conditionCategories = Categories.find({ deleted: false, $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
     }
 
     conditionCategories.map((category) => {
@@ -130,7 +119,7 @@ class App extends Component {
       } else {
         selected = true;
       }
-      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler}/>);
+      retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
@@ -148,7 +137,7 @@ class App extends Component {
     }
 
     examples.map((example, i) => {
-      currRow.push(<Example key={example._id} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
+      currRow.push(<Example key={example._id} sessionID={this.props.sessionID} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
       if (((i % 4) == 3) || (i == (examples.length - 1))) {
         retVal.push(<Row key={"row " + i}>{currRow}</Row>);
         currRow = [];
@@ -182,9 +171,13 @@ class App extends Component {
                 <Container fluid="true">
                   <Row>
                     <Col>
-                      <div id="Nav">
-                        {this.state.session ? <TaskBubble session={this.state.session} pageId={this.props.match.params.pageId} numNotTag={this.calcUntaggedExamples()} /> : null}
-                      </div>
+                      {this.state.session ?
+                        <TaskBubble
+                          session={this.state.session}
+                          pageId={this.props.match.params.pageId}
+                          numNotTag={this.calcUntaggedExamples()}
+                        />
+                        : null}
                     </Col>
                   </Row>
                 </Container>
@@ -201,15 +194,11 @@ class App extends Component {
                   <div id="rightHeader">
                     <span id="searchBar">Search for keywords, categories, etc.</span>
                     <span id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</span>
-                    {/* <span id="numContainer">
-                      <div id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</div>
-                      <div id="catTagged">{this.calcTaggedExamples()} examples have been tagged.</div>
-                    </span> */}
                   </div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
-                      <Example example={this.state.exampleClicked} clicked={true} clickHandler={null} />
+                      <Example sessionID={this.props.sessionID} example={this.state.exampleClicked} clicked={true} clickHandler={null} />
                     </div>
                     :
                     null

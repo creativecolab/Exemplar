@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 // import CircularProgressbar from 'react-circular-progressbar';
 
 import './Clock.scss';
@@ -40,6 +40,7 @@ export default class Clock extends Component {
   }
 
   pageSelect() {
+    console.log(this.props.pageId);
     if (this.props.pageId === "Before") {
       return (
         <Link to="/Problem/After">
@@ -60,9 +61,10 @@ export default class Clock extends Component {
     // console.log(this.props.startTime);
     if (timeLeft < 0) {
       return (
-        <div>
+        <Container>
+          <br />
           {this.pageSelect()}
-        </div>
+        </Container >
       );
     }
     const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);

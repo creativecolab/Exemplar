@@ -45,8 +45,14 @@
     color: white;
 }
 
-.delete {
+.deleteGreen {
     margin-left: 15px;
     color: #00C39D;
+    font-weight: bold;
+}
+
+.deleteWhite {
+    margin-left: 15px;
+    color: white;
     font-weight: bold;
 }
