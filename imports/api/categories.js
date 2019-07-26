@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import CategoryInstances from './categoryInstances.js';
 
 export default Categories = new Mongo.Collection('categories');
 
@@ -29,6 +30,10 @@ Meteor.methods({
     Categories.update({ _id: id }, {
       $set: { deleted: true },
     });
+
+    CategoryInstances.update({ category_id: id}, {
+      $set: { deleted: true },
+    }, {multi: true})
   },
 
   'categories.insert'(label) {
