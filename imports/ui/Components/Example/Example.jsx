@@ -26,7 +26,7 @@ class Example extends Component {
     }
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = (prevProps) => {
   if((this.props.categories !== prevProps.categories)) {
       var catLabels = Categories.find({ deleted: false, $or: [{condition: this.state.session.condition}, {created_by: Meteor.userId()}] }).fetch();
       this.setState({ labels: catLabels });
@@ -39,7 +39,7 @@ class Example extends Component {
 
   deleteHandler = (event, catID) => {
     event.preventDefault();
-    Meteor.call('categoryInstances.delete', catID);
+    Meteor.call('categoryInstances.delete', { catID: catID, exID: this.props.example._id });
   }
 
   displayAllCategories = () => {
@@ -52,7 +52,7 @@ class Example extends Component {
       if(!category.deleted) { 
         if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
           categoriesAdded.push(category._id);
-          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />)
+          allCategories.push(<Category key={category._id} category={category} categoryClicked={null} fromEx={true} deleteHandler={this.deleteHandler} />)
         }
       }
     });

@@ -152,7 +152,7 @@ class App extends Component {
     if (this.state.session) {
       var allInstances = CategoryInstances.find({}).fetch();
       allInstances.map((instance) => {
-        if ((instance.user_id === Meteor.userId()) && (exTagged.indexOf(instance.example_id) === -1) && (instance.session_id === this.state.session._id)) {
+        if ((instance.user_id === Meteor.userId()) && (exTagged.indexOf(instance.example_id) === -1) && (instance.session_id === this.state.session._id) && (!instance.deleted)) {
           exTagged.push(instance.example_id);
         }
       });
