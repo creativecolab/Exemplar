@@ -55,6 +55,7 @@
 #rightHeader {
   display: flex;
   justify-content: left;
+  align-items: center;
 }
 
 #searchBar {
@@ -84,6 +85,7 @@
 
 #catShown {
   color: white;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   float: center;
+  margin-left: 10px;
 }

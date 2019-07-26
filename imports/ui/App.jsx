@@ -193,7 +193,7 @@ class App extends Component {
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
                   <div id="rightHeader">
                     <span id="searchBar">Search for keywords, categories, etc.</span>
-                    <span id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</span>
+                    <div id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</div>
                   </div>
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
