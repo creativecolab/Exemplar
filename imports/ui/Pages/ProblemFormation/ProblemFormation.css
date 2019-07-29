@@ -41,4 +41,12 @@
     height: auto;
 }
 
-#nextButton {}
+.btn-success:disabled {
+    background-color: darkgray;
+    border: none;
+    cursor: default;
+}
+
+.form-control::placeholder {
+    color: rgb(199, 199, 199);
+}

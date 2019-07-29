@@ -8,11 +8,11 @@ import '../Start/Start.css';
 import './ProblemFormation.css';
 
 const text = {
-    After: "After reading through the example solutions, would you like to refine your inital problem?",
+    After: "After reading through the example solutions, what are some transportation-related issues that come to mind now?",
     Before: "The transportation domain contains many problems that need to be addressed. What are some issues that come to mind when you think about transportation?"
 };
 
-const page = ["/Solution", "/Start/1"];
+const page = ["/Solution/Before", "/Solution/After"];
 
 class ProblemFormation extends Component {
     constructor(props) {
@@ -46,12 +46,12 @@ class ProblemFormation extends Component {
 
         switch (pageId) {
             case "After": {
-                nextPage = page[0];
+                nextPage = page[1];
                 currentText = text.After;
             }
                 break;
             case "Before": {
-                nextPage = page[1];
+                nextPage = page[0];
                 currentText = text.Before;
             }
                 break;

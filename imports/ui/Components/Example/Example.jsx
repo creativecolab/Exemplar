@@ -46,7 +46,7 @@ class Example extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
+    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
       if(!category.deleted) { 
@@ -64,7 +64,7 @@ class Example extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false }).fetch();
+    var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
       if(!category.deleted) {

@@ -30,8 +30,12 @@
     text-align: left;
 }
 
+#prevButton {
+    float: left;
+}
+
 .next {
-    float: right;
+    /* float: right; */
     padding: auto auto;
     padding-top: 2vh;
 }
@@ -50,6 +54,19 @@
 .btn-success {
     border-color: none;
     background-color: #00C39D;
-    box-shadow: 0 5px #666;
+    /* box-shadow: 0 3px #666; */
     transform: translateY(4px);
+}
+
+.btn-primary {
+    border: none;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: green;
+    border: none;
+}
+
+.btn-success:focus {
+    box-shadow: none;
 }

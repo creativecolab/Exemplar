@@ -36,15 +36,18 @@ class Login extends Component {
                     error: err.reason
                 });
             } else {
-                Meteor.call('sessions.insert', (err, result) => {
-                    if(err) {
-                        throw new Meteor.Error(err);
-                    } else {
-                        this.props.login(result);
-                    }
-                })
-                // this.props.login(sessionID);
-                // this.props.history.push('/Start/0');
+                var contSess = Sessions.findOne({ user_id: Meteor.userId(), finished_at: null });
+                if(contSess) {
+                    this.props.login(contSess._id);
+                } else {
+                    Meteor.call('sessions.insert', (err, result) => {
+                        if(err) {
+                            throw new Meteor.Error(err);
+                        } else {
+                            this.props.login(result);
+                        }
+                    })
+                }
             }
         });
     }
@@ -59,6 +62,7 @@ class Login extends Component {
             password: this.state.password,
             profile: { curr_session_id: null },
         }
+        this.setState({ error: '' });
         Accounts.createUser(registerData, (err) => {
             if (Meteor.user()) {
                 console.log(Meteor.userId());
@@ -80,6 +84,7 @@ class Login extends Component {
                         <Col md={4} ></Col>
                         <Col md={4} className="box" >
                             <div className="Login">
+                                <div id="loginErr">{this.state.error ? "Please create an account" : null}</div>
                                 <form onSubmit={this.handleLogin}>
                                     <Form.Group controlId="email" bssize="large">
                                         <Form.Label>Email</Form.Label>

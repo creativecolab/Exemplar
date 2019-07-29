@@ -11,6 +11,13 @@ import Typing from 'react-typing-animation';
 import '../Start/Start.css';
 // import './Solution.css';
 
+const text = {
+    After: "Using the example solutions as inspiration, provide your own solution that addresses an issue relevant to transportation.",
+    Before: "Please generate your own idea/solution that addresses an issue relevant to transportation."
+};
+
+const page = ["/Start/1", "/Start/3"];
+
 class Solution extends Component {
     constructor(props) {
         super(props);
@@ -23,8 +30,38 @@ class Solution extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    getText = () => {
+        const pageId = this.props.match.params.pageId;
+        let nextPage = "";
+        let currentText = "";
+
+        switch (pageId) {
+            case "Before": {
+                nextPage = page[0];
+                currentText = text.Before;
+            }
+                break;
+            case "After": {
+                nextPage = page[1];
+                currentText = text.After;
+            }
+                break;
+        }
+        this.setState({
+            nextPage: nextPage,
+            currentText: currentText,
+        });
+    }
+
     componentDidMount() {
-        this.setState({ currentText: "Please generate your own idea/solution for the general issue of transportation.", nextPage: "Start/3" });
+        // this.setState({ currentText: "Please generate your own idea/solution for the general issue of transportation.", nextPage: "Start/3" });
+        this.getText();
+    }
+
+    componentDidUpdate = (prevProps) => {
+        if(this.props !== prevProps) {    
+            this.getText();
+        }
     }
 
     handleChange(event) {
