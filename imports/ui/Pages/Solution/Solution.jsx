@@ -104,6 +104,7 @@ class Solution extends Component {
                                     </InputGroup>
                                     <div className="next">
                                         <Button
+                                            type="submit"
                                             id="nextButton"
                                             variant="success"
                                             disabled={this.state.isDisabled}

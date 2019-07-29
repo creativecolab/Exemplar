@@ -4,7 +4,29 @@ import { check } from 'meteor/check';
 
 export default Sessions = new Mongo.Collection('sessions');
 Meteor.methods({
-    'sessions.logout'(id) {
+  
+  // Initialize session
+  'sessions.insert'() {
+    return Sessions.insert({
+      condition: 'deep',   // TODO UPDATE LATER
+      user_id: Meteor.userId(),
+      created_at: new Date(),
+      finished_at: null,
+      user_problem_before: null,
+      user_problem_after: null,
+      user_solution_before: null,
+      user_solution_after: null,
+      // problem_before_time: null,
+      // problem_after_time: null,
+      tagging_time: null,
+      // ideation_time: null,
+      // tagging_own_time: null
+    });
+  
+    // return id;
+  },
+
+  'sessions.logout'(id) {
     Sessions.update({ _id: id}, {
       $set: { finished_at: new Date() }
     });
@@ -64,24 +86,4 @@ Meteor.methods({
         // return id;
     },
 
-    // Initialize session
-    'sessions.insert'() {
-      return Sessions.insert({
-        condition: 'deep',   // TODO UPDATE LATER
-        user_id: Meteor.userId(),
-        created_at: new Date(),
-        finished_at: null,
-        user_problem_before: null,
-        user_problem_after: null,
-        user_solution_before: null,
-        user_solution_after: null,
-        // problem_before_time: null,
-        // problem_after_time: null,
-        tagging_time: null,
-        // ideation_time: null,
-        // tagging_own_time: null
-      });
-
-      // return id;
-  },
 })
