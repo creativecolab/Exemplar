@@ -8,16 +8,16 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 // Components Import
-import Category from './Components/Category/Category.jsx';
-import Example from './Components/Example/Example.jsx';
-import TaskBubble from './Components/TaskBubble/TaskBubble.jsx';
-import './App.css';
+import Category from '../../Components/Category/Category.jsx';
+import Example from '../../Components/Example/Example.jsx';
+import TaskBubble from '../../Components/TaskBubble/TaskBubble.jsx';
+import './Tag.css';
 
 // Collections Import
-import Categories from '../api/categories.js';
-import Examples from '../api/examples.js';
-import CategoryInstances from '../api/categoryInstances.js';
-import Sessions from '../api/sessions.js';
+import Categories from '../../../api/categories.js';
+import Examples from '../../../api/examples.js';
+import CategoryInstances from '../../../api/categoryInstances.js';
+import Sessions from '../../../api/sessions.js';
 
 class App extends Component {
   constructor(props) {

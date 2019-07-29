@@ -8,11 +8,10 @@ const data = {
     textIntro: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
     textInterm1: "You will be presented with a set of existing solutions for the general issue of transportation. You have 10 minutes to carefully read through the example solutions and complete your task (described on the next screen).",
     textInterm2: "Your task is to organize the examples by tagging them with categories. You may either use existing categories or create your own.",
-    textInterm3: "You will once again be presented with the example solutions, as well as your own solution. Your next task requires you to organize your solution in relation to the provided example solutions.",
-    textInterm4: "Again, use the existing categories or create your own to tag your idea/solution. Feel free to add tags to the provided examples if you feel they somehow relate to your own idea/solution."
+    textInterm3: "Your next task requires you to organize your solution in relation to the provided example solutions. Again, use the existing categories or create your own to tag your idea/solution. Feel free to add tags to the provided examples if you feel they somehow relate to your own idea/solution."
 };
 
-const page = ["/Problem/Before", "/Start/2", "/Tag/Before", "/Start/4", "/Tag/After"];
+const page = ["/Problem/Before", "/Start/2", "/Tag/Before", "/Tag/After"];
 
 class Start extends Component {
     constructor(props) {
@@ -39,7 +38,6 @@ class Start extends Component {
                 text = data.textInterm1;
                 nextPage = page[1];
             } break;
-            // Start timing interaction
             case "2": {
                 text = data.textInterm2;
                 nextPage = page[2];
@@ -48,17 +46,11 @@ class Start extends Component {
                 text = data.textInterm3;
                 nextPage = page[3];
             } break;
-            // Start timing interaction
-            case "4": {
-                text = data.textInterm4;
-                nextPage = page[4];
-            } break;
             default: {
 
             } break;
         }
         this.setState({ text: text, nextPage: nextPage, buttonName: buttonName });
-        // TODO ADD IN PREVIOUS BUTTON FOR START 2 and START 4
     }
     
     componentDidUpdate = (prevProps) => {
