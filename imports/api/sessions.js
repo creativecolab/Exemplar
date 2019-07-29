@@ -4,7 +4,9 @@ import { check } from 'meteor/check';
 
 export default Sessions = new Mongo.Collection('sessions');
 Meteor.methods({
-  
+  /**********************************************************/
+  /*                  Session methods                       */
+  /**********************************************************/
   // Initialize session
   'sessions.insert'() {
     return Sessions.insert({
