@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Button } from 'react-bootstrap';
-// import CircularProgressbar from 'react-circular-progressbar';
+import { Container, Button, Modal } from 'react-bootstrap';
 
 import './Clock.scss';
+// // Shows the modal
+// function MyVerticallyCenteredModal(props) {
+//   return (
+//     <Modal
+//       {...props}
+//       size="lg"
+//       aria-labelledby="contained-modal-title-vcenter"
+//       centered
+//     >
+//       <Modal.Header closeButton>
+//         <Modal.Title id="contained-modal-title-vcenter">
+//           30 Seconds Remain to finish
+//         </Modal.Title>
+//       </Modal.Header>
+//       <Modal.Footer>
+//         <Button onClick={props.onHide}>Close</Button>
+//       </Modal.Footer>
+//     </Modal>
+//   );
+// }
 
 export default class Clock extends Component {
   static propTypes = {
@@ -40,6 +59,7 @@ export default class Clock extends Component {
     });
   }
 
+  // controls what page is next
   pageSelect() {
     if (this.props.pageId === "Before") {
       return (
@@ -53,13 +73,21 @@ export default class Clock extends Component {
         </Link>)
     }
   }
+  // onHide(modalOn) {
+  //   if(this.state.timeLeft < 30) {
+  //     return false;
+  //   }
+  //   return modalOn
+  // }
 
   render() {
-    // console.log("Render Clock");
     const { timeLeft } = this.state;
-
-    // console.log(timeLeft);
-    // console.log(this.props.startTime);
+    const warning = timeLeft < 30 ? true : false;
+    const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);
+    const clockString =
+    "Time Left: " + clock.getMinutes() + ':' + (clock.getSeconds() < 10 ? '0' + clock.getSeconds() : clock.getSeconds());
+    
+    // Timer runs out and changes time.
     if (timeLeft < 0) {
       return (
         <Container>
@@ -68,13 +96,12 @@ export default class Clock extends Component {
         </Container >
       );
     }
-    const clock = new Date(2019, 0, 0, 0, timeLeft / 60, timeLeft % 60);
-    // console.log(clock.getTime());
-    const clockString =
-      "Time Left: " + clock.getMinutes() + ':' + (clock.getSeconds() < 10 ? '0' + clock.getSeconds() : clock.getSeconds());
-    const warning = (timeLeft < 30) ? true : false;
+    
     return (
       <div className={warning ? "warn-clock" : "clock"}>
+        {/* <MyVerticallyCenteredModal
+          show={this.onHide(warning)}
+        /> */}
         {clockString}
       </div >);
   }

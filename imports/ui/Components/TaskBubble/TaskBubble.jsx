@@ -8,15 +8,12 @@ class TaskBubble extends Component {
         super(props);
     }
 
-    componentDidMount() {
-        // console.log("Render Task mount first");
-    }
     render() {
         if (this.props.session === null) {
             return ''
         } else {
             // Set Time for Clock here
-            var totalTime = 600;
+            var totalTime = 35;
             var time = this.props.session.tagging_time;
 
             return (
