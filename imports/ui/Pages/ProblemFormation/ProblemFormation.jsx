@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, InputGroup, Form, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Button, InputGroup, Form } from 'react-bootstrap';
 import { withTracker } from 'meteor/react-meteor-data';
-import {Link} from 'react-router-dom';
+
 // import Typed from 'react-typed';
 import '../Start/Start.css';
 import './ProblemFormation.css';
@@ -63,10 +63,10 @@ class ProblemFormation extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if(this.props !== prevProps) {    
+        if (this.props !== prevProps) {
             this.getText();
         }
-    }   
+    }
 
     componentDidMount() {
         this.getText();
@@ -80,7 +80,14 @@ class ProblemFormation extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        Meteor.call('sessions.updateProblemBefore', this.state.value);
+        // Catch invalid inputs here TODO
+        const currentPage = this.props.match.params.pageId;
+        if (currentPage === 'Before') {
+            Meteor.call('sessions.updateProblemBefore', { id: this.props.sessionID, response: this.state.value });
+        } else if (currentPage === 'After') {
+            Meteor.call('sessions.updateProblemAfter', { id: this.props.sessionID, response: this.state.value });
+        }
+        this.props.history.push(this.state.nextPage);
     }
 
     render() {
@@ -110,15 +117,14 @@ class ProblemFormation extends Component {
                                         </Form.Control>
                                     </InputGroup>
                                     <div className="next">
-                                        <Link to={this.state.nextPage}>
-                                            <Button
-                                                id="nextButton"
-                                                variant="success"
-                                                disabled={this.state.isDisabled}
-                                            >
-                                                Submit
-                                             </Button>
-                                        </Link>
+                                        <Button
+                                            type="submit"
+                                            id="nextButton"
+                                            variant="success"
+                                            disabled={this.state.isDisabled}
+                                        >
+                                            Submit
+                                        </Button>
                                     </div>
                                 </Form>
                             </div>
