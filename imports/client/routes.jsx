@@ -1,16 +1,13 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-// route components
-import App from '../ui/App.jsx';
-
 // Pages
 import Start from '../ui/Pages/Start/Start.jsx';
 import Login from '../ui/Pages/Login/Login.jsx';
 import Logout from '../ui/Pages/Logout/Logout.jsx';
 import Problem from '../ui/Pages/ProblemFormation/ProblemFormation.jsx';
 import Solution from '../ui/Pages/Solution/Solution.jsx';
-
+import Tag from '../ui/Pages/Tag/Tag.jsx';
 
 export default class Routes extends React.Component {
     constructor(props) {
@@ -46,7 +43,7 @@ export default class Routes extends React.Component {
                     }
 
                     {this.state.sessionID ?
-                        <Route path='/Tag/:pageId' render={(props) => <App {...props} sessionID={this.state.sessionID} />} />
+                        <Route path='/Tag/:pageId' render={(props) => <Tag {...props} sessionID={this.state.sessionID} />} />
                         :
                         <Redirect path="/Tag/:pageId" to="/" />
                     }
