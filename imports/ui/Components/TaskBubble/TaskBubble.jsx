@@ -13,7 +13,7 @@ class TaskBubble extends Component {
             return ''
         } else {
             // Set Time for Clock here
-            var totalTime = 600;
+            var totalTime = 35;
             var time = this.props.session.tagging_time;
 
             return (
