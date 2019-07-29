@@ -108,6 +108,12 @@ input[type=text] {
   background-color: #ddd;
 }
 
+.react-autosuggest__input--focused {
+  outline: none !important;
+  background-color: transparent;
+  border-color: transparent;
+}
+
 .tagCount {
   color: white;
   position: relative;

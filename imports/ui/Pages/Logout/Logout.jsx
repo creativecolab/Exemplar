@@ -13,10 +13,15 @@ class Logout extends Component {
             if (err) {
                 console.log(err.reason);
             } else {
-                this.props.logout();
+                Meteor.call('sessions.logout', this.props.sessionID, (err) => {
+                    if(err) {
+                        throw new Meteor.Error(err);
+                    } else {
+                        this.props.logout();
+                    }
+                });
             }
         });
-        // console.log(this.props.history);
         return;
     }
 
