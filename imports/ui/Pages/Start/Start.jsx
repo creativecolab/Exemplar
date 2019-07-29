@@ -6,8 +6,8 @@ import {Link} from 'react-router-dom';
 
 const data = {
     textIntro: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
-    textInterm1: "You will now have 10 minutes to carefully look through the example solutions for the general issue of transportation. Your task is to tag the examples using the existing categories. You may also make your own categories to use as tags.",
-    textInterm2: "You will now be asked to generate your own ideas/solutions for the issue of transportation. Particularly, you should generate solutions for the transportation problem that you previously described. The example solutions will be provided, so you may look through them again for inspiration.",
+    textInterm1: "You will be presented with a set of existing solutions for the general issue of transportation. You have 10 minutes to carefully read through the example solutions and complete your task (described on the next screen).",
+    textInterm2: "Your task is to organize the examples by tagging them with categories. You may either use existing categories or create your own.",
     textInterm3: "You will once again be presented with the example solutions, as well as your own solution. Your next task requires you to organize your solution in relation to the provided example solutions.",
     textInterm4: "Again, use the existing categories or create your own to tag your idea/solution. Feel free to add tags to the provided examples if you feel they somehow relate to your own idea/solution."
 };
@@ -84,6 +84,12 @@ class Start extends Component {
                                 {currentText}
                             </div>
                             <div className="next">
+                                {this.props.match.params.pageId === "2" ? 
+                                    <Link to={"/Start/1"}>
+                                        <Button id="prevButton" variant="success" >Previous</Button>
+                                    </Link>
+                                    : null
+                                }
                                 <Link to={nextPage}>
                                     <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
                                 </Link>

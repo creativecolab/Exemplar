@@ -4,6 +4,11 @@ import { check } from 'meteor/check';
 
 export default Sessions = new Mongo.Collection('sessions');
 Meteor.methods({
+    'sessions.logout'(id) {
+    Sessions.update({ _id: id}, {
+      $set: { finished_at: new Date() }
+    });
+  },
   /**********************************************************/
   /*            Updates to user inputted text               */
   /**********************************************************/
@@ -76,5 +81,7 @@ Meteor.methods({
         // ideation_time: null,
         // tagging_own_time: null
       });
-    }
+
+      // return id;
+  },
 })
