@@ -14,7 +14,7 @@ export default class Tutorial extends Component {
         <div id="tutorial">
           <h1>Tutorial Video</h1>
 
-          <video id="tutorialVid" controls>
+          <video id="tutorialVid" autoPlay controls>
             <source src="./ExemplarTutorial.mp4" />
           </video>
         </div>
