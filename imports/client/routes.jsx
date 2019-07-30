@@ -8,6 +8,7 @@ import Logout from '../ui/Pages/Logout/Logout.jsx';
 import Problem from '../ui/Pages/ProblemFormation/ProblemFormation.jsx';
 import Solution from '../ui/Pages/Solution/Solution.jsx';
 import Tag from '../ui/Pages/Tag/Tag.jsx';
+import Tutorial from '../ui/Pages/Tutorial/Tutorial.jsx';
 import SolutionTag from '../ui/Pages/SolutionTag/SolutionTag.jsx';
 
 export default class Routes extends React.Component {
@@ -40,6 +41,12 @@ export default class Routes extends React.Component {
                         <Route path='/Start/:pageId' render={(props) => <Start {...props} sessionID={this.state.sessionID} />} />
                         :
                         <Redirect path="/Start/:pageId" to="/" />
+                    }
+
+                    {this.state.sessionID ?
+                        <Route path='/Tutorial' render={(props) => <Tutorial {...props} sessionID={this.state.sessionID} />} />
+                        :
+                        <Redirect path="/Tutorial" to="/" />
                     }
 
                     {this.state.sessionID ?
