@@ -4,8 +4,8 @@ import { Accounts } from 'meteor/accounts-base';
 import Examples from '/imports/api/examples';
 import Categories from '/imports/api/categories';
 import Data from '/imports/Data/Data.json';
-import Sessions from '/imports/api/sessions.js';
 
+import Sessions from '/imports/api/sessions.js';
 import CategoryInstances from '/imports/api/categoryInstances.js';
 import Interactions from '/imports/api/interactions.js';
 

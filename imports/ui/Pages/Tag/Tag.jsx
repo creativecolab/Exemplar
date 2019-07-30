@@ -19,7 +19,7 @@ import Examples from '../../../api/examples.js';
 import CategoryInstances from '../../../api/categoryInstances.js';
 import Sessions from '../../../api/sessions.js';
 
-class App extends Component {
+class Tag extends Component {
   constructor(props) {
     super(props);
 
@@ -172,7 +172,7 @@ class App extends Component {
                       {this.state.session ?
                         <TaskBubble
                           session={this.state.session}
-                          pageId={this.props.match.params.pageId}
+                          pageId={this.props.match.url}
                           numNotTag={this.calcUntaggedExamples()}
                         />
                         : null}
@@ -219,4 +219,4 @@ export default withTracker(() => {
     sessions: Sessions.find({}).fetch(),
     user: Meteor.user(),
   }
-})(App); 
+})(Tag); 

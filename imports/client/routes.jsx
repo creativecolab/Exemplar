@@ -9,11 +9,11 @@ import Problem from '../ui/Pages/ProblemFormation/ProblemFormation.jsx';
 import Solution from '../ui/Pages/Solution/Solution.jsx';
 import Tag from '../ui/Pages/Tag/Tag.jsx';
 import Tutorial from '../ui/Pages/Tutorial/Tutorial.jsx';
+import SolutionTag from '../ui/Pages/SolutionTag/SolutionTag.jsx';
 
 export default class Routes extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             sessionID: null,
         }
@@ -50,10 +50,11 @@ export default class Routes extends React.Component {
                     }
 
                     {this.state.sessionID ?
-                        <Route path='/Tag/:pageId' render={(props) => <Tag {...props} sessionID={this.state.sessionID} />} />
+                        <Route path='/Tag' render={(props) => <Tag {...props} sessionID={this.state.sessionID} />} />
                         :
-                        <Redirect path="/Tag/:pageId" to="/" />
+                        <Redirect path="/Tag" to="/" />
                     }
+
 
                     {this.state.sessionID ?
                         <Route path='/Problem/:pageId' render={(props) => <Problem {...props} sessionID={this.state.sessionID} />} />
@@ -67,6 +68,12 @@ export default class Routes extends React.Component {
                         <Redirect path="/Solution/:pageId" to="/" />
                     }
 
+                    {this.state.sessionID ?
+                        <Route path='/SolutionTag' render={(props) => <SolutionTag {...props} sessionID={this.state.sessionID} />} />
+                        :
+                        <Redirect path="/SolutionTag" to="/" />
+                    }
+                    
                     {this.state.sessionID ?
                         <Route path='/End' render={(props) => <Logout {...props} sessionID={this.state.sessionID} logout={this.logout} />} />
                         :
