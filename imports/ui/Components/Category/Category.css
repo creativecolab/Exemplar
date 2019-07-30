@@ -7,9 +7,11 @@
     margin-right: 10px;
     margin-bottom: 5px;
     color: white;
+    cursor: pointer;
 }
 
 .categoryContainerClicked {
+    cursor: pointer;
     display: inline-block;
     border: 2px solid #00C39D;
     border-radius: 20px;

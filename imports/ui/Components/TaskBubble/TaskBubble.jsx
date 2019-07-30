@@ -16,7 +16,7 @@ class TaskBubble extends Component {
             var totalTime = 5;
             var time = this.props.session.solution_tagging_time;
             if (this.props.pageId === "/Tag") {
-                totalTime = 1;
+                totalTime = 600;
                 time = this.props.session.tagging_time;
             }
 

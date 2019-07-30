@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+
 .text {
     color: black;
     font-family: 'Noto Serif', serif;
@@ -53,11 +54,6 @@ form {
     outline: none !important;
 }
 
-/* TODO create account modal */
-#create-account {
-    float: middle;
-}
-
 .btn-primary:not(:disabled):not(.disabled):active {
     background-color: green;
     border: none;
@@ -65,4 +61,13 @@ form {
 
 #loginErr {
     color: rgb(255, 103, 103);
+}
+
+.box {
+    padding-bottom: 2vh;
+}
+
+/* TODO create account modal */
+#create-account {
+    float: middle;
 }
