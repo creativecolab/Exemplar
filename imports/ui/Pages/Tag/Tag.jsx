@@ -213,7 +213,7 @@ class App extends Component {
 
 export default withTracker(() => {
   return {
-    examples: Examples.find({}).fetch(),
+    examples: Examples.find({ created_by: "admin" }).fetch(),
     categories: Categories.find({}).fetch(),
     categoryInstances: CategoryInstances.find({}).fetch(),
     sessions: Sessions.find({}).fetch(),
