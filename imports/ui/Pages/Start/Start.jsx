@@ -11,7 +11,7 @@ const data = {
     textInterm3: "Your next task requires you to organize your solution in relation to the provided example solutions. Again, use the existing categories or create your own to tag your idea/solution. Feel free to add tags to the provided examples if you feel they somehow relate to your own idea/solution."
 };
 
-const page = ["/Problem/Before", "/Start/2", "/Tag/Before", "/Tag/After"];
+const page = ["/Problem/Before", "/Start/2", "/Tag", "/SolutionTag"];
 
 class Start extends Component {
     constructor(props) {
