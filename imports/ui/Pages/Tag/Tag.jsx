@@ -103,8 +103,6 @@ class Tag extends Component {
       var idx = newArr.indexOf(id);
       if (idx !== -1) {
         newArr.splice(idx, 1);
-      } else {
-        newArr.push(id);
       }
       this.setState({ categoriesSelected: newArr });
 

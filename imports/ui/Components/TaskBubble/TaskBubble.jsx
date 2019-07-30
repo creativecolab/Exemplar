@@ -13,10 +13,10 @@ class TaskBubble extends Component {
             return ''
         } else {
             // Set Time for Clock here
-            var totalTime = 5;
+            var totalTime = 60;
             var time = this.props.session.solution_tagging_time;
             if (this.props.pageId === "/Tag") {
-                totalTime = 600;
+                totalTime = 180;
                 time = this.props.session.tagging_time;
             }
 
