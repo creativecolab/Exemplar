@@ -61,12 +61,12 @@ export default class Clock extends Component {
 
   // controls what page is next
   pageSelect() {
-    if (this.props.pageId === "Before") {
+    if (this.props.pageId === "/Tag") {
       return (
         <Link to="/Problem/After">
           <Button block id="nextButton" variant="success" >Done</Button>
         </Link>);
-    } else if (this.props.pageId === "After") {
+    } else if (this.props.pageId === "/SolutionTag") {
       return (
         <Link to="/End">
           <Button block id="nextButton" variant="success" >Logout Page</Button>

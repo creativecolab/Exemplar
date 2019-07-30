@@ -76,7 +76,8 @@ class Solution extends Component {
         if (currentPage === 'Before') {
             Meteor.call('sessions.updateSolutionBefore', { id: this.props.sessionID, response: this.state.value });
         } else if (currentPage === 'After') {
-            Meteor.call('sessions.updateSolutionAfter', { id: this.props.sessionID, response: this.state.value });
+            var currSess = Sessions.findOne({ _id: this.props.sessionID });
+            Meteor.call('sessions.updateSolutionAfter', { id: this.props.sessionID, response: this.state.value, condition: currSess.condition });
         }
         this.props.history.push(this.state.nextPage);
     }

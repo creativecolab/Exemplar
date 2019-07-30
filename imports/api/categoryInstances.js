@@ -13,7 +13,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    CategoryInstances.update({ category_id: catID, example_id: exID }, {
+    CategoryInstances.update({ category_id: catID, example_id: exID, deleted: false }, {
       $set: { deleted: true },
     });
   },

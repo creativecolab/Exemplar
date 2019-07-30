@@ -71,11 +71,7 @@ class Login extends Component {
             }
         });
     }
-
-
-    // Modal TODO
-
-
+    
     render() {
         return (
             <div className="Landing">

@@ -1,10 +1,13 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import Examples from './examples';
 
 export default Sessions = new Mongo.Collection('sessions');
 Meteor.methods({
-  
+  /**********************************************************/
+  /*                  Session methods                       */
+  /**********************************************************/
   // Initialize session
   'sessions.insert'() {
     return Sessions.insert({
@@ -19,6 +22,7 @@ Meteor.methods({
       // problem_before_time: null,
       // problem_after_time: null,
       tagging_time: null,
+      solution_tagging_time: null,
       // ideation_time: null,
       // tagging_own_time: null
     });
@@ -64,13 +68,22 @@ Meteor.methods({
     });
   },
 
-  'sessions.updateSolutionAfter'({id, response}) {
+  'sessions.updateSolutionAfter'({id, response, condition}) {
     check(response, String);
     if(!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
     Sessions.update({ _id: id }, {
       $set: { user_solution_after: response },
+    });
+    // Catch this case later! Might be in the same session and click insert again!
+    Examples.insert({ 
+      condition: condition, 
+      description: response, 
+      image: null, 
+      url: null, 
+      created_by: Meteor.userId(),
+      created_at: new Date()
     });
   },
   /**********************************************************/
@@ -85,5 +98,14 @@ Meteor.methods({
         });
         // return id;
     },
+    'sessions.updateSolutionTagTime'({time, id}) {
+      if (!this.userId) {
+          throw new Meteor.Error('not-authorized');
+      }
+      Sessions.update({ _id: id }, {
+        $set: { solution_tagging_time: time },
+      });
+      // return id;
+  },
 
 })
