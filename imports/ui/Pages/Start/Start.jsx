@@ -2,7 +2,7 @@
 import './Start.css';
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const data = {
     textIntro: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
