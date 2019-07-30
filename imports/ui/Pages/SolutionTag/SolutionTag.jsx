@@ -35,63 +35,6 @@ class SolutionTag extends Component {
     }
   }
 
-  // categoryClicked = (id) => {
-  //   var newArr = this.state.categoriesSelected;
-  //   var idx = newArr.indexOf(id);
-  //   if (idx !== -1) {
-  //     newArr.splice(idx, 1);
-  //   } else {
-  //     newArr.push(id);
-  //   }
-
-  //   this.setState({ categoriesSelected: newArr });
-  //   var exAddedOld = [];
-  //   var exAddedNew = [];
-  //   var exObjs = [];
-
-  //   this.state.categoriesSelected.map((categoryID, idx) => {
-  //     var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
-  //     instances.map((instance) => {
-  //       var ex = Examples.findOne({ _id: instance.example_id });
-  //       if ((idx === 0) && (exAddedNew.indexOf(ex._id) === -1)) {
-  //         exAddedNew.push(ex._id);
-  //       } else if ((idx !== 0) && (exAddedOld.indexOf(ex._id) !== -1) && (exAddedNew.indexOf(ex._id) === -1)) {
-  //         exAddedNew.push(ex._id);
-  //       }
-  //     });
-  //     exAddedOld = exAddedNew;
-  //     exAddedNew = [];
-
-  //     if (idx === (this.state.categoriesSelected.length - 1)) {
-  //       exAddedOld.map((exID) => {
-  //         var ex = Examples.findOne({ _id: exID });
-  //         exObjs.push(ex);
-  //       })
-  //     }
-  //   });
-
-  //   this.setState({ examples: exObjs });
-  // }
-
-  // exampleClicked = (event, id) => {
-  //   event.preventDefault();
-  //   var ex = Examples.findOne({ _id: id });
-  //   this.setState({ exampleClicked: ex });
-  // }
-
-  // exampleUnclicked = (event) => {
-  //   event.preventDefault();
-  //   if (event.target.className === "exampleContainer") {
-  //     this.setState({ exampleClicked: null });
-  //   }
-  // }
-
-  // clearFilters = (event) => {
-  //   event.preventDefault();
-  //   this.setState({ categoriesSelected: [] });
-  //   this.setState({ examples: [] });
-  // }
-
   deleteHandler = (event, id) => {
     event.preventDefault();
     if (event.target.className === "deleteGreen" || event.target.className === "deleteWhite") {
@@ -116,34 +59,11 @@ class SolutionTag extends Component {
       } else {
         selected = true;
       }
-      // retVal.push(<Category key={category._id} category={category} categoryClicked={this.categoryClicked} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />);
       retVal.push(<Category key={category._id} category={category} selected={selected} own={Meteor.userId() === category.created_by} deleteHandler={this.deleteHandler} />);
     });
 
     return <div style={{ padding: '10px' }}>{retVal}</div>
   }
-
-  // displayExamples = () => {
-  //   var examples = [];
-  //   var retVal = [];
-  //   var currRow = [];
-
-  //   if ((this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0)) {
-  //     examples = this.props.examples;
-  //   } else {
-  //     examples = this.state.examples;
-  //   }
-
-  //   examples.map((example, i) => {
-  //     currRow.push(<Example key={example._id} sessionID={this.props.sessionID} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
-  //     if (((i % 4) == 3) || (i == (examples.length - 1))) {
-  //       retVal.push(<Row key={"row " + i}>{currRow}</Row>);
-  //       currRow = [];
-  //     }
-  //   });
-
-  //   return <div>{retVal}</div>
-  // }
 
   calcUntaggedExamples = () => {
     var exTagged = [];
@@ -158,19 +78,6 @@ class SolutionTag extends Component {
 
     return this.props.examples.length - exTagged.length;
   }
-
-  // findCurrentEx = () => {
-  //   var exampleSpace = this.props.examples;
-  //   var currUser = Meteor.userId();
-  //   var userExampleSpace = exampleSpace.filter(function(item) {
-  //     return item.created_by === currUser;
-  //   });
-  //   console.log(userExampleSpace);
-  //   console.log(typeof userExampleSpace[0].created_at);
-  //   userExampleSpace.sort(function(item){return });
-  //   // userExampleSpace.sort();
-  //   return exampleSpace[0];
-  // }
 
   render() {
     return (
@@ -202,7 +109,6 @@ class SolutionTag extends Component {
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className="Place">
                 <Container fluid="true" style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
-                  {/* Replace this.state.exampleClicked with the user_solution from db */}
                   <div id="userExample">
                     <Example sessionID={this.props.sessionID} example={this.props.examples[0]} clicked={true} clickHandler={null} />
                   </div>

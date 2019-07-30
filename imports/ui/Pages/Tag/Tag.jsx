@@ -36,16 +36,7 @@ class Tag extends Component {
     }
   }
 
-  categoryClicked = (id) => {
-    var newArr = this.state.categoriesSelected;
-    var idx = newArr.indexOf(id);
-    if (idx !== -1) {
-      newArr.splice(idx, 1);
-    } else {
-      newArr.push(id);
-    }
-
-    this.setState({ categoriesSelected: newArr });
+  findFilteredExamples = () => {
     var exAddedOld = [];
     var exAddedNew = [];
     var exObjs = [];
@@ -74,6 +65,18 @@ class Tag extends Component {
     this.setState({ examples: exObjs });
   }
 
+  categoryClicked = (id) => {
+    var newArr = this.state.categoriesSelected;
+    var idx = newArr.indexOf(id);
+    if (idx !== -1) {
+      newArr.splice(idx, 1);
+    } else {
+      newArr.push(id);
+    }
+    this.setState({ categoriesSelected: newArr });
+    this.findFilteredExamples();
+  }
+
   exampleClicked = (event, id) => {
     event.preventDefault();
     var ex = Examples.findOne({ _id: id });
@@ -96,6 +99,17 @@ class Tag extends Component {
   deleteHandler = (event, id) => {
     event.preventDefault();
     if (event.target.className === "deleteGreen" || event.target.className === "deleteWhite") {
+      var newArr = this.state.categoriesSelected;
+      var idx = newArr.indexOf(id);
+      if (idx !== -1) {
+        newArr.splice(idx, 1);
+      } else {
+        newArr.push(id);
+      }
+      this.setState({ categoriesSelected: newArr });
+
+      this.findFilteredExamples();
+      
       Meteor.call('categories.delete', id);
     }
   }

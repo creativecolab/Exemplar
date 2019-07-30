@@ -47,7 +47,6 @@ class Example extends Component {
     var categoriesAdded = [];
 
     var instances = CategoryInstances.find({ example_id: this.props.example._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
-    console.log(instances);
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
       if(!category.deleted) { 
