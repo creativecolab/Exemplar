@@ -42,7 +42,7 @@ class Tag extends Component {
     var exObjs = [];
 
     this.state.categoriesSelected.map((categoryID, idx) => {
-      var instances = CategoryInstances.find({ category_id: categoryID }).fetch();
+      var instances = CategoryInstances.find({ category_id: categoryID, deleted: false }).fetch();
       instances.map((instance) => {
         var ex = Examples.findOne({ _id: instance.example_id });
         if ((idx === 0) && (exAddedNew.indexOf(ex._id) === -1)) {
