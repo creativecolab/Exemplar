@@ -153,12 +153,12 @@ class Example extends Component {
 
     return (
       <div className="exampleContainer" onClick={this.props.exampleClicked ? ((event) => this.props.exampleClicked(event, this.props.example._id)) : null}>
-        <Card text="white" className={this.props.clicked ? "exampleCardClicked" : "exampleCard"}>
+        <Card text="white" className={this.props.className}>
           <Card.Body>
             <Card.Text>
-              {this.props.clicked ? this.props.example.description : this.shortenDescription()}
+              {this.props.clicked || this.props.fromRead ? this.props.example.description : this.shortenDescription()}
             </Card.Text>
-            {this.props.clicked ? 
+            {this.props.clicked && !this.props.fromRead ? 
               <div className="exampleCategoryContainer">
                 {this.displayAllCategories()}
                 <form id="newCategory" onSubmit={this.addNew}>
@@ -178,7 +178,7 @@ class Example extends Component {
             }
           </Card.Body>
         </Card>
-        {!this.props.clicked ? 
+        {!this.props.clicked && !this.props.fromRead ? 
           <div className="exampleGradient">
             <div className="preview">{this.displayPreviewCategories()}</div>
           </div>

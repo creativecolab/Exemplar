@@ -1,3 +1,12 @@
+.readExample {
+  border-radius: 20px;
+  background: #535353;
+  text-align: left;
+  width: 30vw;
+  min-width: 100px;
+  cursor: default;
+}
+
 .exampleCardClicked {
   border-radius: 20px;
   background: #535353;
@@ -5,17 +14,17 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-right: -50%;
+  /* margin-right: -50%; */
   transform: translate(-50%, -50%);
-  width: 50vw;
+  width: 30vw;
   min-width: 100px;
   cursor: default;
 }
 
 .exampleContainer {
-  position: relative;
+  /* position: relative; */
   margin: 6px;
-  height: 100%;
+  /* height: 100%; */
   cursor: pointer;
 }
 

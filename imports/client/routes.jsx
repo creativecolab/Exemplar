@@ -10,6 +10,7 @@ import Solution from '../ui/Pages/Solution/Solution.jsx';
 import Tag from '../ui/Pages/Tag/Tag.jsx';
 import Tutorial from '../ui/Pages/Tutorial/Tutorial.jsx';
 import SolutionTag from '../ui/Pages/SolutionTag/SolutionTag.jsx';
+import Read from '../ui/Pages/Read/Read.jsx';
 
 export default class Routes extends React.Component {
     constructor(props) {
@@ -41,6 +42,12 @@ export default class Routes extends React.Component {
                         <Route path='/Start/:pageId' render={(props) => <Start {...props} sessionID={this.state.sessionID} />} />
                         :
                         <Redirect path="/Start/:pageId" to="/" />
+                    }
+
+                    {this.state.sessionID ?
+                        <Route path='/Read' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
+                        :
+                        <Redirect path="/Read" to="/" />
                     }
 
                     {this.state.sessionID ?
