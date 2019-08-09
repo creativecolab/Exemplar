@@ -36,6 +36,19 @@
     max-width: 175px;
 }
 
+.categoryContainerRead {
+    /* background-color: rgb(255, 255, 255); */
+    display: inline-block;
+    border: 2px solid #00C39D;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    color: white;
+    cursor: default;
+}
+
 .categoryContainerNoClick {
     display: inline-block;
     border: 2px solid white;
@@ -57,4 +70,12 @@
     margin-left: 15px;
     color: white;
     font-weight: bold;
+}
+
+.darkLabel {
+    color: #535353;
+}
+
+.lightLabel {
+    color: white;
 }

@@ -12,6 +12,8 @@ class Category extends Component {
             className = "categoryContainerClicked";
         } else if(props.preview) {
             className = "categoryContainerPreview";
+        } else if(props.fromRead) {
+            className = "categoryContainerRead";
         } else {
             className = "categoryContainer";
         }
@@ -46,7 +48,7 @@ class Category extends Component {
     render() {
         return (
             <div className={this.state.style} onClick={this.props.categoryClicked ? ((event) => this.clicked(event, this.props.category._id)) : null}>
-                {this.props.category.label}
+                <span className={this.props.fromRead ? "darkLabel" : "lightLabel"}>{this.props.category.label}</span>
                 {this.props.own || this.props.fromEx ? <span className={this.props.selected ? "deleteWhite" : "deleteGreen"} onClick={(event) => {this.props.deleteHandler(event, this.props.category._id)}}>X</span> : null}
             </div>
         )
