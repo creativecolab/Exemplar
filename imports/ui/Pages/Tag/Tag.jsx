@@ -85,7 +85,7 @@ class Tag extends Component {
 
   exampleUnclicked = (event) => {
     event.preventDefault();
-    if (event.target.className === "exampleContainer") {
+    if (event.target.id === "exampleClickedDiv") {
       this.setState({ exampleClicked: null });
     }
   }
@@ -147,7 +147,7 @@ class Tag extends Component {
     }
 
     examples.map((example, i) => {
-      currRow.push(<Example key={example._id} sessionID={this.props.sessionID} example={example} clicked={false} exampleClicked={this.exampleClicked} />);
+      currRow.push(<Example key={example._id} sessionID={this.props.sessionID} example={example} clicked={false} exampleClicked={this.exampleClicked} className="exampleCard" />);
       if (((i % 4) == 3) || (i == (examples.length - 1))) {
         retVal.push(<Row key={"row " + i}>{currRow}</Row>);
         currRow = [];
@@ -208,7 +208,7 @@ class Tag extends Component {
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>
-                      <Example sessionID={this.props.sessionID} example={this.state.exampleClicked} clicked={true} clickHandler={null} />
+                      <Example sessionID={this.props.sessionID} example={this.state.exampleClicked} clicked={true} showCategories={true} className="exampleCardClicked" />
                     </div>
                     :
                     null
