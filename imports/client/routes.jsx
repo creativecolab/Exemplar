@@ -45,9 +45,9 @@ export default class Routes extends React.Component {
                     }
 
                     {this.state.sessionID ?
-                        <Route path='/Read' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
+                        <Route path='/Read/:pageId' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
                         :
-                        <Redirect path="/Read" to="/" />
+                        <Redirect path="/Read/:pageId" to="/" />
                     }
 
                     {this.state.sessionID ?
