@@ -66,6 +66,10 @@
   color: white;
 }
 
+.card-text {
+  margin-bottom: 10px;
+}
+
 input[type=text] {
   background-color: transparent;
   border: none;

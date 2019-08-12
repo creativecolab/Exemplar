@@ -26,7 +26,7 @@ class Category extends Component {
   
     clicked = (event, id) => {
         event.preventDefault();
-        if((event.target.className === 'categoryContainer') || (event.target.className === 'categoryContainerClicked')) {
+        if((event.target.className === 'categoryContainer') || (event.target.className === 'categoryContainerClicked') || (event.target.className === 'lightLabel')) {
             this.props.categoryClicked(id);
         }
     }

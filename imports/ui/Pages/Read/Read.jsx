@@ -86,12 +86,7 @@ class Read extends Component {
             <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
             <span id="ReadBttn">
               <Link to={"/Read/" + (parseInt(this.state.exIdx, 10) + 1)}>
-              <Button
-                // onClick={this.readNext}
-                // type="submit"
-              >
-                Next
-              </Button>
+                <Button>Next</Button>
               </Link>
             </span>
           </div>
