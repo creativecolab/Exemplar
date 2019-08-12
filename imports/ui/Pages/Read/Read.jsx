@@ -24,7 +24,13 @@ class Read extends Component {
     
     this.state = {
       session: sess,
-      exIdx: 0,
+      exIdx: props.match.params.pageId,
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if(this.props.match.params.pageId !== prevProps.match.params.pageId) {
+      this.setState({ exIdx: this.props.match.params.pageId });
     }
   }
 
@@ -37,7 +43,7 @@ class Read extends Component {
     var allCategories = [];
     var categoriesAdded = [];
 
-    var instances = CategoryInstances.find({ example_id: this.props.examples[this.state.exIdx]._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
+    var instances = CategoryInstances.find({ example_id: this.props.examples[parseInt(this.state.exIdx, 10) - 1]._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
       if(!category.deleted) { 
@@ -57,7 +63,7 @@ class Read extends Component {
         <div id="ReadExCat">
           <Example 
             sessionID={this.props.sessionID} 
-            example={this.props.examples[this.state.exIdx]} 
+            example={this.props.examples[parseInt(this.state.exIdx, 10) - 1]} 
             fromRead={true} 
             showCategories={false} 
             className="readExample"
@@ -66,10 +72,9 @@ class Read extends Component {
           {this.displayCategories()}
         </div>
 
-        
-        {this.state.exIdx === (this.props.examples.length - 1) ? 
+        {parseInt(this.state.exIdx, 10) === (this.props.examples.length) ? 
           <div id="ReadFooter">
-            <span>{this.state.exIdx + 1} out of {this.props.examples.length}</span>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
             <span id="ReadBttn">
               <Link to={"/Tag"}>
                 <Button>Done</Button>
@@ -78,14 +83,11 @@ class Read extends Component {
           </div>
           :
           <div id="ReadFooter">
-            <span>{this.state.exIdx + 1} out of {this.props.examples.length}</span>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
             <span id="ReadBttn">
-              <Button
-                onClick={this.readNext}
-                type="submit"
-              >
-                Next
-              </Button>
+              <Link to={"/Read/" + (parseInt(this.state.exIdx, 10) + 1)}>
+                <Button>Next</Button>
+              </Link>
             </span>
           </div>
         }

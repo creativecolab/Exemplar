@@ -66,6 +66,7 @@ class Tag extends Component {
   }
 
   categoryClicked = (id) => {
+    console.log("HERE");
     var newArr = this.state.categoriesSelected;
     var idx = newArr.indexOf(id);
     if (idx !== -1) {

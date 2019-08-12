@@ -34,7 +34,7 @@ class Example extends Component {
   }
 
   shortenDescription = () => {
-    return this.props.example.description.slice(0, 90) + "...";
+    return this.props.example.description.slice(0, 45) + "...";
   }
 
   deleteHandler = (event, catID) => {
@@ -181,15 +181,23 @@ class Example extends Component {
               :
               null
             }
-          </Card.Body>
-        </Card>
-        {!this.props.clicked && !this.props.fromRead ? 
-          <div className="exampleGradient">
+
+{!this.props.clicked && !this.props.fromRead ? 
+          // <div className="exampleGradient">
             <div className="preview">{this.displayPreviewCategories()}</div>
-          </div>
+          // </div>
           :
           null
         }
+          </Card.Body>
+        </Card>
+        {/* {!this.props.clicked && !this.props.fromRead ? 
+          // <div className="exampleGradient">
+            <div className="preview">{this.displayPreviewCategories()}</div>
+          // </div>
+          :
+          null
+        } */}
       </div>
     )
   }
