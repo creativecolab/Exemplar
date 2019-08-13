@@ -1,6 +1,9 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
+// Components
+import ProgressBar from '../ui/Components/ProgressBar/ProgressBar.jsx';
+
 // Pages
 import Start from '../ui/Pages/Start/Start.jsx';
 import Login from '../ui/Pages/Login/Login.jsx';
@@ -31,6 +34,11 @@ export default class Routes extends React.Component {
     render() {
         return (
             <HashRouter>
+                {console.log(this)}
+                {/* {this.state.sessionID ? <ProgressBar /> : null} */}
+                {this.state.sessionID ?
+                        <Route path="/:currPg" render={(props) => <ProgressBar {...props} login={this.login} />}/> : null
+                    }
                 <Switch>
                     {this.state.sessionID ?
                         <Redirect exact path="/" to="/Start/0" />
