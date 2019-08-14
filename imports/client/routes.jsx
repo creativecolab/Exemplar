@@ -80,7 +80,7 @@ export default class Routes extends React.Component {
                         :
                         <Redirect path="/SolutionTag" to="/" />
                     }
-                    
+
                     {this.state.sessionID ?
                         <Route path='/End' render={(props) => <Logout {...props} sessionID={this.state.sessionID} logout={this.logout} />} />
                         :
@@ -91,16 +91,3 @@ export default class Routes extends React.Component {
         )
     }
 }
-
-// export const renderRoutes = () => (
-//    <Router history={browserHistory}>
-//        <Switch>
-//            <Route exact path='/' component={Login}/>
-//            <Route path='/Start/:pageId' component={Start} />
-        //    <Route path='/Tag' component={App} />
-        //    <Route path='/Problem/:pageId' component={Problem} />
-        //    <Route path='/Solution' component={Solution} />
-        //    <Route path='/End' component={Logout} />
-//        </Switch>
-//    </Router>
-// );
