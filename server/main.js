@@ -30,14 +30,6 @@ if (Meteor.isServer) {
     prettyJson: true
   });
 
-  Api.addRoute('test2', {
-    get: function () {
-      var urlParam = this.urlParams;
-      console.log(urlParam);
-      return {urlParam}
-    }
-  });
-
   Api.addRoute('test', {
     get: function () {
       var urlParam = this.urlParams;
