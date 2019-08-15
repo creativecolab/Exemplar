@@ -160,8 +160,9 @@ class Example extends Component {
               alt={this.props.example.description} 
               className={this.props.fromRead || this.props.clicked ? "exImgLG" : "exImgSM"}
             />
-            <Card.Text>
-              {this.props.clicked || this.props.fromRead ? this.props.example.description : this.shortenDescription()}
+            <Card.Text className={this.props.clicked || this.props.fromRead ? "full" : "short"}>
+              {/* {this.props.clicked || this.props.fromRead ? this.props.example.description : this.shortenDescription()} */}
+              {this.props.example.description}
             </Card.Text>
             {this.props.clicked && !this.props.fromRead ? 
               <div className="exampleCategoryContainer">

@@ -1,0 +1,38 @@
+#ProgressBarContainer {
+  background-color: #535353;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ProgressBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.circleFilled {
+  border: 2px solid white;
+  width: 1vw;
+  height: 1vw;
+  border-radius: 0.5vw;
+  background-color: white;
+}
+
+.circle {
+  border: 2px solid white;
+  width: 1vw;
+  height: 1vw;
+  border-radius: 0.5vw;
+}
+
+.line {
+  border:1px solid white;
+  height: 1px;
+  width: 20vw;
+  margin-top: 0.5vw;
+}
+
+#ProgressBarLabel {
+  color: white;
+}

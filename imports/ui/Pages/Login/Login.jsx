@@ -39,6 +39,7 @@ class Login extends Component {
                 var contSess = Sessions.findOne({ user_id: Meteor.userId(), finished_at: null });
                 if(contSess) {
                     this.props.login(contSess._id);
+                    // Pass last pg to router
                 } else {
                     Meteor.call('sessions.insert', (err, result) => {
                         if(err) {

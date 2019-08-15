@@ -67,7 +67,13 @@
 }
 
 .card-text {
-  margin-bottom: 10px;
+  margin-bottom: 7px;
+}
+
+.short {
+  height: 3.25em;
+  line-height: 1.25em;
+  overflow: hidden;
 }
 
 input[type=text] {
@@ -168,5 +174,5 @@ input[type=text] {
   transform: translate(-50%, 0);
   border: 1px solid white;
   /* margin-top: 5px; */
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }

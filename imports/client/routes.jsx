@@ -1,6 +1,9 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
+// Components
+import ProgressBar from '../ui/Components/ProgressBar/ProgressBar.jsx';
+
 // Pages
 import Start from '../ui/Pages/Start/Start.jsx';
 import Login from '../ui/Pages/Login/Login.jsx';
@@ -22,6 +25,7 @@ export default class Routes extends React.Component {
 
     login = (sessionID) => {
         this.setState({ sessionID: sessionID });
+        // set state for last screen they were on
     }
 
     logout = () => {
@@ -31,9 +35,14 @@ export default class Routes extends React.Component {
     render() {
         return (
             <HashRouter>
+                {console.log(this)}
+                {/* {this.state.sessionID ? <ProgressBar /> : null} */}
+                {this.state.sessionID ?
+                        <Route path="/:currPg" render={(props) => <ProgressBar {...props} login={this.login} />}/> : null
+                    }
                 <Switch>
                     {this.state.sessionID ?
-                        <Redirect exact path="/" to="/Start/0" />
+                        <Redirect exact path="/" to="/Start/0" /> // Replace "/Start..." with this.state.lastPg
                         :
                         <Route exact path="/" render={(props) => <Login {...props} login={this.login} />} />
                     }
@@ -45,9 +54,9 @@ export default class Routes extends React.Component {
                     }
 
                     {this.state.sessionID ?
-                        <Route path='/Read/:pageId' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
+                        <Route path='/Examples/:pageId' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
                         :
-                        <Redirect path="/Read/:pageId" to="/" />
+                        <Redirect path="/Examples/:pageId" to="/" />
                     }
 
                     {this.state.sessionID ?
