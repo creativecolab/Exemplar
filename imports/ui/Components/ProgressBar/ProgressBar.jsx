@@ -13,8 +13,8 @@ export default class ProgressBar extends Component {
       case "DesignBrief": {
         return "Design Brief";
       } break;
-      case "Read": {
-        return "Read Examples";
+      case "Examples": {
+        return "Examples";
       } break;
       case "Ideate": {
         return "Ideate";
@@ -37,7 +37,7 @@ export default class ProgressBar extends Component {
         <div id="ProgressBar">
           <div className={this.props.match.params.currPg === "DesignBrief" ? "circleFilled" : "circle"}></div>
           <div className="line"></div>
-          <div className={this.props.match.params.currPg === "Read" ? "circleFilled" : "circle"}></div>
+          <div className={this.props.match.params.currPg === "Examples" ? "circleFilled" : "circle"}></div>
           <div className="line"></div>
           <div className={this.props.match.params.currPg === "Ideate" ? "circleFilled" : "circle"}></div>
           <div className="line"></div>

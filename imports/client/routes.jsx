@@ -25,6 +25,7 @@ export default class Routes extends React.Component {
 
     login = (sessionID) => {
         this.setState({ sessionID: sessionID });
+        // set state for last screen they were on
     }
 
     logout = () => {
@@ -41,7 +42,7 @@ export default class Routes extends React.Component {
                     }
                 <Switch>
                     {this.state.sessionID ?
-                        <Redirect exact path="/" to="/Start/0" />
+                        <Redirect exact path="/" to="/Start/0" /> // Replace "/Start..." with this.state.lastPg
                         :
                         <Route exact path="/" render={(props) => <Login {...props} login={this.login} />} />
                     }
@@ -53,9 +54,9 @@ export default class Routes extends React.Component {
                     }
 
                     {this.state.sessionID ?
-                        <Route path='/Read/:pageId' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
+                        <Route path='/Examples/:pageId' render={(props) => <Read {...props} sessionID={this.state.sessionID} />} />
                         :
-                        <Redirect path="/Read/:pageId" to="/" />
+                        <Redirect path="/Examples/:pageId" to="/" />
                     }
 
                     {this.state.sessionID ?
