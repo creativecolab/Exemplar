@@ -10,41 +10,54 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
+            mturkId: '',
             error: ''
         };
     }
 
-    // Validate Login
-    validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
-    }
-
     handleChange = ({ target }) => {
-        this.setState({ [target.type]: target.value });
+        this.setState({ mturkId: target.value });
+        // TODO Future: MTURK VALIDATION OF REAL WORKER ID
+        // var input = target.value.trim().length;
+        // this.setState({ error: (input > 0 && input < 15) ? '' : 'invalid input'});
     }
 
     // Handle Login
     handleLogin = (e) => {
         e.preventDefault();
-        let email = this.state.email;
-        let password = this.state.password;
-        Meteor.loginWithPassword(email, password, (err) => {
+        let user = this.state.mturkId;
+        let password = this.hashCode(this.state.mturkId);
+        // If account does not exist create account
+        let createdAccount = this.createAccount(user, password);
+        // Account Exists: login
+        if (!createdAccount) {
+            this.loginUser(user, password);
+            // TODO Add in saving last page
+        }
+    }
+
+    // Login account
+    loginUser = (user, password) => {
+        console.log(user);
+        Meteor.loginWithPassword(user, password, (err) => {
             if (err) {
                 this.setState({
                     error: err.reason
                 });
             } else {
                 var contSess = Sessions.findOne({ user_id: Meteor.userId(), finished_at: null });
-                if(contSess) {
+                if (contSess) {
+                    console.log('Session found:' + contSess);
                     this.props.login(contSess._id);
                     // Pass last pg to router
                 } else {
-                    Meteor.call('sessions.insert', (err, result) => {
-                        if(err) {
+                    console.log('Session NOT found:' + contSess);
+
+                    Meteor.call('sessions.insert', Meteor.userId(), (err, result) => {
+                        if (err) {
                             throw new Meteor.Error(err);
                         } else {
+                            console.log(result);
                             this.props.login(result);
                         }
                     })
@@ -53,26 +66,31 @@ class Login extends Component {
         });
     }
 
-    // Handle Account Creation
-    handleCreate = (e) => {
-        e.preventDefault();
-        var email = this.state.email;
+    // Account Creation
+    createAccount = (user, password) => {
         var registerData = {
-            username: email.substring(0, email.lastIndexOf("@")),
-            email: email,
-            password: this.state.password,
-            profile: { curr_session_id: null },
+            username: user,
+            password: password,
+            profile: { curr_session_id: this.props.curr_session_id },
         }
-        this.setState({ error: '' });
         Accounts.createUser(registerData, (err) => {
-            if (Meteor.user()) {
-                // console.log(Meteor.userId());
+            if (err) {
+                return false;
             } else {
-                console.log("ERROR: " + err.reason);
+                return true;
             }
         });
     }
-    
+
+    // Hashes the password based on username TODO FIXME HASH THE CODE VIA STRING
+    hashCode(s) {
+        let h;
+        for (let i = 0; i < s.length; i++) {
+            h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+        }
+        return h.toString();
+    }
+
     render() {
         return (
             <div className="Landing">
@@ -81,50 +99,27 @@ class Login extends Component {
                         <Col md={4} ></Col>
                         <Col md={4} className="box" >
                             <div className="Login">
-                                <div id="loginErr">{this.state.error ? "Please create an account" : null}</div>
+                                <div id="loginErr">{this.state.error ? "Mturk Id should be your 14 character userId" : null}</div>
                                 <form onSubmit={this.handleLogin}>
-                                    <Form.Group controlId="email" bssize="large">
-                                        <Form.Label>Email</Form.Label>
+                                    <Form.Group controlId="mturkId" bssize="large">
+                                        <Form.Label>Please enter your MturkId:</Form.Label>
                                         <Form.Control
                                             autoFocus
                                             required
-                                            autoComplete={"username"}
-                                            type="email"
+                                            type="mturkId"
                                             onChange={this.handleChange}
-                                            value={this.state.email}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="password" bssize="large">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            required
-                                            autoComplete={"current-password"}
-                                            type="password"
-                                            onChange={this.handleChange}
-                                            value={this.state.password}
+                                            value={this.state.mturkId}
                                         />
                                     </Form.Group>
                                     <Button
                                         block
                                         varient="success"
                                         size="sm"
-                                        disabled={!this.validateForm}
                                         type="submit"
                                     >
                                         Login
                                     </Button>
                                 </form>
-                                <br />
-                                <br />
-                                <Button
-                                    block
-                                    id="createAccount"
-                                    size="sm"
-                                    onClick={this.handleCreate}
-                                    type="submit"
-                                >
-                                    Create Account
-                                </Button>
                             </div>
                         </Col>
                         <Col md={4}></Col>

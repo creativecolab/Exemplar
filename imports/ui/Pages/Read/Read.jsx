@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from '../../Components/Category/Category.jsx';
+import ReadClock from './ReadClock.jsx';
 import Example from '../../Components/Example/Example.jsx';
 import TaskBubble from '../../Components/TaskBubble/TaskBubble.jsx';
 import './Read.css';
@@ -22,9 +23,8 @@ class Read extends Component {
 
     var sess = Sessions.findOne({ _id: props.sessionID });
 
-    // setInterval(this.timer, 1000);
     this.state = {
-      // refTime: new Date().getTime(),
+      disabledButton: true,
       session: sess,
       exIdx: props.match.params.pageId,
       status: "img",
@@ -32,15 +32,15 @@ class Read extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if(this.props.match.params.pageId !== prevProps.match.params.pageId) {
+    if (this.props.match.params.pageId !== prevProps.match.params.pageId) {
       this.setState({ exIdx: this.props.match.params.pageId, status: "img" });
     }
   }
 
   updateStatus = () => {
-    if(this.state.status === "img") {
+    if (this.state.status === "img") {
       this.setState({ status: "description" });
-    } else if(this.state.status === "description") {
+    } else if (this.state.status === "description") {
       this.setState({ status: "labels" });
     } else {
       this.setState({ status: "img" });
@@ -59,8 +59,8 @@ class Read extends Component {
     var instances = CategoryInstances.find({ example_id: this.props.examples[parseInt(this.state.exIdx, 10) - 1]._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
-      if(!category.deleted) { 
-        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+      if (!category.deleted) {
+        if ((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
           categoriesAdded.push(category._id);
           allCategories.push(<Category key={category._id} category={category} categoryClicked={null} fromRead={true} deleteHandler={this.deleteHandler} />)
         }
@@ -70,26 +70,25 @@ class Read extends Component {
     return <div id="ReadCat">{allCategories}</div>
   }
 
-  // timer = () => {
-  //   var curTime = new Date().getTime();
-  //   console.log(curTime);
-  //   console.log(this.state.refTime);
-  //   var timeleft = parseInt(Math.abs(curTime - this.state.refTime) / 1000);
-  //   console.log(timeleft);
-  //   console.log(typeof timeleft);
-  //   if( timeleft > 3){ // CHANGE MAGIC NUMBER TO BE PASSED
-  //     console.log("HI");
-  //     return false;
-  //   } else {
-  //     console.log("HI2");
-  //     return true;
-  //   }
-  // }
+  changeNextValueTo = (eventResult) => {
+    if (this.state.disabledButton && !eventResult) {
+      this.setState({ disabledButton: eventResult });
+    }
+  }
 
-
+  btnCmp = (disabled) => {
+    return (
+      <Button
+        disabled={disabled}
+        onClick={this.props.updateStatus}>
+        Continue
+      </Button>
+    );
+  }
   displayButton = () => {
-    if(this.state.status !== "labels") {
+    if (this.state.status !== "labels") {
       return (
+<<<<<<< HEAD
         <div>
           <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
           <span id={"ReadBttn"}>
@@ -105,6 +104,12 @@ class Read extends Component {
       );
     } else {
       if(parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+=======
+        <ReadClock duration={3} changeNextValueTo={this.changeNextValueTo} btnCmp={this.btnCmp} />)
+    }
+    else {
+      if (parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+>>>>>>> 137eaa531b82beeb9e82657b0740ebe77bb842eb
         return (
           <div>
             <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
@@ -145,28 +150,33 @@ class Read extends Component {
     //         <Button>Next</Button>
     //       </Link>
     //     </span>
+<<<<<<< HEAD
     //   </div>  
+=======
+    //   </div>
+
+>>>>>>> 137eaa531b82beeb9e82657b0740ebe77bb842eb
   }
 
   render() {
     return (
       <div id="Read">
-        <img 
-          src={this.props.examples[parseInt(this.state.exIdx, 10) - 1].image} 
-          alt={this.props.examples[parseInt(this.state.exIdx, 10) - 1].description} 
+        <img
+          src={this.props.examples[parseInt(this.state.exIdx, 10) - 1].image}
+          alt={this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}
           id={this.state.status === "img" ? "ReadImgOnly" : "ReadImg"}
         />
 
-        {this.state.status === "description" || this.state.status === "labels" ? 
+        {this.state.status === "description" || this.state.status === "labels" ?
           <p id="ReadDescription">{this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}</p>
           :
-          null  
+          null
         }
 
         {this.state.status === "labels" ?
           <div>{this.displayCategories()}</div>
           :
-          null  
+          null
         }
 
         {/* <div id="ReadExCat">
