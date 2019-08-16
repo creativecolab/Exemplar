@@ -28,6 +28,8 @@ class Routes extends React.Component {
         // }
     }
 
+    // Add a loading page when it is rendering session ID first time!
+
     login = (sessionID) => {
         // this.setState({ sessionID: sessionID });
         // set state for last screen they were on
