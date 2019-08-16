@@ -6,10 +6,14 @@ import './ProgressBar.css';
 export default class ProgressBar extends Component {
   constructor(props) {
     super(props);
+    console.log("Render Progress: " + this.props.match.url);
   }
 
   determinePgLabel = () => {
     switch (this.props.match.params.currPg) {
+      case "Start": {
+        return "Start"
+      } break;
       case "DesignBrief": {
         return "Design Brief";
       } break;

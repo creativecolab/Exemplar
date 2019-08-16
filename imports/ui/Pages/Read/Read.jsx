@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from '../../Components/Category/Category.jsx';
 import ReadClock from './ReadClock.jsx';
-import Example from '../../Components/Example/Example.jsx';
-import TaskBubble from '../../Components/TaskBubble/TaskBubble.jsx';
 import './Read.css';
 
 // Collections Import
@@ -24,32 +21,29 @@ class Read extends Component {
     var sess = Sessions.findOne({ _id: props.sessionID });
 
     this.state = {
-      disabledButton: true,
       session: sess,
       exIdx: props.match.params.pageId,
       status: "img",
+      duration: 5
     }
   }
 
+  // Tells which example to show (of the 15) based on page id ( the number in the url )
   componentDidUpdate = (prevProps) => {
     if (this.props.match.params.pageId !== prevProps.match.params.pageId) {
       this.setState({ exIdx: this.props.match.params.pageId, status: "img" });
     }
   }
 
-  updateStatus = () => {
-    if (this.state.status === "img") {
+  // Updates the text,image,labels displayed. Called by ReadClock
+  updateStatus = (status) => {
+    if (status === "img") {
       this.setState({ status: "description" });
-    } else if (this.state.status === "description") {
+    } else if (status === "description") {
       this.setState({ status: "labels" });
     } else {
       this.setState({ status: "img" });
     }
-  }
-
-  readNext = (event) => {
-    event.preventDefault();
-    this.setState({ exIdx: this.state.exIdx + 1 })
   }
 
   displayCategories = () => {
@@ -69,107 +63,75 @@ class Read extends Component {
 
     return <div id="ReadCat">{allCategories}</div>
   }
-
-  changeNextValueTo = (eventResult) => {
-    if (this.state.disabledButton && !eventResult) {
-      this.setState({ disabledButton: eventResult });
-    }
-  }
-
-  btnCmp = (disabled) => {
-    return (
-      <Button
-        disabled={disabled}
-        onClick={this.props.updateStatus}>
-        Continue
-      </Button>
-    );
-  }
-  
-  displayButton = () => {
-    if (this.state.status !== "labels") {
-      return (
-        <ReadClock duration={3} changeNextValueTo={this.changeNextValueTo} btnCmp={this.btnCmp} />)
-    }
-    else {
-      if (parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+  // Displays the next image, text, and labels
+  displayNextElement = () => {
+    let currentStatus = this.state.status;
+    // Render Next Element or Next Example/Page depending on the currentStatus
+    switch (currentStatus) {
+      case "img":
+      case "description":
         return (
-          <div>
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
-            <span id="ReadBttn">
-              <Link to={"/Tag"}>
-                <Button>Done</Button>
-              </Link>
-            </span>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
-            <span id="ReadBttn">
-              <Link to={"/Examples/" + (parseInt(this.state.exIdx, 10) + 1)}>
-                <Button>Next</Button>
-              </Link>
-            </span>
-          </div>
-        );
-      }
+          <ReadClock
+            duration={this.state.duration}
+            updateStatus={this.updateStatus}
+            status={this.state.status}
+            buttonText={"Continue"}
+            startTime={new Date().getTime()}
+          />);
+      case "labels":
+        {
+          let nextLink, nextText;
+          // Declare the nextLink and ButtonText
+          if (parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+            nextLink = "/Tag";
+            nextText = "Next"
+          } else {
+            nextLink = "/Examples/" + (parseInt(this.state.exIdx, 10) + 1);
+            nextText = "Done"
+          }
+          return (
+            <div>
+              <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
+              <span id="ReadBttn">
+                <Link to={nextLink}>
+                  <ReadClock
+                    duration={this.state.duration}
+                    updateStatus={this.updateStatus}
+                    status={this.state.status}
+                    buttonText={nextText}
+                    startTime={new Date().getTime()}
+                  />
+                </Link>
+              </span>
+            </div>
+          );
+        }
     }
-    // parseInt(this.state.exIdx, 10) === (this.props.examples.length) ? 
-    //   <div id="ReadFooter">
-    //     <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
-    //     <span id="ReadBttn">
-    //       <Link to={"/Tag"}>
-    //         <Button>Done</Button>
-    //       </Link>
-    //     </span>
-    //   </div>
-    //   :
-    //   <div id="ReadFooter">
-    //     <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
-    //     <span id="ReadBttn">
-    //       <Link to={"/Examples/" + (parseInt(this.state.exIdx, 10) + 1)}>
-    //         <Button>Next</Button>
-    //       </Link>
-    //     </span>
-    //   </div>  
   }
 
   render() {
     return (
       <div id="Read">
+        {/* Image */}
         <img
           src={this.props.examples[parseInt(this.state.exIdx, 10) - 1].image}
           alt={this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}
           id={this.state.status === "img" ? "ReadImgOnly" : "ReadImg"}
         />
-
-        {this.state.status === "description" || this.state.status === "labels" ?
+        {/* Description */}
+        {this.state.status !== "img" ?
           <p id="ReadDescription">{this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}</p>
           :
           null
         }
-
+        {/* Labels */}
         {this.state.status === "labels" ?
           <div>{this.displayCategories()}</div>
           :
           null
         }
-
-        {/* <div id="ReadExCat">
-          <Example 
-            sessionID={this.props.sessionID} 
-            example={this.props.examples[parseInt(this.state.exIdx, 10) - 1]} 
-            fromRead={true} 
-            showCategories={false} 
-            className="readExample"
-          />
-
-          {this.displayCategories()}
-        </div>*/}
-
-        <div id="ReadFooter">{this.displayButton()}</div>
+        {/* Continue Button */}
+        <div id="ReadFooter">{this.displayNextElement()}</div>
       </div>
     )
   }

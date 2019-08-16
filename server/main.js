@@ -36,7 +36,7 @@ if (Meteor.isServer) {
     get: function () {
       var urlParam = this.urlParams;
       console.log(urlParam);
-      return {urlParam}
+      return { urlParam }
     }
   });
   // Gathers all the data from collections into a csv format TODO
@@ -64,7 +64,9 @@ if (Meteor.isServer) {
 }
 
 Meteor.startup(() => {
-
+  if (Sessions.find().count() === 0) {
+    Meteor.call('sessions.insert', "Admin");
+  }
   // Accounts.onCreateUser((options, user) => {
   //   var sessionID = Sessions.insert({
   //     condition: '2',   // FXIME UPDATE LATER
@@ -83,13 +85,13 @@ Meteor.startup(() => {
   //   });
 
   //   const customizedUser = user;
-  
+
   //   if (options.profile) {
   //     customizedUser.profile = options.profile;
   //   }
 
   //   customizedUser.profile.curr_session_id = sessionID;
-  
+
   //   return customizedUser; 
   // })
 

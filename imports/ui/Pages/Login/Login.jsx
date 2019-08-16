@@ -27,13 +27,10 @@ class Login extends Component {
         e.preventDefault();
         let user = this.state.mturkId;
         let password = this.hashCode(this.state.mturkId);
-        // If account does not exist create account
-        let createdAccount = this.createAccount(user, password);
-        // Account Exists: login
-        if (!createdAccount) {
-            this.loginUser(user, password);
-            // TODO Add in saving last page
-        }
+        // If account does not exist create account, will not create if it already exists
+        this.createAccount(user, password);
+        // Account Exists: login with that account or previous account
+        this.loginUser(user, password);
     }
 
     // Login account
@@ -45,20 +42,17 @@ class Login extends Component {
                     error: err.reason
                 });
             } else {
+                // Continue old session or Start new one if does not exist
                 var contSess = Sessions.findOne({ user_id: Meteor.userId(), finished_at: null });
                 if (contSess) {
                     console.log('Session found:' + contSess);
-                    this.props.login(contSess._id);
-                    // Pass last pg to router
                 } else {
-                    console.log('Session NOT found:' + contSess);
-
+                    console.log('Session NOT found, creating new one');
                     Meteor.call('sessions.insert', Meteor.userId(), (err, result) => {
                         if (err) {
                             throw new Meteor.Error(err);
                         } else {
                             console.log(result);
-                            this.props.login(result);
                         }
                     })
                 }
