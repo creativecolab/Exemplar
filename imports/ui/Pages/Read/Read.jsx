@@ -21,16 +21,29 @@ class Read extends Component {
     super(props);
 
     var sess = Sessions.findOne({ _id: props.sessionID });
-    
+
+    // setInterval(this.timer, 1000);
     this.state = {
+      // refTime: new Date().getTime(),
       session: sess,
       exIdx: props.match.params.pageId,
+      status: "img",
     }
   }
 
   componentDidUpdate = (prevProps) => {
     if(this.props.match.params.pageId !== prevProps.match.params.pageId) {
-      this.setState({ exIdx: this.props.match.params.pageId });
+      this.setState({ exIdx: this.props.match.params.pageId, status: "img" });
+    }
+  }
+
+  updateStatus = () => {
+    if(this.state.status === "img") {
+      this.setState({ status: "description" });
+    } else if(this.state.status === "description") {
+      this.setState({ status: "labels" });
+    } else {
+      this.setState({ status: "img" });
     }
   }
 
@@ -57,10 +70,101 @@ class Read extends Component {
     return <div id="ReadCat">{allCategories}</div>
   }
 
+  // timer = () => {
+  //   var curTime = new Date().getTime();
+  //   console.log(curTime);
+  //   console.log(this.state.refTime);
+  //   var timeleft = parseInt(Math.abs(curTime - this.state.refTime) / 1000);
+  //   console.log(timeleft);
+  //   console.log(typeof timeleft);
+  //   if( timeleft > 3){ // CHANGE MAGIC NUMBER TO BE PASSED
+  //     console.log("HI");
+  //     return false;
+  //   } else {
+  //     console.log("HI2");
+  //     return true;
+  //   }
+  // }
+
+
+  displayButton = () => {
+    if(this.state.status !== "labels") {
+      return (
+        <Button 
+          // disabled={this.timer()}
+          onClick={this.updateStatus}
+        >
+          Continue
+        </Button>
+      );
+    } else {
+      if(parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+        return (
+          <div>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+            <span id="ReadBttn">
+              <Link to={"/Tag"}>
+                <Button>Done</Button>
+              </Link>
+            </span>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+            <span id="ReadBttn">
+              <Link to={"/Examples/" + (parseInt(this.state.exIdx, 10) + 1)}>
+                <Button>Next</Button>
+              </Link>
+            </span>
+          </div>
+        );
+      }
+    }
+    // parseInt(this.state.exIdx, 10) === (this.props.examples.length) ? 
+    //   <div id="ReadFooter">
+    //     <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+    //     <span id="ReadBttn">
+    //       <Link to={"/Tag"}>
+    //         <Button>Done</Button>
+    //       </Link>
+    //     </span>
+    //   </div>
+    //   :
+    //   <div id="ReadFooter">
+    //     <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+    //     <span id="ReadBttn">
+    //       <Link to={"/Examples/" + (parseInt(this.state.exIdx, 10) + 1)}>
+    //         <Button>Next</Button>
+    //       </Link>
+    //     </span>
+    //   </div>
+    
+  }
+
   render() {
     return (
       <div id="Read">
-        <div id="ReadExCat">
+        <img 
+          src={this.props.examples[parseInt(this.state.exIdx, 10) - 1].image} 
+          alt={this.props.examples[parseInt(this.state.exIdx, 10) - 1].description} 
+          id={this.state.status === "img" ? "ReadImgOnly" : "ReadImg"}
+        />
+
+        {this.state.status === "description" || this.state.status === "labels" ? 
+          <p id="ReadDescription">{this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}</p>
+          :
+          null  
+        }
+
+        {this.state.status === "labels" ?
+          <div>{this.displayCategories()}</div>
+          :
+          null  
+        }
+
+        {/* <div id="ReadExCat">
           <Example 
             sessionID={this.props.sessionID} 
             example={this.props.examples[parseInt(this.state.exIdx, 10) - 1]} 
@@ -70,27 +174,9 @@ class Read extends Component {
           />
 
           {this.displayCategories()}
-        </div>
+        </div>*/}
 
-        {parseInt(this.state.exIdx, 10) === (this.props.examples.length) ? 
-          <div id="ReadFooter">
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
-            <span id="ReadBttn">
-              <Link to={"/Tag"}>
-                <Button>Done</Button>
-              </Link>
-            </span>
-          </div>
-          :
-          <div id="ReadFooter">
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
-            <span id="ReadBttn">
-              <Link to={"/Read/" + (parseInt(this.state.exIdx, 10) + 1)}>
-                <Button>Next</Button>
-              </Link>
-            </span>
-          </div>
-        }
+        <div id="ReadFooter">{this.displayButton()}</div>
       </div>
     )
   }
