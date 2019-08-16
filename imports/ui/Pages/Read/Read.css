@@ -3,6 +3,17 @@
   background-color: #eeeeee;
 }
 
+#ReadImgOnly {
+  height: 80vh;
+  margin-top: 10px;
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+}
+
+#ReadImg {
+  height: 60vh;
+}
+
 #ReadExCat {
   display: flex;
   flex-direction: column;

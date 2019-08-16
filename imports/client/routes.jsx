@@ -35,8 +35,6 @@ export default class Routes extends React.Component {
     render() {
         return (
             <HashRouter>
-                {console.log(this)}
-                {/* {this.state.sessionID ? <ProgressBar /> : null} */}
                 {this.state.sessionID ?
                         <Route path="/:currPg" render={(props) => <ProgressBar {...props} login={this.login} />}/> : null
                     }
