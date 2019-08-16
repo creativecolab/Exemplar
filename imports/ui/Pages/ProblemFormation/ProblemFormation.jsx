@@ -102,11 +102,6 @@ class ProblemFormation extends Component {
                                 <Form onSubmit={this.handleSubmit}>
                                     {this.state.currentText} <br /><br />
                                     <InputGroup className="mb-3">
-                                        {/* <InputGroup.Prepend>
-                                            <div className="wrapper">
-                                                <InputGroup.Text id="inputGroup" style={{ "alignItems": "none", padding: "none !important" }}>How might we solve:</InputGroup.Text>
-                                            </div>
-                                        </InputGroup.Prepend> */}
                                         <Form.Control
                                             as='textarea'
                                             placeholder={placeholderText}
