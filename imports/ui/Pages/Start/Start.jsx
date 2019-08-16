@@ -1,6 +1,7 @@
 /* eslint-disable */
 import './Start.css';
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor'
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +17,8 @@ const page = ["/Problem/Before", "/Start/2", "/Tutorial", "/SolutionTag"];
 class Start extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.match.url)
+        Meteor.call('sessions.updatePage', props.sessionID, this.props.match.url);
         this.state = {
             text: '',
             nextPage: '',
@@ -53,13 +56,13 @@ class Start extends Component {
         }
         this.setState({ text: text, nextPage: nextPage, buttonName: buttonName });
     }
-    
+
     componentDidUpdate = (prevProps) => {
-        if(this.props.match !== prevProps.match) {
+        if (this.props.match !== prevProps.match) {
             this.getText();
         }
     }
-        
+
     componentDidMount() {
         this.getText();
     }
@@ -77,7 +80,7 @@ class Start extends Component {
                                 {currentText}
                             </div>
                             <div className="next">
-                                {this.props.match.params.pageId === "2" ? 
+                                {this.props.match.params.pageId === "2" ?
                                     <Link to={"/Start/1"}>
                                         <Button id="prevButton" variant="success" >Previous</Button>
                                     </Link>
