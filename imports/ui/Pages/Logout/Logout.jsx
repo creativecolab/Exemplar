@@ -6,6 +6,8 @@ import '../Start/Start.css';
 class Logout extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.match.url)
+        Meteor.call('sessions.updatePage', props.sessionID, this.props.match.url);
     }
     handleLogout = (e) => {
         e.preventDefault();
@@ -17,7 +19,7 @@ class Logout extends Component {
                     if(err) {
                         throw new Meteor.Error(err);
                     } else {
-                        this.props.logout();
+                        // this.props.logout();
                     }
                 });
             }
