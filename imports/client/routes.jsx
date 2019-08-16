@@ -45,7 +45,6 @@ class Routes extends React.Component {
 
         return (
             <HashRouter>
-                {console.log(this)}
                 {/* {sessionID ? <ProgressBar /> : null} */}
                 {sessionID ?
                         <Route path="/:currPg" render={(props) => <ProgressBar {...props} login={this.login} />}/> : null

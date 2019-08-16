@@ -14,7 +14,21 @@ Meteor.methods({
     }
 
     Categories.update({ _id: id }, {
-      $inc: { selected_count: 1},
+      $inc: { total_usefulness_count: 1},
+    });
+
+    return id;
+  },
+
+  'categories.decrement'(id) {
+    check(id, String);
+
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Categories.update({ _id: id }, {
+      $inc: { total_usefulness_count: -1},
     });
 
     return id;

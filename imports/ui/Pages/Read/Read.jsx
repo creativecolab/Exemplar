@@ -85,6 +85,7 @@ class Read extends Component {
       </Button>
     );
   }
+  
   displayButton = () => {
     if (this.state.status !== "labels") {
       return (

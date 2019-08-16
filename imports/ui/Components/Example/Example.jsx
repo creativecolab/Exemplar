@@ -155,15 +155,19 @@ class Example extends Component {
       <div className="exampleContainer" onClick={this.props.exampleClicked ? ((event) => this.props.exampleClicked(event, this.props.example._id)) : null}>
         <Card text="white" className={this.props.className}>
           <Card.Body className={this.props.fromRead || this.props.clicked ? "cardBodyLG" : "cardBodySM"}>
-            <img 
-              src={this.props.example.image} 
-              alt={this.props.example.description} 
-              className={this.props.fromRead || this.props.clicked ? "exImgLG" : "exImgSM"}
-            />
+            {this.props.example.image ? 
+              <img 
+                src={this.props.example.image} 
+                alt={this.props.example.description} 
+                className={this.props.fromRead || this.props.clicked ? "exImgLG" : "exImgSM"}
+              />
+              :
+              null
+            }
             <Card.Text className={this.props.clicked || this.props.fromRead ? "full" : "short"}>
               {this.props.example.description}
             </Card.Text>
-            {this.props.clicked && !this.props.fromRead ? 
+            {/* {this.props.clicked && !this.props.fromRead ? 
               <div className="exampleCategoryContainer">
                 {this.displayAllCategories()}
                 <form id="newCategory" onSubmit={this.addNew}>
@@ -180,15 +184,15 @@ class Example extends Component {
               </div>
               :
               null
-            }
+            } */}
 
-{!this.props.clicked && !this.props.fromRead ? 
-          // <div className="exampleGradient">
-            <div className="preview">{this.displayPreviewCategories()}</div>
-          // </div>
-          :
-          null
-        }
+            {!this.props.clicked && !this.props.fromRead ? 
+              // <div className="exampleGradient">
+                <div className="preview">{this.displayPreviewCategories()}</div>
+              // </div>
+              :
+              null
+            }
           </Card.Body>
         </Card>
         {/* {!this.props.clicked && !this.props.fromRead ? 
