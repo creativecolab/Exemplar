@@ -88,28 +88,10 @@ class Read extends Component {
   displayButton = () => {
     if (this.state.status !== "labels") {
       return (
-<<<<<<< HEAD
-        <div>
-          <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
-          <span id={"ReadBttn"}>
-          <Button 
-            // disabled={this.timer()}
-            onClick={this.updateStatus}
-            
-          >
-            Continue
-          </Button>
-          </span>
-        </div>
-      );
-    } else {
-      if(parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
-=======
         <ReadClock duration={3} changeNextValueTo={this.changeNextValueTo} btnCmp={this.btnCmp} />)
     }
     else {
       if (parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
->>>>>>> 137eaa531b82beeb9e82657b0740ebe77bb842eb
         return (
           <div>
             <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
@@ -150,12 +132,7 @@ class Read extends Component {
     //         <Button>Next</Button>
     //       </Link>
     //     </span>
-<<<<<<< HEAD
     //   </div>  
-=======
-    //   </div>
-
->>>>>>> 137eaa531b82beeb9e82657b0740ebe77bb842eb
   }
 
   render() {
