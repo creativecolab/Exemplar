@@ -9,25 +9,32 @@ Meteor.methods({
   /*                  Session methods                       */
   /**********************************************************/
   // Initialize session
-  'sessions.insert'() {
+  'sessions.insert'(user_id) {
     return Sessions.insert({
-      condition: 'deep',   // TODO UPDATE LATER
-      user_id: Meteor.userId(),
+      condition: '2',   // FXIME UPDATE LATER
+      user_id: user_id,
       created_at: new Date(),
       finished_at: null,
-      user_problem_before: null,
-      user_problem_after: null,
+      user_solution_id: null,
+      ex_read_times_arr: {},
+      last_page: "",
+      // TODO REMOVE BELOW
       user_solution_before: null,
       user_solution_after: null,
-      // problem_before_time: null,
-      // problem_after_time: null,
+      user_problem_before: null,
+      user_problem_after: null,
+      problem_before_time: null,
+      problem_after_time: null,
       tagging_time: null,
-      solution_tagging_time: null,
-      // ideation_time: null,
-      // tagging_own_time: null
+      solution_tagging_time: null
     });
-  
-    // return id;
+  },
+
+  //  WIP Updates the last page for a session
+  'sessions.updatePage'(id, last_page) {
+    Sessions.update({ _id: id}, {
+      $set: { last_page: last_page }
+    });
   },
 
   'sessions.logout'(id) {
