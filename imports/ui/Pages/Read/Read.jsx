@@ -90,18 +90,24 @@ class Read extends Component {
   displayButton = () => {
     if(this.state.status !== "labels") {
       return (
-        <Button 
-          // disabled={this.timer()}
-          onClick={this.updateStatus}
-        >
-          Continue
-        </Button>
+        <div>
+          <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
+          <span id={"ReadBttn"}>
+          <Button 
+            // disabled={this.timer()}
+            onClick={this.updateStatus}
+            
+          >
+            Continue
+          </Button>
+          </span>
+        </div>
       );
     } else {
       if(parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
         return (
           <div>
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
             <span id="ReadBttn">
               <Link to={"/Tag"}>
                 <Button>Done</Button>
@@ -112,7 +118,7 @@ class Read extends Component {
       } else {
         return (
           <div>
-            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length}</span>
+            <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
             <span id="ReadBttn">
               <Link to={"/Examples/" + (parseInt(this.state.exIdx, 10) + 1)}>
                 <Button>Next</Button>
@@ -139,8 +145,7 @@ class Read extends Component {
     //         <Button>Next</Button>
     //       </Link>
     //     </span>
-    //   </div>
-    
+    //   </div>  
   }
 
   render() {
