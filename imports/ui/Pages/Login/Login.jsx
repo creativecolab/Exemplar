@@ -66,7 +66,7 @@ class Login extends Component {
         this.setState({ error: '' });
         Accounts.createUser(registerData, (err) => {
             if (Meteor.user()) {
-                console.log(Meteor.userId());
+                // console.log(Meteor.userId());
             } else {
                 console.log("ERROR: " + err.reason);
             }
