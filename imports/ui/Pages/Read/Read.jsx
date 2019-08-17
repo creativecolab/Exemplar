@@ -63,7 +63,6 @@ class Read extends Component {
 
     return <div id="ReadCat">{allCategories}</div>
   }
-
   // Displays the next image, text, and labels
   displayNextElement = () => {
     let currentStatus = this.state.status;

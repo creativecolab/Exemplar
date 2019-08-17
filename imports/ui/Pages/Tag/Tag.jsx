@@ -66,7 +66,6 @@ class Tag extends Component {
   }
 
   categoryClicked = (id) => {
-    console.log("HERE");
     var newArr = this.state.categoriesSelected;
     var idx = newArr.indexOf(id);
     if (idx !== -1) {
@@ -123,7 +122,7 @@ class Tag extends Component {
       conditionCategories = Categories.find({ deleted: false, $or: [{ condition: this.state.session.condition }, { created_by: Meteor.userId() }] }).fetch();
     }
 
-    conditionCategories.map((category) => {
+    this.props.categories.map((category) => {
       var selected;
       if (this.state.categoriesSelected.indexOf(category._id) === -1) {
         selected = false;
@@ -187,25 +186,26 @@ class Tag extends Component {
                           session={this.state.session}
                           pageId={this.props.match.url}
                           numNotTag={this.calcUntaggedExamples()}
+                          history={this.props.history}
                         />
                         : null}
                     </Col>
                   </Row>
                 </Container>
-                <div className="LeftPane-header">
-                  <span>Categories</span>
-                  <span id='clear' onClick={this.clearFilters}>Clear all</span>
-                </div>
-                {this.displayCategories()}
               </div>
             </Col>
             <Col xs={8} sm={8} md={8} lg={8} xl={8} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <div className={this.state.exampleClicked ? "PlaceClicked" : "Place"}>
                 <Container style={{ position: "relative", paddingLeft: '20px', paddingTop: '10px' }}>
-                  <div id="rightHeader">
+                  <div className="LeftPane-header">
+                    <span>Categories</span>
+                    <span id='clear' onClick={this.clearFilters}>Clear all</span>
+                  </div>
+                  {this.displayCategories()}
+                  {/* <div id="rightHeader">
                     <span id="searchBar">Search for keywords, categories, etc.</span>
                     <div id="catShown">{(this.state.examples.length === 0) && (this.state.categoriesSelected.length === 0) ? this.props.examples.length : this.state.examples.length} examples are being shown.</div>
-                  </div>
+                  </div> */}
                   {this.displayExamples()}
                   {this.state.exampleClicked ?
                     <div id="exampleClickedDiv" onClick={(event) => this.exampleUnclicked(event)}>

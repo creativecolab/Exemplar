@@ -11,13 +11,15 @@ import Categories from '/imports/api/categories';
 import Sessions from '/imports/api/sessions.js';
 import CategoryInstances from '/imports/api/categoryInstances.js';
 import Interactions from '/imports/api/interactions.js';
+import UserSolutions from '/imports/api/userSolutions.js'
 
 function insertExample(condition, description, image, url, created_by, created_at) {
   Examples.insert({ condition, description, image, url, created_by, created_at });
 }
 
 function insertCategory(label, condition, created_by) {
-  Categories.insert({ label, condition, created_by: created_by, created_at: null, deleted: false });
+  // Example ID? Category Type?
+  Categories.insert({ label, condition, total_usefulness_count: 0, created_by: created_by, created_at: null, deleted: false });
 }
 
 // Restivus to add ability to call functions and store CSV data

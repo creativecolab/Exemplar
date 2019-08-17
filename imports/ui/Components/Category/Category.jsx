@@ -25,10 +25,11 @@ class Category extends Component {
     }
   
     clicked = (event, id) => {
+        console.log(event.target.className)
         event.preventDefault();
-        if((event.target.className === 'categoryContainer') || (event.target.className === 'categoryContainerClicked') || (event.target.className === 'lightLabel')) {
+        // if((event.target.className === 'categoryContainer') || (event.target.className === 'categoryContainerClicked') || (event.target.className === 'lightLabel') || event.target.class) {
             this.props.categoryClicked(id);
-        }
+        // }
     }
 
     componentDidUpdate = (prevProps) => {
