@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // Components Import
 import Category from '../../Components/Category/Category.jsx';
-import Example from '../../Components/Example/Example.jsx';
-import TaskBubble from '../../Components/TaskBubble/TaskBubble.jsx';
+import ReadClock from './ReadClock.jsx';
 import './Read.css';
 
 // Collections Import
@@ -21,27 +19,42 @@ class Read extends Component {
     super(props);
 
     var sess = Sessions.findOne({ _id: props.sessionID });
-    
+
     this.state = {
       session: sess,
-      exIdx: 0,
+      exIdx: props.match.params.pageId,
+      status: "img",
+      duration: 5
     }
   }
 
-  readNext = (event) => {
-    event.preventDefault();
-    this.setState({ exIdx: this.state.exIdx + 1 })
+  // Tells which example to show (of the 15) based on page id ( the number in the url )
+  componentDidUpdate = (prevProps) => {
+    if (this.props.match.params.pageId !== prevProps.match.params.pageId) {
+      this.setState({ exIdx: this.props.match.params.pageId, status: "img" });
+    }
+  }
+
+  // Updates the text,image,labels displayed. Called by ReadClock
+  updateStatus = (status) => {
+    if (status === "img") {
+      this.setState({ status: "description" });
+    } else if (status === "description") {
+      this.setState({ status: "labels" });
+    } else {
+      this.setState({ status: "img" });
+    }
   }
 
   displayCategories = () => {
     var allCategories = [];
     var categoriesAdded = [];
 
-    var instances = CategoryInstances.find({ example_id: this.props.examples[this.state.exIdx]._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
+    var instances = CategoryInstances.find({ example_id: this.props.examples[parseInt(this.state.exIdx, 10) - 1]._id, user_id: Meteor.userId(), deleted: false, session_id: this.props.sessionID }).fetch();
     instances.map((instance) => {
       var category = Categories.findOne({ _id: instance.category_id });
-      if(!category.deleted) { 
-        if((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
+      if (!category.deleted) {
+        if ((categoriesAdded.indexOf(category._id) === -1) || (categoriesAdded.length === 0)) {
           categoriesAdded.push(category._id);
           allCategories.push(<Category key={category._id} category={category} categoryClicked={null} fromRead={true} deleteHandler={this.deleteHandler} />)
         }
@@ -51,44 +64,75 @@ class Read extends Component {
     return <div id="ReadCat">{allCategories}</div>
   }
 
+  // Displays the next image, text, and labels
+  displayNextElement = () => {
+    let currentStatus = this.state.status;
+    // Render Next Element or Next Example/Page depending on the currentStatus
+    switch (currentStatus) {
+      case "img":
+      case "description":
+        return (
+          <ReadClock
+            duration={this.state.duration}
+            updateStatus={this.updateStatus}
+            status={this.state.status}
+            buttonText={"Continue"}
+            startTime={new Date().getTime()}
+          />);
+      case "labels":
+        {
+          let nextLink, nextText;
+          // Declare the nextLink and ButtonText
+          if (parseInt(this.state.exIdx, 10) === (this.props.examples.length)) {
+            nextLink = "/Tag";
+            nextText = "Next"
+          } else {
+            nextLink = "/Examples/" + (parseInt(this.state.exIdx, 10) + 1);
+            nextText = "Done"
+          }
+          return (
+            <div>
+              <span>{parseInt(this.state.exIdx, 10)} out of {this.props.examples.length} examples</span>
+              <span id="ReadBttn">
+                <Link to={nextLink}>
+                  <ReadClock
+                    duration={this.state.duration}
+                    updateStatus={this.updateStatus}
+                    status={this.state.status}
+                    buttonText={nextText}
+                    startTime={new Date().getTime()}
+                  />
+                </Link>
+              </span>
+            </div>
+          );
+        }
+    }
+  }
+
   render() {
     return (
       <div id="Read">
-        <div id="ReadExCat">
-          <Example 
-            sessionID={this.props.sessionID} 
-            example={this.props.examples[this.state.exIdx]} 
-            fromRead={true} 
-            showCategories={false} 
-            className="readExample"
-          />
-
-          {this.displayCategories()}
-        </div>
-
-        
-        {this.state.exIdx === (this.props.examples.length - 1) ? 
-          <div id="ReadFooter">
-            <span>{this.state.exIdx + 1} out of {this.props.examples.length}</span>
-            <span id="ReadBttn">
-              <Link to={"/Tag"}>
-                <Button>Done</Button>
-              </Link>
-            </span>
-          </div>
+        {/* Image */}
+        <img
+          src={this.props.examples[parseInt(this.state.exIdx, 10) - 1].image}
+          alt={this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}
+          id={this.state.status === "img" ? "ReadImgOnly" : "ReadImg"}
+        />
+        {/* Description */}
+        {this.state.status !== "img" ?
+          <p id="ReadDescription">{this.props.examples[parseInt(this.state.exIdx, 10) - 1].description}</p>
           :
-          <div id="ReadFooter">
-            <span>{this.state.exIdx + 1} out of {this.props.examples.length}</span>
-            <span id="ReadBttn">
-              <Button
-                onClick={this.readNext}
-                type="submit"
-              >
-                Next
-              </Button>
-            </span>
-          </div>
+          null
         }
+        {/* Labels */}
+        {this.state.status === "labels" ?
+          <div>{this.displayCategories()}</div>
+          :
+          null
+        }
+        {/* Continue Button */}
+        <div id="ReadFooter">{this.displayNextElement()}</div>
       </div>
     )
   }

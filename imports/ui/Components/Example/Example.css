@@ -5,6 +5,7 @@
   width: 30vw;
   min-width: 100px;
   cursor: default;
+  font-size: 14px;
 }
 
 .exampleCardClicked {
@@ -51,7 +52,7 @@
   text-align: left;
   cursor: pointer;
   border: 2px solid #00C39D;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 #newCategory {
@@ -63,6 +64,16 @@
   padding-right: 10px;
   margin-bottom: 5px;
   color: white;
+}
+
+.card-text {
+  margin-bottom: 7px;
+}
+
+.short {
+  height: 3.25em;
+  line-height: 1.25em;
+  overflow: hidden;
 }
 
 input[type=text] {
@@ -132,12 +143,36 @@ input[type=text] {
   padding-bottom: 1px;
 }
 
-.card-body {
-  padding-top: .35rem;
+.cardBodyLG {
+  /* padding-top: .35rem; */
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+
+.cardBodySM {
+  padding-top: .65rem;
   padding-left: .75rem;
   padding-right: .75rem;
 }
 
 #preview {
   padding-left: 10px;
+}
+
+.exImgLG {
+  height: 30vh;
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  border: 1px solid white;
+  /* margin-top: 5px; */
+  margin-bottom: 10px;
+}
+
+.exImgSM {
+  height: 15vh;
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  border: 1px solid white;
+  /* margin-top: 5px; */
+  margin-bottom: 10px;
 }
