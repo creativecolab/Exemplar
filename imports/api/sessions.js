@@ -44,7 +44,17 @@ Meteor.methods({
   /**********************************************************/
   /*            Updates to user inputted text               */
   /**********************************************************/
-  'sessions.updateProblemBefore'({ id, response }) {
+  'sessions.updateSol'({id, sol_id}) {
+    if(!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Sessions.update({ _id: id }, {
+      $set: { user_solution_id: sol_id },
+    });
+  },
+
+  'sessions.updateProblemBefore'({id, response}) {
     check(response, String); // Meteor.Error(400, 'Match Failed') Thrown to client
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
