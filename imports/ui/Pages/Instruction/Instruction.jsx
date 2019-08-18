@@ -1,23 +1,25 @@
 /* eslint-disable */
-import './Start.css';
+import './Instruction.css';
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor'
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const data = {
-    textIntro: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
-    textInterm1: "You will be presented with a set of existing solutions for the general issue of transportation. You have 10 minutes to carefully read through the example solutions and complete your task (described on the next screen).",
-    textInterm2: "Your task is to organize the examples by tagging them with categories. You may either use existing categories or create your own.",
-    textInterm3: "Your next task requires you to organize your solution in relation to the previously provided example solutions. Again, use the existing categories or create your own to tag your idea/solution."
+// 3 Pages bounce from this one: DesignBrief, Reading Insructions, Tagging Instructions
+// Router link should be Start, Examples, SolutionTag (Instructions/0/1/2/)
+
+const instr_text = {
+    Overview: "You will be given some examples of ideas/solutions that revolve around the theme of transportation. Please look through the examples carefully as you will be asked to generate your own solutions for the issue of transportation and may find it helpful to use the examples as inspirations.",
+    Examples: "You will be presented with a set of existing solutions for the general issue of transportation. You have 10 minutes to carefully read through the example solutions and complete your task (described on the next screen).",
+    SolutionTag: "Your task is to organize the examples by tagging them with categories. You may either use existing categories or create your own.",
 };
 
-const page = ["/Problem/Before", "/Start/2", "/Tutorial", "/SolutionTag"];
+const page = ["/DesignBrief", "/Examples/1", "/SolutionTag"];
 
-class Start extends Component {
+class Instruction extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.match.url)
+        // Save the last page
         Meteor.call('sessions.updatePage', props.sessionID, this.props.match.url);
         this.state = {
             text: '',
@@ -33,22 +35,18 @@ class Start extends Component {
         let buttonName = "Next";
         switch (pageId) {
             case "0": {
-                text = data.textIntro;
+                text = instr_text.Overview;
                 nextPage = page[0];
-                buttonName = "Begin";
+                // buttonName = "Begin";
             } break;
             case "1": {
-                text = data.textInterm1;
+                text = instr_text.Examples;
                 nextPage = page[1];
             } break;
             case "2": {
-                text = data.textInterm2;
+                text = instr_text.SolutionTag;
                 nextPage = page[2];
-                buttonName = "Tutorial";
-            } break;
-            case "3": {
-                text = data.textInterm3;
-                nextPage = page[3];
+                // buttonName = "Tutorial";
             } break;
             default: {
 
@@ -62,14 +60,15 @@ class Start extends Component {
             this.getText();
         }
     }
+    componentWillReceiveProps() {
+        Meteor.call('sessions.updatePage', this.props.sessionID, this.props.match.url);
+    }
 
     componentDidMount() {
         this.getText();
     }
 
     render() {
-        var currentText = this.state.text;
-        var nextPage = this.state.nextPage;
         return (
             <div className="Landing">
                 <Container fluid="true">
@@ -77,16 +76,16 @@ class Start extends Component {
                         <Col md={4} ></Col>
                         <Col md={4} className="box" >
                             <div className="text">
-                                {currentText}
+                                {this.state.text}
                             </div>
                             <div className="next">
-                                {this.props.match.params.pageId === "2" ?
-                                    <Link to={"/Start/1"}>
+                                {/* {this.props.match.params.pageId === "2" ?
+                                    <Link to={"/Instructions/1"}>
                                         <Button id="prevButton" variant="success" >Previous</Button>
                                     </Link>
                                     : null
-                                }
-                                <Link to={nextPage}>
+                                } */}
+                                <Link to={this.state.nextPage}>
                                     <Button id="nextButton" variant="success" >{this.state.buttonName}</Button>
                                 </Link>
                             </div>
@@ -98,4 +97,4 @@ class Start extends Component {
         );
     }
 }
-export default Start;
+export default Instruction;
