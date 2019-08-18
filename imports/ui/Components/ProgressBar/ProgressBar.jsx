@@ -6,13 +6,19 @@ import './ProgressBar.css';
 export default class ProgressBar extends Component {
   constructor(props) {
     super(props);
-    console.log("Render Progress: " + this.props.match.url);
+    console.log("ProgressBar Page: " + this.props.match.url);
   }
 
   determinePgLabel = () => {
     switch (this.props.match.params.currPg) {
-      case "Start": {
-        return "Start"
+      case "Instruction": {
+        let returnVal ="";
+        switch (this.props.match.params.pageId) {
+          case "0": returnVal = "Start"; break;
+          case "1": returnVal = "Examples"; break;
+          case "2": returnVal = "SolutionTag"; break;
+        }
+        return returnVal;
       } break;
       case "DesignBrief": {
         return "Design Brief";
@@ -23,7 +29,7 @@ export default class ProgressBar extends Component {
       case "Ideate": {
         return "Ideate";
       } break;
-      case "Usefulness": {
+      case "SolutionTag": {
         return "Usefulness";
       } break;
       case "End": {
@@ -39,6 +45,9 @@ export default class ProgressBar extends Component {
     return (
       <div id="ProgressBarContainer">
         <div id="ProgressBar">
+          {/* <div className={this.props.match.params.currPg === "Start" ? "circleFilled" : "circle"}></div>
+          <div className="line"></div> */} 
+          {/* TODO ADD IN START */}
           <div className={this.props.match.params.currPg === "DesignBrief" ? "circleFilled" : "circle"}></div>
           <div className="line"></div>
           <div className={this.props.match.params.currPg === "Examples" ? "circleFilled" : "circle"}></div>

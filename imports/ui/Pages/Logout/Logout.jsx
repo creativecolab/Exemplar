@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import '../Start/Start.css';
+import '../Instruction/Instruction.css';
 
 class Logout extends Component {
     constructor(props) {
