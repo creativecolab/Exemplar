@@ -12,7 +12,7 @@ export default class ProgressBar extends Component {
   determinePgLabel = () => {
     switch (this.props.match.params.currPg) {
       case "Instruction": {
-        let returnVal ="";
+        let returnVal = "";
         switch (this.props.match.params.pageId) {
           case "0": returnVal = "Start"; break;
           case "1": returnVal = "Examples"; break;
@@ -41,13 +41,42 @@ export default class ProgressBar extends Component {
     }
   }
 
+  determinePgLabelPosition = (currentLabel) => {
+    switch (currentLabel) {
+      case "Start": {
+        return '-89vw';
+      } break;
+      case "DesignBrief": {
+        return '-53vw';
+      } break;
+      case "Examples": {
+        return '-17vw';
+      } break;
+      case "Ideate": {
+        return '17vw';
+      } break;
+      case "SolutionTag": {
+        return '53vw';
+      } break;
+      case "End": {
+        return '89vw';
+      } break;
+      default: {
+        return "";
+      } break;
+    }
+  }
+
   render() {
+    var currentLabel = this.determinePgLabel();
+    var styleLabel = {
+      marginLeft: this.determinePgLabelPosition(currentLabel)
+    }
     return (
       <div id="ProgressBarContainer">
         <div id="ProgressBar">
-          {/* <div className={this.props.match.params.currPg === "Start" ? "circleFilled" : "circle"}></div>
-          <div className="line"></div> */} 
-          {/* TODO ADD IN START */}
+          <div className={this.props.match.params.currPg === "Start" ? "circleFilled" : "circle"}></div>
+          <div className="line"></div>
           <div className={this.props.match.params.currPg === "DesignBrief" ? "circleFilled" : "circle"}></div>
           <div className="line"></div>
           <div className={this.props.match.params.currPg === "Examples" ? "circleFilled" : "circle"}></div>
@@ -59,8 +88,8 @@ export default class ProgressBar extends Component {
           <div className={this.props.match.params.currPg === "End" ? "circleFilled" : "circle"}></div>
         </div>
 
-        <div id="ProgressBarLabel">
-          {this.determinePgLabel()}
+        <div id="ProgressBarLabel" style={styleLabel}>
+          {currentLabel}
         </div>
       </div>
     )
