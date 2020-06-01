@@ -1,5 +1,5 @@
 id,class,year,main,instructor-categories, similarity_score, usefulness_score, stakeholders, context
-1,cogs120,2020,"Airport users who have layovers need to traverse an unfamiliar setting to find their next destination in a timely manner while ensuring that their desires for food, rest and entertainment are met.",0.7,1,airport users, airport 
+1,cogs120,2020,"Airport users who have layovers need to traverse an unfamiliar setting to find their next destination in a timely manner while ensuring that their desires for food, rest and entertainment are met.",,0.7,1,airport users, airport 
 2,cogs120,2020,Our app intends to present a centralized database for board/card games where users can search and find instructions for games.,
 3,cogs120,2020,"Drivers want to be more involved in their vehicle’s functioning, able to identify warning signals and gauge how to handle particular problems.",
 4,cogs120,2020,"When thinking about choreographing a set for a dance performance, it is hard to imagine what the movement of the dancers will look like when music is played. Having a way to visualize clearly where the dancers are supposed to go in time with the music would allow for a more efficient collaborative creative process of set building.",
