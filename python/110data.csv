@@ -1,4 +1,4 @@
-id,class,year,main,instructor-categories
+id,class,year,main,instructor-categories, similarity_score, usefulness_score, stakeholders, context
 1,cogs120,2020,"Airport users who have layovers need to traverse an unfamiliar setting to find their next destination in a timely manner while ensuring that their desires for food, rest and entertainment are met.",
 2,cogs120,2020,Our app intends to present a centralized database for board/card games where users can search and find instructions for games.,
 3,cogs120,2020,"Drivers want to be more involved in their vehicle’s functioning, able to identify warning signals and gauge how to handle particular problems.",
