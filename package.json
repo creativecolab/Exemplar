@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "history": "^4.9.0",
     "immutable": "^4.0.0-rc.12",
     "jquery": "^3.4.1",
